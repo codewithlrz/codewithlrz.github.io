@@ -45,7 +45,7 @@
         content="2021-10-11">
       <meta 
         property="og:article:modified_time" 
-        content="2021-10-12">
+        content="2021-10-18">
       <meta 
         property="og:article:author" 
         content="吃货泽饱饱">
@@ -332,7 +332,7 @@
     
     
       <span class="dot"></span>
-      <span>167 words</span>
+      <span>699 words</span>
     
   </div>
   
@@ -377,12 +377,13 @@
   <div 
     id="section" 
     class="post-content">
-    <h2 id="一、图的定义"><a href="#一、图的定义" class="headerlink" title="一、图的定义"></a>一、图的定义</h2><p>​        首先我们要知道什么是图，我们可以借助数据结构所学的知识对图进行定义。图是由<strong>顶点的有穷非空集合</strong>和<strong>顶点之间边的集合</strong>组成，表示为<strong>G（V,E）</strong>，其中G表示一个图，V是图G中顶点的集合，E是图G中边的集合。那么我们从这个定义可以看到，图有两个重要的组成部分，<strong>节点</strong>（node）与<strong>边</strong>（edge）。</p>
-<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/p1.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/p1.png" class="lozad post-image">
-
-<p>​        那么以上就是对图的一个大体介绍，想要详细了解图可以到我的数据结构与算法详解中查看。</p>
-<h2 id="二、图的意义"><a href="#二、图的意义" class="headerlink" title="二、图的意义"></a>二、图的意义</h2><p>​        首先</p>
-<p>​        </p>
+    <h2 id="一、引言"><a href="#一、引言" class="headerlink" title="一、引言"></a>一、引言</h2><p>​        图机器学习是我博士期间研究方向，这篇博客会从头到尾详细描述我对于该领域的学习过程。理论部分我会通过学习视频课程和看教材来完成，<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Vg4y1z7Nf?spm_id_from=333.999.0.0">MIT-CS224W-图机器学习</a>这个分类是我用所看的视频课程的名字命名的，该课程是斯坦福的Jure老师在2019年的课程，该课程也是最好的图机器学习启蒙课程，因此，我会对Jure老师的每一集课程都做一期复现与详解，以帮助自己和读者更好的理解这门课程。当前该课程已经出到2020年的版本，那么在后续我会二刷这门课程，然后对当前2019版本进行改进。本文所有的图片以及公式将大量引用自Jure老师的<a target="_blank" rel="noopener" href="https://www.aliyundrive.com/s/oRv9atWGEAd">PPT</a>，在此对老师表示感谢，话不多说，开始第一次课程。</p>
+<h2 id="二、课程介绍"><a href="#二、课程介绍" class="headerlink" title="二、课程介绍"></a>二、课程介绍</h2><h3 id="2-1-Why-Networks-Graph"><a href="#2-1-Why-Networks-Graph" class="headerlink" title="2.1 Why Networks/Graph"></a>2.1 Why Networks/Graph</h3><p>​        在日常生活中，我们身边无时无刻没有各种各样的网络结构。看得见的比如说当你在看我这篇博客时，用的就是互联网的网络，和当你看完要分享给好友时用的又是一种社交网络。同时，也有那些抽象的，例如说你身体里的各个蛋白质，它们之间有着相互作用也会构成网络，亦或是你本身就处在一个亲戚的关系网络中，这都是网络结构。我们人本身、主机甚至是体内的蛋白质，都可以作为各自网络中的节点，而这些相互关联（relate）或是相互作用（interact）都构成了每一个网络的边。下图为一些网络的例子，前两图为关系网络和社交网络，从图中我们可以明确了解到谁和谁之间有着直接或间接的关系。第三个图是文档类型网络，左侧是网页链接之间的互相指向的网络，右侧可以表示为论文的一个引用网络。        </p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211018203136.png" alt="img" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211018203136.png" class="lozad post-image"></p>
+<p>​        那么通过上面的展示的一系列网络结构，这里提出两个主要问题：</p>
+<p>​        <strong>1. 这些网络系统是如何组成的？</strong></p>
+<p>​        <strong>2. 它们的设计原理以及特点是什么？</strong></p>
+<p>​        在每一个系统的背后都有一个错综复杂的连线图，这表示着这个系统中每一个组成部分是如何一起工作和交互的。在我们想要得到一个模型或是想要预测一个系统的行为之前，我们必须要了解并设计出控制其行为的网络。那么对于一个网络的设计</p>
 
   </div>
   <div>
@@ -405,20 +406,6 @@
       </a>
     </div>
   
-  
-    <div class="nav-item-next">
-      <a 
-        href="/2021/10/09/hello-world/" 
-        class="nav-link">
-        <div>
-          <div class="nav-label">Next</div>
-          
-            <div class="nav-title">Hello World </div>
-          
-        </div>
-        <i class="iconfont icon-right nav-next-icon"></i>
-      </a>
-    </div>
   
 </div>
 
@@ -467,7 +454,7 @@
     style="padding-right: 2px;">
   </i>TOC
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%9B%BE%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">一、图的定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%9B%BE%E7%9A%84%E6%84%8F%E4%B9%89"><span class="toc-text">二、图的意义</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%BC%95%E8%A8%80"><span class="toc-text">一、引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8D"><span class="toc-text">二、课程介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Why-Networks-Graph"><span class="toc-text">2.1 Why Networks&#x2F;Graph</span></a></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -486,7 +473,7 @@
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>4</span>
+    <span>3</span>
     <span>Posts</span>
   </a>
   <a 
@@ -543,7 +530,7 @@
     style="padding-right: 2px;">
   </i>TOC
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%9B%BE%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">一、图的定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%9B%BE%E7%9A%84%E6%84%8F%E4%B9%89"><span class="toc-text">二、图的意义</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%BC%95%E8%A8%80"><span class="toc-text">一、引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8D"><span class="toc-text">二、课程介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Why-Networks-Graph"><span class="toc-text">2.1 Why Networks&#x2F;Graph</span></a></li></ol></li></ol>
       </div>
     </article>
   
@@ -634,7 +621,7 @@
     style="padding-right: 2px;">
   </i>TOC
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%9B%BE%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">一、图的定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%9B%BE%E7%9A%84%E6%84%8F%E4%B9%89"><span class="toc-text">二、图的意义</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%BC%95%E8%A8%80"><span class="toc-text">一、引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8D"><span class="toc-text">二、课程介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Why-Networks-Graph"><span class="toc-text">2.1 Why Networks&#x2F;Graph</span></a></li></ol></li></ol>
     </article>
   
   
@@ -661,11 +648,6 @@
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2021-10-11</div>
         <a href="/2021/10/11/GNN-MIT-01/"><div class="recent-posts-item-content">第一讲-图的结构</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-10-09</div>
-        <a href="/2021/10/09/hello-world/"><div class="recent-posts-item-content">Hello World</div></a>
       </div>
     
   </div>
