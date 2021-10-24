@@ -45,7 +45,7 @@
         content="2021-10-19">
       <meta 
         property="og:article:modified_time" 
-        content="2021-10-19">
+        content="2021-10-22">
       <meta 
         property="og:article:author" 
         content="吃货泽饱饱">
@@ -332,7 +332,7 @@
     
     
       <span class="dot"></span>
-      <span>542 words</span>
+      <span>573 words</span>
     
   </div>
   
@@ -378,7 +378,7 @@
     id="section" 
     class="post-content">
     <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>​    图机器学习是我博士期间研究方向，这篇博客会从头到尾详细描述我对于该领域的学习过程。理论部分我会通过学习视频课程和看教材来完成，<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1RZ4y1c7Co?spm_id_from=333.999.0.0"><font color='blue'>MIT-CS224W-图机器学习</font></a>这个分类是我用所看的视频课程的名字命名的，该课程是斯坦福的Jure老师在2021年冬季的课程，该课程也是最好的图机器学习启蒙课程，因此，我会对Jure老师的每一集课程都做一期复现与详解，以帮助自己和读者更好的理解这门课程。本文所有的图片以及公式将大量引用自Jure老师的<a target="_blank" rel="noopener" href="https://www.aliyundrive.com/s/RtYJkH7mvgK"><font color='blue'>PPT</font></a>，在此对老师表示感谢，话不多说，开始第一次课程。</p>
-<h2 id="一、Why-Graphs"><a href="#一、Why-Graphs" class="headerlink" title="一、Why Graphs"></a>一、Why Graphs</h2><p>​    <strong>图是描述与分析包含 <font color='red'>关联</font>（relations）或  <font color='red'>相互作用</font>（interactions）的实体的通用语言。</strong>    </p>
+<h2 id="一、Motivation-for-Graph-ML"><a href="#一、Motivation-for-Graph-ML" class="headerlink" title="一、Motivation for Graph ML"></a>一、Motivation for Graph ML</h2><p>​    <strong>图是描述与分析包含 <font color='red'>关联</font>（relations）或  <font color='red'>相互作用</font>（interactions）的实体的通用语言。</strong>    </p>
 <p>​    在日常生活中，我们身边许多的数据形式都是图结构。如下图所示，从左到右依次为自然图（natural graph）、基础设施图（infrastructure）、社交网络（social network）、知识图谱（knowledge graph）等诸多领域。</p>
 <p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211019160026.png" alt="img" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211019160026.png" class="lozad post-image"></p>
 <p>​    不难看出，当前有两种大的数据类型可以表示为图，首先是<font color='red'>网络</font>（network），其次就是<font color='red'>图</font>（graph）</p>
@@ -387,11 +387,14 @@
 <p>​        <font color='cornflowerblue'><strong>通讯和交易：</strong></font>例如电子设备，电话通讯，金融交易等等。</p>
 <p>​        <font color='cornflowerblue'><strong>生物医学：</strong></font>例如身体中基因或蛋白质之间的相互作用。</p>
 <p>​        <font color='cornflowerblue'><strong>脑神经元链接：</strong></font>我们的思维就是由数以亿计的脑神经元链接并相互作用产生的。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021101557.png" alt="img" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021101557.png" class="lozad post-image"></p>
 <p>​    <strong>Graphs：作为一种表示形式</strong></p>
 <p>​        <font color='orange'><strong>信息或知识图谱：</strong></font>这些节点都是有组织有关联的。</p>
 <p>​        <font color='orange'><strong>软件：</strong></font>软件也可以表示为图。</p>
 <p>​        <font color='orange'><strong>相似性网络（similarity networks）：</strong></font>可以多次将数据点（datapoints）与相似的数据点相连构成相似性网络。</p>
 <p>​        <font color='orange'><strong>具有关联结构：</strong></font>例如分子间结构，场景图，3D模拟等等。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021102309.png" alt="img" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021102309.png" class="lozad post-image"></p>
+<p>​    当我们了解图后，我们就要思考<strong>如何利用这些关联结构来进行预测呢？</strong></p>
 
   </div>
   <div>
@@ -462,7 +465,7 @@
     style="padding-right: 2px;">
   </i>TOC
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Why-Graphs"><span class="toc-text">一、Why Graphs</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Motivation-for-Graph-ML"><span class="toc-number">2.</span> <span class="toc-text">一、Motivation for Graph ML</span></a></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -493,7 +496,7 @@
   <a 
     class="author-tags-count" 
     href="/tags">
-    <span>5</span>
+    <span>6</span>
     <span>Tags</span>
   </a>
 </div>
@@ -538,7 +541,7 @@
     style="padding-right: 2px;">
   </i>TOC
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Why-Graphs"><span class="toc-text">一、Why Graphs</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Motivation-for-Graph-ML"><span class="toc-number">2.</span> <span class="toc-text">一、Motivation for Graph ML</span></a></li></ol>
       </div>
     </article>
   
@@ -588,15 +591,15 @@
       </a>
     
       <a 
-        href="/tags/MIT/" 
-        title="MIT">
-        <div class="tags-list-item">MIT</div>
+        href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" 
+        title="数据结构">
+        <div class="tags-list-item">数据结构</div>
       </a>
     
       <a 
-        href="/tags/2019/" 
-        title="2019">
-        <div class="tags-list-item">2019</div>
+        href="/tags/%E7%AE%97%E6%B3%95/" 
+        title="算法">
+        <div class="tags-list-item">算法</div>
       </a>
     
       <a 
@@ -606,9 +609,15 @@
       </a>
     
       <a 
-        href="/tags/%E7%AE%97%E6%B3%95%EF%BC%8C%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" 
-        title="算法，数据结构">
-        <div class="tags-list-item">算法，数据结构</div>
+        href="/tags/2019/" 
+        title="2019">
+        <div class="tags-list-item">2019</div>
+      </a>
+    
+      <a 
+        href="/tags/MIT/" 
+        title="MIT">
+        <div class="tags-list-item">MIT</div>
       </a>
     
   </div>
@@ -629,7 +638,7 @@
     style="padding-right: 2px;">
   </i>TOC
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Why-Graphs"><span class="toc-text">一、Why Graphs</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Motivation-for-Graph-ML"><span class="toc-number">2.</span> <span class="toc-text">一、Motivation for Graph ML</span></a></li></ol>
     </article>
   
   
@@ -787,6 +796,10 @@
       </script>
      
     
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
     
   </body>
 </html>
