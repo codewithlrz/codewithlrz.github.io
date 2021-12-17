@@ -45,7 +45,7 @@
         content="2021-10-19">
       <meta 
         property="og:article:modified_time" 
-        content="2021-12-16">
+        content="2021-12-17">
       <meta 
         property="og:article:author" 
         content="吃货泽饱饱">
@@ -335,7 +335,7 @@
     
     
       <span class="dot"></span>
-      <span>932 words</span>
+      <span>936 words</span>
     
   </div>
   
@@ -380,32 +380,36 @@
   <div 
     id="section" 
     class="post-content">
-    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>​    图机器学习是我博士期间研究方向，这篇博客会从头到尾详细描述我对于该领域的学习过程。理论部分我会通过学习视频课程和看教材来完成，<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1RZ4y1c7Co?spm_id_from=333.999.0.0"><font color='blue'>MIT-CS224W-图机器学习</font></a>这个分类是我用所看的视频课程的名字命名的，该课程是斯坦福的Jure老师在2021年冬季的课程，该课程也是最好的图机器学习启蒙课程，因此，我会对Jure老师的每一集课程都做一期复现与详解，以帮助自己和读者更好的理解这门课程。本文所有的图片以及公式将大量引用自Jure老师的<a target="_blank" rel="noopener" href="https://www.aliyundrive.com/s/RtYJkH7mvgK"><font color='blue'>PPT</font></a>，在此对老师表示感谢，话不多说，开始第一次课程。</p>
-<h2 id="Why-Graphs"><a href="#Why-Graphs" class="headerlink" title="Why Graphs"></a>Why Graphs</h2><p>​    <strong>图是描述与分析包含 <font color='red'>关联</font>（relations）或  <font color='red'>相互作用</font>（interactions）的实体的通用语言。</strong>    </p>
-<h3 id="网络（Network）与图（Graph）"><a href="#网络（Network）与图（Graph）" class="headerlink" title="网络（Network）与图（Graph）"></a>网络（Network）与图（Graph）</h3><p>​    在日常生活中，我们身边许多的数据形式都是图结构。如下图所示，从左到右依次为自然图（natural graph）、基础设施图（infrastructure）、社交网络（social network）、知识图谱（knowledge graph）等诸多领域。</p>
-<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211019160026.png" alt="img" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211019160026.png" class="lozad post-image"></p>
-<p>​    不难看出，当前有两种大的数据类型可以表示为图，首先是<font color='red'>网络</font>（network），其次就是<font color='red'>图</font>（graph）</p>
-<p>​    <strong>Networks（Natural Graphs）</strong>：自然表示为图</p>
-<p>​        <font color='cornflowerblue'><strong>社交网络：</strong></font>社会是70亿人口的集合，那么每个人之间的联系就可以构成一个社交网络。</p>
-<p>​        <font color='cornflowerblue'><strong>通讯和交易：</strong></font>例如电子设备，电话通讯，金融交易等等。</p>
-<p>​        <font color='cornflowerblue'><strong>生物医学：</strong></font>例如身体中基因或蛋白质之间的相互作用。</p>
-<p>​        <font color='cornflowerblue'><strong>脑神经元链接：</strong></font>我们的思维就是由数以亿计的脑神经元链接并相互作用产生的。</p>
-<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021101557.png" alt="img" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021101557.png" class="lozad post-image"></p>
-<p>​    <strong>Graphs：作为一种表示形式</strong></p>
-<p>​        <font color='orange'><strong>信息或知识图谱：</strong></font>这些节点都是有组织有关联的。</p>
-<p>​        <font color='orange'><strong>软件：</strong></font>软件也可以表示为图。</p>
-<p>​        <font color='orange'><strong>相似性网络（similarity networks）：</strong></font>可以多次将数据点（datapoints）与相似的数据点相连构成相似性网络。</p>
-<p>​        <font color='orange'><strong>具有关联结构：</strong></font>例如分子间结构，场景图，3D模拟等等。</p>
-<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021102309.png" alt="img" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021102309.png" class="lozad post-image">       </p>
-<h3 id="图表示学习（Graph-Representation-Learning）"><a href="#图表示学习（Graph-Representation-Learning）" class="headerlink" title="图表示学习（Graph Representation Learning）"></a>图表示学习（Graph Representation Learning）</h3><p>当我们了解图后，我们就要思考<strong>如何利用这些关联结构来进行预测呢？</strong></p>
-<p>开始人们依旧想使用传统机器学习的方式，但发现图机器学习与传统机器学习的区别，如下图。</p>
-<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216154340.png" alt="img" style="zoom: 80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216154340.png" class="lozad post-image"></p>
-<p>​    可以看到图结构与传统的固定的图像矩阵或者文本序列不同，它是一种任意大小任意形状的拓扑结构。因此对于每一个节点都<strong>没有参照点</strong>并且<strong>可以具备不同或多种特征</strong>。因此要设计一种新的网络，当输入一张图（网络）后，即可通过设计的神经网络输出预测的节点类型，关联关系甚至是生成一张图或子图。如下图。</p>
-<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216162154.png" alt="img" style="zoom: 67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216162154.png" class="lozad post-image"></p>
-<p>传统的机器学习更倾向于对原始数据先进行特征处理，以便机器学习模型进行使用。而在图深度学习过程中，如下图，则删掉传统的特征工程。通过<strong>表示学习</strong>（representation learning）方法自动地对图数据的特征进行提取、学习。然后应用至下流预测任务（downstream prediction task）中去。</p>
-<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216172547.png" alt="img" style="zoom: 70%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216172547.png" class="lozad post-image"></p>
-<p>表示学习最主要的方式就是<strong>图嵌入</strong>（embeding），这个在后面会深入讲解，在这里可以简单的了解为将图中的节点通过一个<strong>映射函数</strong>转换成一个d维向量。其中图中相似的节点嵌入的位置更接近，如下图。</p>
-<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216174307.png" alt="img" style="zoom: 67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216174307.png" class="lozad post-image"></p>
+    <h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
+<p>​	图机器学习是我博士期间研究方向，这篇博客会从头到尾详细描述我对于该领域的学习过程。理论部分我会通过学习视频课程和看教材来完成，<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1RZ4y1c7Co?spm_id_from=333.999.0.0"><font color='blue'>MIT-CS224W-图机器学习</font></a>这个分类是我用所看的视频课程的名字命名的，该课程是斯坦福的Jure老师在2021年冬季的课程，该课程也是最好的图机器学习启蒙课程，因此，我会对Jure老师的每一集课程都做一期复现与详解，以帮助自己和读者更好的理解这门课程。本文所有的图片以及公式将大量引用自Jure老师的<a target="_blank" rel="noopener" href="https://www.aliyundrive.com/s/RtYJkH7mvgK"><font color='blue'>PPT</font></a>，在此对老师表示感谢，话不多说，开始第一次课程。</p>
+<h2 id="why-graphs"><a class="markdownIt-Anchor" href="#why-graphs"></a> Why Graphs</h2>
+<p>​	<strong>图是描述与分析包含 <font color='red'>关联</font>（relations）或  <font color='red'>相互作用</font>（interactions）的实体的通用语言。</strong></p>
+<h3 id="网络network与图graph"><a class="markdownIt-Anchor" href="#网络network与图graph"></a> 网络（Network）与图（Graph）</h3>
+<p>​	在日常生活中，我们身边许多的数据形式都是图结构。如下图所示，从左到右依次为自然图（natural graph）、基础设施图（infrastructure）、社交网络（social network）、知识图谱（knowledge graph）等诸多领域。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211019160026.png" alt="img" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211019160026.png" class="lozad post-image"></p>
+<p>​	不难看出，当前有两种大的数据类型可以表示为图，首先是<font color='red'>网络</font>（network），其次就是<font color='red'>图</font>（graph）</p>
+<p>​	<strong>Networks（Natural Graphs）</strong>：自然表示为图</p>
+<p>​		<font color='cornflowerblue'><strong>社交网络：</strong></font>社会是70亿人口的集合，那么每个人之间的联系就可以构成一个社交网络。</p>
+<p>​		<font color='cornflowerblue'><strong>通讯和交易：</strong></font>例如电子设备，电话通讯，金融交易等等。</p>
+<p>​		<font color='cornflowerblue'><strong>生物医学：</strong></font>例如身体中基因或蛋白质之间的相互作用。</p>
+<p>​		<font color='cornflowerblue'><strong>脑神经元链接：</strong></font>我们的思维就是由数以亿计的脑神经元链接并相互作用产生的。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021101557.png" alt="img" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021101557.png" class="lozad post-image"></p>
+<p>​	<strong>Graphs：作为一种表示形式</strong></p>
+<p>​		<font color='orange'><strong>信息或知识图谱：</strong></font>这些节点都是有组织有关联的。</p>
+<p>​		<font color='orange'><strong>软件：</strong></font>软件也可以表示为图。</p>
+<p>​		<font color='orange'><strong>相似性网络（similarity networks）：</strong></font>可以多次将数据点（datapoints）与相似的数据点相连构成相似性网络。</p>
+<p>​		<font color='orange'><strong>具有关联结构：</strong></font>例如分子间结构，场景图，3D模拟等等。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021102309.png" alt="img" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021102309.png" class="lozad post-image"></p>
+<h3 id="图表示学习graph-representation-learning"><a class="markdownIt-Anchor" href="#图表示学习graph-representation-learning"></a> 图表示学习（Graph Representation Learning）</h3>
+<p>​	当我们了解图后，我们就要思考**如何利用这些关联结构来进行预测呢？**开始人们依旧想使用传统机器学习的方式，但发现图机器学习与传统机器学习的区别，如下图。</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216154340.png" alt="img" style="zoom: 80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216154340.png" class="lozad post-image">
+<p>​	可以看到图结构与传统的固定的图像矩阵或者文本序列不同，它是一种任意大小任意形状的拓扑结构。因此对于每一个节点都<strong>没有参照点</strong>并且<strong>可以具备不同或多种特征</strong>。因此要设计一种新的网络，当输入一张图（网络）后，即可通过设计的神经网络输出预测的节点类型，关联关系甚至是生成一张图或子图。如下图。</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216162154.png" alt="img" style="zoom: 67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216162154.png" class="lozad post-image">
+<p>​	传统的机器学习更倾向于对原始数据先进行特征处理，以便机器学习模型进行使用。而在图深度学习过程中，如下图，则删掉传统的特征工程。通过<strong>表示学习</strong>（representation learning）方法自动地对图数据的特征进行提取、学习。然后应用至下流预测任务（downstream prediction task）中去。</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216172547.png" alt="img" style="zoom: 70%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216172547.png" class="lozad post-image">
+<p>​	表示学习最主要的方式就是<strong>图嵌入</strong>（embeding），这个在后面会深入讲解，在这里可以简单的了解为将图中的节点通过一个<strong>映射函数</strong>转换成一个d维向量。其中图中相似的节点嵌入的位置更接近，如下图。</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216174307.png" alt="img" style="zoom: 67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216174307.png" class="lozad post-image">
+<h2 id="applications-of-graph-ml"><a class="markdownIt-Anchor" href="#applications-of-graph-ml"></a> Applications of Graph ML</h2>
 
   </div>
   <div>
@@ -476,7 +480,7 @@
     style="padding-right: 2px;">
   </i>TOC
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-Graphs"><span class="toc-number">2.</span> <span class="toc-text">Why Graphs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%EF%BC%88Network%EF%BC%89%E4%B8%8E%E5%9B%BE%EF%BC%88Graph%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">网络（Network）与图（Graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%EF%BC%88Graph-Representation-Learning%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">图表示学习（Graph Representation Learning）</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#why-graphs"><span class="toc-number">2.</span> <span class="toc-text"> Why Graphs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9Cnetwork%E4%B8%8E%E5%9B%BEgraph"><span class="toc-number">2.1.</span> <span class="toc-text"> 网络（Network）与图（Graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0graph-representation-learning"><span class="toc-number">2.2.</span> <span class="toc-text"> 图表示学习（Graph Representation Learning）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#applications-of-graph-ml"><span class="toc-number">3.</span> <span class="toc-text"> Applications of Graph ML</span></a></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -552,7 +556,7 @@
     style="padding-right: 2px;">
   </i>TOC
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-Graphs"><span class="toc-number">2.</span> <span class="toc-text">Why Graphs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%EF%BC%88Network%EF%BC%89%E4%B8%8E%E5%9B%BE%EF%BC%88Graph%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">网络（Network）与图（Graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%EF%BC%88Graph-Representation-Learning%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">图表示学习（Graph Representation Learning）</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#why-graphs"><span class="toc-number">2.</span> <span class="toc-text"> Why Graphs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9Cnetwork%E4%B8%8E%E5%9B%BEgraph"><span class="toc-number">2.1.</span> <span class="toc-text"> 网络（Network）与图（Graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0graph-representation-learning"><span class="toc-number">2.2.</span> <span class="toc-text"> 图表示学习（Graph Representation Learning）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#applications-of-graph-ml"><span class="toc-number">3.</span> <span class="toc-text"> Applications of Graph ML</span></a></li></ol>
       </div>
     </article>
   
@@ -669,7 +673,7 @@
     style="padding-right: 2px;">
   </i>TOC
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-Graphs"><span class="toc-number">2.</span> <span class="toc-text">Why Graphs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%EF%BC%88Network%EF%BC%89%E4%B8%8E%E5%9B%BE%EF%BC%88Graph%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">网络（Network）与图（Graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%EF%BC%88Graph-Representation-Learning%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">图表示学习（Graph Representation Learning）</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#why-graphs"><span class="toc-number">2.</span> <span class="toc-text"> Why Graphs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9Cnetwork%E4%B8%8E%E5%9B%BEgraph"><span class="toc-number">2.1.</span> <span class="toc-text"> 网络（Network）与图（Graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0graph-representation-learning"><span class="toc-number">2.2.</span> <span class="toc-text"> 图表示学习（Graph Representation Learning）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#applications-of-graph-ml"><span class="toc-number">3.</span> <span class="toc-text"> Applications of Graph ML</span></a></li></ol>
     </article>
   
   
