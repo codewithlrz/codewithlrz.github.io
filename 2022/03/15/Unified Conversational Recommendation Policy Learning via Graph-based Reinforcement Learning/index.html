@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Hexo">
+  <link 
+    rel="icon" 
+    href="/img/logo.png">
+  <title>Unified Conversational Recommendation Policy Learning via Graph-based Reinforcement Learning</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="Unified Conversational Recommendation Policy Learning via Graph-based Reinforcement Learning">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2022/03/15/Unified%20Conversational%20Recommendation%20Policy%20Learning%20via%20Graph-based%20Reinforcement%20Learning/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/img/head.png">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2022-03-15">
+      <meta 
+        property="og:article:modified_time" 
+        content="2022-04-01">
+      <meta 
+        property="og:article:author" 
+        content="学习笔记">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="论文">
+        
+          <meta 
+            property="og:article:tag" 
+            content="CRS">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+      
+      
+      
+      
+        
+        
+        
+        <script>
+          function prismThemeChange() {
+            if(document.getElementById('theme-color').dataset.mode === 'dark') {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-tomorrow.min.css', '[data-prism]', 'prism-tomorrow');
+              } else {
+                loadCSS('/js/lib/prism/prism-tomorrow.min.css', 'prism', 'prism-tomorrow');
+              }
+            } else {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism.min.css', '[data-prism]', 'prism');
+              } else {
+                loadCSS('/js/lib/prism/prism.min.css', 'prism', 'prism');
+              }
+            }
+          }
+          prismThemeChange()
+        </script>
+      
+      
+        
+        <link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+      
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+        prismThemeChange();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+    
+    <link rel="prefetch" href="//cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" as="script">
+  
+  
+    
+    <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/img/logo.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Code With Lrz</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          主页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          书籍
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      Unified Conversational Recommendation Policy Learning via Graph-based Reinforcement Learning
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-03-15T04:28:31.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2022-03-15</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/categories/%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/" 
+          class="post-meta-link">
+          论文解读
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>5.4k words</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/%E8%AE%BA%E6%96%87/" 
+            class="post-meta-link">
+            论文
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/CRS/" 
+            class="post-meta-link">
+            CRS
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>会话推荐系统(CRS)使传统的推荐系统能够通过交互式对话明确地获取用户对项目和属性的偏好。强化学习(RL)被广泛应用于学习会话推荐策略，以决定在每次对话回合中询问哪些属性，推荐哪些项目，以及何时询问或推荐。然而，现有的方法主要针对解决CRS中这三个决策问题中的一个或两个，这限制了CRS的可伸缩性和通用性，不能保持稳定的训练过程。针对这些挑战，我们建议将CRS中的这三个决策问题作为一个统一的策略学习任务。为了系统地集成会话和推荐组件，我们开发了一种基于动态加权图的RL方法来学习一个策略，以选择每个会话回合时的动作，或询问属性或推荐项目。进一步地，为了解决样本效率问题，我们提出了两种根据偏好信息和熵信息来减少候选行动空间的行动选择策略。在两个基准的CRS数据集和一个真实的电子商务应用上的实验结果表明，该方法不仅显著优于现有的方法，而且提高了CRS的可扩展性和稳定性。</p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>会话推荐系统(CRS)旨在通过交互式对话了解用户的偏好并提出建议。传统的推荐系统或交互推荐系统(IRS)主要关注解决推荐的问题，CRS通常存在另外两个核心研究问题，即问什么问题，何时问或推荐。最近的研究已经证明了在CRS中提出清晰的问题的互动的重要性。更重要的是，决定何时询问或推荐是协调对话和推荐，是开发一个有效的CRS的关键。</p>
+<p>在多轮会话推荐系统（MCR）场景中，CRS通常被表述为一个多步骤的决策过程，并通过策略学习的强化学习(RL)方法来解决。如图1(a)所示，基于RL的IRS只需要学习策略来决定推荐哪些项目。然而，CRS中的情况更为复杂，因为有两个组件需要一致地考虑，即对话和推荐组件。现有的方法CRM和  Estimation-Action-Reflection（EAR）采用策略梯度来改进何时和什么属性的策略，而推荐决策则由外部推荐模型做出。为了减少政策学习中的行动空间，另一种最先进的方法SCPR只考虑学习何时询问或推荐的策略，而两个孤立的组成部分负责决定该问什么和推荐哪一个。这两种CRS的策略学习框架如图1(b)和1(c)所示。 </p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220301205504.png" alt="img" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220301205504.png" class="lozad post-image"></p>
+<p>尽管这些方法很有效，但在现实应用中仍有一些问题需要解决：</p>
+<ol>
+<li>使用现有 CRS 方法训练的模型对不同领域或应用缺乏通用性，因为在 CRS 中需要考虑三个不同的决策过程，包括要询问哪些属性、要推荐哪些项目以及何时询问或推荐。 它需要额外的努力来训练离线推荐模型或使用合成对话历史预训练策略网络。</li>
+<li>策略学习很难收敛，因为会话和推荐模块是独立的，在训练过程中缺乏相互影响。</li>
+</ol>
+<p>为了解决这些问题，在本工作中，我们将CRS中的上述三个独立的决策过程制定为一个统一的政策学习问题，以利用CRS的最终目标，并在培训过程中填补建议和对话组件之间的差距。这种统一的会话推荐策略学习(UCRPL)旨在学习一个统一的策略来决定行动，要么在每次会话中询问一个属性，要么推荐一个项目，以最大化整个MCR过程中的累积效用。图2描述了CRS统一策略学习的概述。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220301211136.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220301211136.png" class="lozad post-image"></p>
+<p>然而，UCRPL问题伴随着两个挑战：(i)如何系统地结合对话和推荐组件来实现统一的策略学习？(ii)如何处理样品效率问题？随着UCRPL中的动作空间变得非常大，包括所有可用的属性和项目，它需要大量的交互数据来学习最优策略。幸运的是，图结构捕获了不同类型的节点（即用户、项和属性）之间丰富的相关信息，使我们能够发现用户对属性和项的协作偏好。因此，我们可以利用图结构将推荐和会话组件作为一个有机整体集成，其中会话会话视为图中维护的节点序列，动态利用会话历史来预测下一个回合的行动。另一方面，虽然图的连通性也可以通过路径推理来消除无效的动作，但仍有大量的候选对象用于动作搜索。由于用户不太可能对所有的项目和属性都感兴趣，所以我们可以关注潜在的重要候选对象，以提高UCRPL的样本效率。</p>
+<p>为此，我们提出了一种新的、自适应的基于图的强化学习框架，即统一的对话重组器（UNIfied COnversational RecommeNder (UNICORN)）。具体来说，由于CRS的进化性质，我们利用一个动态加权图来建模对话过程中用户、项目和属性之间不断变化的相互关系，并考虑一个基于图的马尔可夫决策过程(MDP)环境来同时处理推荐和会话的决策制定。然后，我们集成了图增强的表示学习和序列对话建模，以捕获用户对项目和属性的动态偏好。此外，还设计了两种简单而有效的行动选择策略来处理样本效率问题。我们采用基于偏好的项选择和基于加权熵的属性选择策略来列举整个候选项和属性集，而是只考虑潜在的重要行为。</p>
+<p><strong>综上所述，本文的贡献如下：</strong></p>
+<ol>
+<li>在会话推荐系统中，我们制定了三个独立的决策过程，即何时询问或建议，问什么和建议什么，作为一个统一的会话推荐策略学习问题。</li>
+<li>为了解决UCRPL问题中的挑战，我们提出了一种新的自适应强化学习框架，即基于动态加权图的统一对话重组器（UNICORN）。为了解决样本效率问题，我们进一步设计了两种简单而有效的行动选择策略。</li>
+<li>实验结果表明，该方法在四个公共基准数据集和一个真实的电子商务应用程序上的性能显著优于最先进的CRS方法。</li>
+</ol>
+<h2 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h2><p><strong>会话推荐：</strong>根据问题的设置，目前的CRS研究可以分为四个方向。</p>
+<ol>
+<li><strong>Exploration-Exploitation Trade-offs for Cold-start Users</strong>。这些方法利用bandit方法来平衡在会话推荐场景中对冷启动用户的探索和开发权衡。</li>
+<li><strong>问题驱动的方法</strong>。旨在向用户询问问题，以获得更多关于他们的偏好的信息，这通常被称为“询问澄清/澄清问题”。</li>
+<li><strong>对话理解和生成</strong>。这些研究的重点是如何从用户的话语中理解用户的偏好和意图，并产生流畅的回应，从而提供自然和有效的对话行动。</li>
+<li><strong>多轮对话推荐</strong>。在这个问题设置下，系统会多次询问关于用户偏好的问题或提出建议，目的是通过更少的对话次数来实现吸引人和成功的建议。在这些问题设置中，我们主要关注MCR问题。</li>
+</ol>
+<p><strong>推荐中的强化学习（RL）：</strong>强化学习(RL)由于其考虑用户的长期反馈的优点，已被广泛地引入到推荐系统中。基于RL的推荐将推荐过程制定为用户与推荐代理之间交互的MDP，并使用RL算法来学习最优推荐策略。最近关于序列推荐和交互式推荐的工作采用RL来捕获用户的动态偏好，以便随着时间的推移生成准确的推荐。这些方法的目标通常是学习一个有效的策略来确定要推荐哪些项目。对于CRS，采用基于RL的方法来改进其他两个决策过程的策略，包括<strong>(i)询问有哪些属性，(ii)何时询问或推荐。</strong>为了简化MCR的整体框架，具有更好的可伸缩性和通用性，我们将CRS中的这三个核心决策过程制定为一个统一的策略学习问题。</p>
+<p><strong>基于图的推荐：</strong>基于图的推荐研究主要利用图的结构用于两个目的。<strong>第一个方法</strong>是通过基于图形的表示学习来提高推荐性能，包括利用结构信息进行协同过滤，并采用知识图嵌入作为丰富的上下文信息。<strong>另一种研究</strong>将推荐模型作为一个路径推理问题来构建可解释的推荐系统。近年来，基于图的RL方法在推荐系统的不同场景中取得了许多成功的应用。</p>
+<h2 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h2><p><strong>多轮会话推荐（MCR）</strong>，在这项工作中，我们关注多轮会话推荐(MCR)场景，这是迄今为止提出的最现实的会话推荐设置，其中CRS能够提出关于属性的问题或多次提出建议。</p>
+<p>具体来讲，在系统方面，CRS维护了一组要推荐的项目$V$,并且每个项目$v$都与一组属性$P<em>v$相关联。在每个中，由指定属性𝑝0的用户𝑢初始化会话。在每一个episode中，由指定属性$p_0$的用户$u$来初始化会话。然后，CRS可以自由地询问用户对从候选属性集$P</em> {cand}$中选择的属性偏好，或者从候选项集$V_ {cand}$中推荐一定数量的项目。系统将根用户的响应来决定下一个操作。系统询问和用户响应过程重复进行，直到CRS达到目标或者达到最大轮数$T$。</p>
+<p><strong>统一的对话推荐策略学习（UCRPL）</strong>，上述的MCR任务可以表示为一个马尔可夫决策过程（MDP）。CRS的目标是学习一个策略𝜋，最大化观察到的MCR事件的预期累积回报。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/image-20220302155214843.png" alt="img" style="zoom:50%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/image-20220302155214843.png" class="lozad post-image"></p>
+<p>其中𝑠𝑡是从系统状态和对话历史中学习的状态表示，𝑎𝑡是代理在时间步𝑡采取的动作，𝑟(·)是中间回报，缩写为𝑟𝑡。</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>下图是UNICORN方法的概述，主要有四个组成部分：基于图的MDP环境、图增强的状态表示学习、行动选择策略和Deep Q-Learning Network。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220302155805.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220302155805.png" class="lozad post-image"></p>
+<h3 id="基于图的MDP环境（Graph-based-MDP-Environment）"><a href="#基于图的MDP环境（Graph-based-MDP-Environment）" class="headerlink" title="基于图的MDP环境（Graph-based MDP Environment）"></a>基于图的MDP环境（Graph-based MDP Environment）</h3><p>MDP环境负责通知代理当前状态和可能要采取的操作，然后根据当前策略如何适合观察到的用户交互对代理进行奖励。形式上，MDP环境可以由一个元组(S，A，T，R)定义，其中S表示状态空间，A表示动作空间，T：S×A→S为状态转换函数，R：S×A→R为回报函数。</p>
+<h4 id="状态（State）"><a href="#状态（State）" class="headerlink" title="状态（State）"></a>状态（State）</h4><p>对于基于图的MDP环境，时间步𝑡的状态𝑠𝑡∈S应该包含会话推荐的所有给定信息，包括之前的会话历史和包含所有用户、项和属性的完整图G。给定一个用户𝑢，我们考虑两个主要元素：</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220302162631.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220302162631.png" class="lozad post-image"></p>
+<p>其中，$H<em>u^{ (t) } = [ P_u^{ (t) },P</em>{ rej } ^{ (t) },V_{ rej }^{ (t) } ]$表示直到时间 t 之前的会话历史。$G_u^{ (t) }$表示用户 u 在时间步 t 时 $G$ 的动态子图（图的构造在后文）。</p>
+<p>$P<em>u$表示用户的偏好属性，$P</em>{ rej } ^{ (t) },V_{ rej }^{ (t) }$分别表示被用户拒绝的属性与项目，初始状态𝑠0由用户指定的属性𝑝0初始化，例如，$s_0 = [ [ { p_0}, { } , { }],G_u^ { (0)}]$。</p>
+<h4 id="行为（Action）"><a href="#行为（Action）" class="headerlink" title="行为（Action）"></a>行为（Action）</h4><p>根据状态$s<em>t$,代理可采取行为$a_t \in A$，其中这个$a_t$可以是从候选项目集$V</em>{ cand}^{ (t)}$中选择推荐项或者从候选属性集合$P_{ cand}^{ (t)}$中询问属性。遵循路径推理方法，我们有：</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303092148.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303092148.png" class="lozad post-image"></p>
+<p>其中$V<em>{ p_u ^{ (t)}}$是直接连接所有$P_u^{ (t)}$（即所有满足首选属性的项目）的项目顶点的集合，$P</em>{ V<em>{ cand}^{ (t)}}$是直接连接到$V</em>{ cand}^{ (t)}$之一的属性顶点集（即属性属于候选项中的至少一个）。</p>
+<h4 id="转换（Transition）"><a href="#转换（Transition）" class="headerlink" title="转换（Transition）"></a>转换（Transition）</h4><p>我们认为，当用户对行为$a<em>t$有响应时，当前状态$s_t$将转换到下一个状态$s</em>{ t+1}$。具体而言，如果CRS询问一个属性$p<em>t$并且用户接受了，那么下一个属性$s</em>{ t+1}$将被$P<em>u^{ (t+1)} \ = \ P_u^{ (t)} \cup p_t$更新。相反的，如果被拒绝了，那么下一个状态就会被$P</em>{ rej}^{ (t+1)} \  = \ P<em>{ rej}^{ (t)} \cup a_t$或者$V</em>{ rej}^{ (t+1)} \  = \ V<em>{ rej}^{ (t)} \cup a_t (a_t \in P \ or\ a_t \in V)$更新。因此下一个状态$s</em>{ t+1}$将是$[H_u^{ (t+1)},G_u^{ (t+1)}]$。</p>
+<h4 id="反馈（Reward）"><a href="#反馈（Reward）" class="headerlink" title="反馈（Reward）"></a>反馈（Reward）</h4><p>根据之前的MCR研究，我们的环境包含五种反馈，即：</p>
+<ol>
+<li>$r_{ rec_suc}$，当用户接受推荐项时的一个强正向反馈。</li>
+<li>$r_{rec_fail}$，当用户拒绝推荐项时的一个负反馈。</li>
+<li>$r_{ ask_suc}$，当用户接受所询问的属性时的一个弱正反馈。</li>
+<li>$r_{ask_fail}$，当用户拒绝所询问的属性时的一个负反馈。</li>
+<li>$r_{ quit}$，当达到最大回合数时，一个强负反馈。</li>
+</ol>
+<h3 id="图增强状态表示（Graph-enhanced-State-Representation）"><a href="#图增强状态表示（Graph-enhanced-State-Representation）" class="headerlink" title="图增强状态表示（Graph-enhanced State Representation）"></a>图增强状态表示（Graph-enhanced State Representation）</h3><p>由于我们将会话推荐定义为基于图的MDP环境上的统一策略学习问题，因此需要将会话和图的结构信息编码到潜在的分布式表示中。为了利用用户、项目和属性之间的相互关系，我们首先采用基于图的预训练方法来获得全图G中所有节点的节点嵌入。</p>
+<h4 id="动态加权图的构造（Dynamic-Weighted-Graph-Construction）"><a href="#动态加权图的构造（Dynamic-Weighted-Graph-Construction）" class="headerlink" title="动态加权图的构造（Dynamic Weighted Graph Construction）"></a>动态加权图的构造（Dynamic Weighted Graph Construction）</h4><p>我们基于图的MDP环境，将MDP环境的当前状态表示为一个动态加权图。形式上，我们将一个无向加权图表示为$G \ = \ (N,A)$，其中节点$n<em>i \in N$，邻接矩阵元素$A</em>{i,j}$表示节点$n_i$和$n_j$之间的加权边。在我们的例子中，给定用户u,我们将在时间点t时的动态图表示为$G_u^{ (t)} \ = \ (N^{ (t)},A^{ (t)})$。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303104854.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303104854.png" class="lozad post-image"></p>
+<p>其中，$w_v^{ (t)}$是一个标量，表示在当前状态下的项目$v$的推荐得分。为了纳入用户偏好以及被要求的属性和项目之间的相关性，这些权重$w_v^{ (t)}$被计算为:</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303105232.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303105232.png" class="lozad post-image"></p>
+<p>其中，$\sigma( \cdot )$表示sigmoid函数，$e_u,e_v,and \ e_p$分别表示用户、项目、属性的嵌入。</p>
+<h4 id="基于图表示学习（Graph-based-Representation-Learning）"><a href="#基于图表示学习（Graph-based-Representation-Learning）" class="headerlink" title="基于图表示学习（Graph-based Representation Learning）"></a>基于图表示学习（Graph-based Representation Learning）</h4><p>我们利用图的连通性相关用户、项目和属性之间的相关信息。利用图卷积网络（GCN），用结构和相关知识来改善节点表示。在第$(l+1)$层中的节点$n_i$可由如下公式计算：</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303133456.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303133456.png" class="lozad post-image"></p>
+<p>其中，$N_i$表示节点$n_i$的相邻索引，$W_l,B_l$表示从邻近节点和节点$n_i$本身的转换的可训练参数，$\Lambda$是一个归一化的相邻矩阵。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303134713.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303134713.png" class="lozad post-image"></p>
+<h4 id="序列表示学习（Sequential-Representation-Learning）"><a href="#序列表示学习（Sequential-Representation-Learning）" class="headerlink" title="序列表示学习（Sequential Representation Learning）"></a>序列表示学习（Sequential Representation Learning）</h4><p>除了所涉及的用户、项和属性之间的相互关系外，CRS还需要对当前状态下的会话历史进行建模。与以往采用启发式特征进行对话历史建模的研究不同，我们使用Transformer编码器来获取会话历史的序列信息，并参与决定下一步行动的重要信息。每个Transformer层由三个组件组成：</p>
+<ol>
+<li>层归一化定义为 LayerNorm(·)。</li>
+<li>multi-head attention定义为MultiHead(𝑸、𝑲、𝑽），其中𝑸、𝑲、𝑽分别为查询、键和值。</li>
+<li>将ReLU激活的前馈网络定义为FFN（·）。</li>
+</ol>
+<p>以第$l$层为例：</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303135937.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303135937.png" class="lozad post-image"></p>
+<p>其中，$X \in R^{L\times d}$表示嵌入，L是序列长度。在我们的例子中，输入序列$X^{ (0)}$是当前会话历史基于图表示学习${e_p^{ (L_g)}:p \in P_u^{ (t)}}$所接受的属性$P_u^{ (t)}$，其中$L_g$是GCN中的网络层数。在使用𝐿𝑠Transformer层进行序列学习后，我们可以通过平均池化层聚合从图和会话历史中学习到的信息，得到$s_t$的状态表示。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303141427.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303141427.png" class="lozad post-image"></p>
+<p>为简单起见，我们将𝑠𝑡的学习状态表示表示为𝑓𝜃𝑆（𝑠𝑡），其中𝜃𝑆是状态表示学习的所有网络参数的集合，包括GCN层和Transformer层。</p>
+<h3 id="行为选择策略（Action-Selection-Strategy）"><a href="#行为选择策略（Action-Selection-Strategy）" class="headerlink" title="行为选择策略（Action Selection Strategy）"></a>行为选择策略（Action Selection Strategy）</h3><p>较大的行为搜索空间会在很大程度上影响策略学习的性能。因此，它非常重视处理UCRPL中非常大的动作空间。为此，我们提出了两种简单的策略来提高候选行动选择的样本效率。</p>
+<p><strong>基于偏好的项目选择。</strong>一般来说，对于要推荐的候选项目，我们只能考虑对少数最符合用户偏好的候选项目进行推荐的操作，因为用户不太可能对所有项目都感兴趣。为了实现这一点，我们在每个时间段t,从$V_{ camd}^{ (t)}$中选择$top-K_v$候选项到候选行为空间$A_t$中，排名是根据推荐评分$w_v^{ (t)}$排的。</p>
+<p><strong>基于加权熵的属性选择。</strong>而要询问候选属性，期望属性不仅能够更好地消除候选项的不确定性，而且能够对用户偏好进行编码。受交互路径推理的启发，我们采用加权熵作为修剪候选属性的标准。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303153327.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303153327.png" class="lozad post-image"></p>
+<p>其中$V<em>p$代表项目中含有属性$p$。类似于项目选择，我们也从$P</em>{ cand}^{ (t)}$中选取$top-K_p$个候选属性到$A_t$中，基于加权熵分数$w_p^{ (t)}$。</p>
+<h3 id="Deep-Q-Learning-Network"><a href="#Deep-Q-Learning-Network" class="headerlink" title="Deep Q-Learning Network"></a>Deep Q-Learning Network</h3><p>在获得图增强状态表示和候选动作空间后，我们引入deep Q-Learning Network（DQN） 进行统一的会话推荐策略学习。我们进一步实施了一些技术来增强和稳定 DQN 的训练。统一的会话推荐 (Unified Conversational Recommender) 的训练过程见算法 1.</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303160032.png" alt="img" style="zoom:67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303160032.png" class="lozad post-image"></p>
+<h4 id="Dueling-Q-Network"><a href="#Dueling-Q-Network" class="headerlink" title="Dueling Q-Network"></a>Dueling Q-Network</h4><p>根据标准假设，在每一个timestep中，延时的反馈都被一个$\varUpsilon$中的因素给打折扣。我们定义Q-value $Q(s<em>t,a_t)$为基于状态$s_t$和行为$a_t$的预期反馈。如图3的最右部分，dueling Q-network是哟个两个深度神经网络分别计算value函数$f</em>{ \theta <em> V}( \cdot )$和advantage函数$f</em>{ \theta_A}(\cdot)$。</p>
+<p>然后Q-function可以被计算为：</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303191041.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303191041.png" class="lozad post-image"></p>
+<p>其中$f<em>{ \theta </em> V}( \cdot )$和$f_{ \theta_A}(\cdot)$是两个独立的多层感知，参数分别为$\theta_V$和$\theta_A$，并让$\theta_Q = { \theta_V,\theta_A }$。</p>
+<p>最优Q-function $Q^<em>(s_t,a_t)$，具有最优策略$\pi ^</em>$可以达到最大期望回馈。它遵循贝尔曼方程：</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303191935.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303191935.png" class="lozad post-image"></p>
+<h4 id="Double-Q-Learning-with-Prioritized-Experience-Replay"><a href="#Double-Q-Learning-with-Prioritized-Experience-Replay" class="headerlink" title="Double Q-Learning with Prioritized Experience Replay"></a>Double Q-Learning with Prioritized Experience Replay</h4><p>在MCR过程中的每一个事件中，在每个时间步长𝑡中，CRS代理通过第4.2节中描述的图增强状态表示学习来获得当前状态表示$f_{\theta_S}(s_t)$。然后通过第4.3节中描述的行为选择策略从候选行为空间$A_t$中选择一个行为$a_t$。本文采用$\epsilon$-贪心算法去平衡行为取样中的exploration and exploitation（即选择一个贪心行为基于概率为1-$\epsilon$最大Q-value,还有一个概率为$\epsilon$的随机动作）。</p>
+<p>然后代理将从用户的反馈中得到一个反馈$r<em>t$。根据这个反馈，当前状态$s_t$过渡到下一个状态$s</em>{ t+1}$，候选行为空间$A_{ t+1}$也相应的做出更新。</p>
+<p>然后经验（experience）$(s<em>t,a_t,r_t,s</em>{ t+1},A_{ t+1})$将被存入一个回放缓存（replay buffer）$D$ 中。为了训练DQN，我们从D中抽取小批经验，并将损失函数最小化：</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220304094440.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220304094440.png" class="lozad post-image"></p>
+<p>其中，$y_t$是基于当前最优$Q^*$的目标值。</p>
+<p>为了减轻传统DQN中的过高估偏差问题，我们采用了Double Q-learning，它使用了一个目标网络$Q’$作为在线网络的周期性副本，然后将在线网络的目标值更改为：</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220304095133.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220304095133.png" class="lozad post-image"></p>
+<p>其中，$\theta_{Q’}$表示目标网络的参数，通过soft assignment更新为：</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220304100237.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220304100237.png" class="lozad post-image"></p>
+<p>其中$\tau$表示更新频率。</p>
+<p>此外，传统的DQN是从回放缓存（replay buffer）中均匀的采样。为了更频繁的从那些有更多去学习的重要的过渡中取样，我们采用优先回放（replay）作为学习潜力的代理，它以相对于绝对 TD 误差的概率 𝛿 对转换进行采样。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220304101415.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220304101415.png" class="lozad post-image"></p>
+<h4 id="模型推理（Model-Inference）"><a href="#模型推理（Model-Inference）" class="headerlink" title="模型推理（Model Inference）"></a>模型推理（Model Inference）</h4><p>对于学习到的UNICORN模型，给定一个用户和他/她的对话历史，我们遵循相同的过程来获得候选行为空间和当前状态表示，然后根据公式计算最大Q-value来决定下一个动作：</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303191041.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220303191041.png" class="lozad post-image"></p>
+<p>如果所选的操作指向一个属性，系统将询问用户对该属性的偏好。否则，系统将向用户推荐Q-value最高的top-𝐾项。</p>
+
+  </div>
+  <div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/2022/03/15/book-GRL-01/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">Prev</div>
+          
+            <div class="nav-title">图表示学习基础 </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2022/03/12/gnn4nlp-survey/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">Next</div>
+          
+            <div class="nav-title">gnn4nlp-survey </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+  <div 
+    class="card card-content comment-card" 
+    style="margin-top: 16px;">
+    <div class="comment-card-title">评论</div>
+    
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'ViB7mKqmb9rnWMl4cYC4Mkvh-gzGzoHsz',
+        appKey: 'BvKzqYIzw5yjHQ6uwMtKwXQS',
+        placeholder: 'say one&#39;s piece',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: false,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+  </div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%B9%89"><span class="toc-number">4.</span> <span class="toc-text">问题定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%9A%84MDP%E7%8E%AF%E5%A2%83%EF%BC%88Graph-based-MDP-Environment%EF%BC%89"><span class="toc-number">5.1.</span> <span class="toc-text">基于图的MDP环境（Graph-based MDP Environment）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%EF%BC%88State%EF%BC%89"><span class="toc-number">5.1.1.</span> <span class="toc-text">状态（State）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%EF%BC%88Action%EF%BC%89"><span class="toc-number">5.1.2.</span> <span class="toc-text">行为（Action）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%EF%BC%88Transition%EF%BC%89"><span class="toc-number">5.1.3.</span> <span class="toc-text">转换（Transition）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E9%A6%88%EF%BC%88Reward%EF%BC%89"><span class="toc-number">5.1.4.</span> <span class="toc-text">反馈（Reward）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%A2%9E%E5%BC%BA%E7%8A%B6%E6%80%81%E8%A1%A8%E7%A4%BA%EF%BC%88Graph-enhanced-State-Representation%EF%BC%89"><span class="toc-number">5.2.</span> <span class="toc-text">图增强状态表示（Graph-enhanced State Representation）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%8A%A0%E6%9D%83%E5%9B%BE%E7%9A%84%E6%9E%84%E9%80%A0%EF%BC%88Dynamic-Weighted-Graph-Construction%EF%BC%89"><span class="toc-number">5.2.1.</span> <span class="toc-text">动态加权图的构造（Dynamic Weighted Graph Construction）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%EF%BC%88Graph-based-Representation-Learning%EF%BC%89"><span class="toc-number">5.2.2.</span> <span class="toc-text">基于图表示学习（Graph-based Representation Learning）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%EF%BC%88Sequential-Representation-Learning%EF%BC%89"><span class="toc-number">5.2.3.</span> <span class="toc-text">序列表示学习（Sequential Representation Learning）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%E9%80%89%E6%8B%A9%E7%AD%96%E7%95%A5%EF%BC%88Action-Selection-Strategy%EF%BC%89"><span class="toc-number">5.3.</span> <span class="toc-text">行为选择策略（Action Selection Strategy）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deep-Q-Learning-Network"><span class="toc-number">5.4.</span> <span class="toc-text">Deep Q-Learning Network</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Dueling-Q-Network"><span class="toc-number">5.4.1.</span> <span class="toc-text">Dueling Q-Network</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Double-Q-Learning-with-Prioritized-Experience-Replay"><span class="toc-number">5.4.2.</span> <span class="toc-text">Double Q-Learning with Prioritized Experience Replay</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%EF%BC%88Model-Inference%EF%BC%89"><span class="toc-number">5.4.3.</span> <span class="toc-text">模型推理（Model Inference）</span></a></li></ol></li></ol></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/img/head.png" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">学习笔记</p>
+<p class="author-description">Student of NEAU</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>8</span>
+    <span>Posts</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>4</span>
+    <span>Categories</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>8</span>
+    <span>Tags</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://space.bilibili.com/407520053">
+          <i class="iconfont icon-bilibili society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://weibo.com/u/5995911076">
+          <i class="iconfont icon-sina society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a href="/img/wechat.png">
+          <i class="iconfont icon-wechat society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://github.com/codewithlrz">
+          <i class="iconfont icon-github society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%B9%89"><span class="toc-number">4.</span> <span class="toc-text">问题定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%9A%84MDP%E7%8E%AF%E5%A2%83%EF%BC%88Graph-based-MDP-Environment%EF%BC%89"><span class="toc-number">5.1.</span> <span class="toc-text">基于图的MDP环境（Graph-based MDP Environment）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%EF%BC%88State%EF%BC%89"><span class="toc-number">5.1.1.</span> <span class="toc-text">状态（State）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%EF%BC%88Action%EF%BC%89"><span class="toc-number">5.1.2.</span> <span class="toc-text">行为（Action）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%EF%BC%88Transition%EF%BC%89"><span class="toc-number">5.1.3.</span> <span class="toc-text">转换（Transition）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E9%A6%88%EF%BC%88Reward%EF%BC%89"><span class="toc-number">5.1.4.</span> <span class="toc-text">反馈（Reward）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%A2%9E%E5%BC%BA%E7%8A%B6%E6%80%81%E8%A1%A8%E7%A4%BA%EF%BC%88Graph-enhanced-State-Representation%EF%BC%89"><span class="toc-number">5.2.</span> <span class="toc-text">图增强状态表示（Graph-enhanced State Representation）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%8A%A0%E6%9D%83%E5%9B%BE%E7%9A%84%E6%9E%84%E9%80%A0%EF%BC%88Dynamic-Weighted-Graph-Construction%EF%BC%89"><span class="toc-number">5.2.1.</span> <span class="toc-text">动态加权图的构造（Dynamic Weighted Graph Construction）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%EF%BC%88Graph-based-Representation-Learning%EF%BC%89"><span class="toc-number">5.2.2.</span> <span class="toc-text">基于图表示学习（Graph-based Representation Learning）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%EF%BC%88Sequential-Representation-Learning%EF%BC%89"><span class="toc-number">5.2.3.</span> <span class="toc-text">序列表示学习（Sequential Representation Learning）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%E9%80%89%E6%8B%A9%E7%AD%96%E7%95%A5%EF%BC%88Action-Selection-Strategy%EF%BC%89"><span class="toc-number">5.3.</span> <span class="toc-text">行为选择策略（Action Selection Strategy）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deep-Q-Learning-Network"><span class="toc-number">5.4.</span> <span class="toc-text">Deep Q-Learning Network</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Dueling-Q-Network"><span class="toc-number">5.4.1.</span> <span class="toc-text">Dueling Q-Network</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Double-Q-Learning-with-Prioritized-Experience-Replay"><span class="toc-number">5.4.2.</span> <span class="toc-text">Double Q-Learning with Prioritized Experience Replay</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%EF%BC%88Model-Inference%EF%BC%89"><span class="toc-number">5.4.3.</span> <span class="toc-text">模型推理（Model Inference）</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>Categories
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/MIT-CS224W-%E5%9B%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+        <div class="categories-list-item">
+          MIT-CS224W-图机器学习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/">
+        <div class="categories-list-item">
+          论文解读
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+        <div class="categories-list-item">
+          图表示学习笔记
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E9%A9%AC%E8%80%80%E6%B1%A4%E7%BB%A7%E8%89%AF-%E7%AC%94%E8%AE%B0/">
+        <div class="categories-list-item">
+          马耀汤继良-笔记
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>hot tags
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/CRS/" 
+        title="CRS">
+        <div class="tags-list-item">CRS</div>
+      </a>
+    
+      <a 
+        href="/tags/%E8%AE%BA%E6%96%87/" 
+        title="论文">
+        <div class="tags-list-item">论文</div>
+      </a>
+    
+      <a 
+        href="/tags/GNN/" 
+        title="GNN">
+        <div class="tags-list-item">GNN</div>
+      </a>
+    
+      <a 
+        href="/tags/%E7%AC%94%E8%AE%B0/" 
+        title="笔记">
+        <div class="tags-list-item">笔记</div>
+      </a>
+    
+      <a 
+        href="/tags/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0/" 
+        title="图表示学习">
+        <div class="tags-list-item">图表示学习</div>
+      </a>
+    
+      <a 
+        href="/tags/%E6%95%99%E6%9D%90/" 
+        title="教材">
+        <div class="tags-list-item">教材</div>
+      </a>
+    
+      <a 
+        href="/tags/2019/" 
+        title="2019">
+        <div class="tags-list-item">2019</div>
+      </a>
+    
+      <a 
+        href="/tags/MIT/" 
+        title="MIT">
+        <div class="tags-list-item">MIT</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%B9%89"><span class="toc-number">4.</span> <span class="toc-text">问题定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%9A%84MDP%E7%8E%AF%E5%A2%83%EF%BC%88Graph-based-MDP-Environment%EF%BC%89"><span class="toc-number">5.1.</span> <span class="toc-text">基于图的MDP环境（Graph-based MDP Environment）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%EF%BC%88State%EF%BC%89"><span class="toc-number">5.1.1.</span> <span class="toc-text">状态（State）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%EF%BC%88Action%EF%BC%89"><span class="toc-number">5.1.2.</span> <span class="toc-text">行为（Action）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%EF%BC%88Transition%EF%BC%89"><span class="toc-number">5.1.3.</span> <span class="toc-text">转换（Transition）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E9%A6%88%EF%BC%88Reward%EF%BC%89"><span class="toc-number">5.1.4.</span> <span class="toc-text">反馈（Reward）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%A2%9E%E5%BC%BA%E7%8A%B6%E6%80%81%E8%A1%A8%E7%A4%BA%EF%BC%88Graph-enhanced-State-Representation%EF%BC%89"><span class="toc-number">5.2.</span> <span class="toc-text">图增强状态表示（Graph-enhanced State Representation）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%8A%A0%E6%9D%83%E5%9B%BE%E7%9A%84%E6%9E%84%E9%80%A0%EF%BC%88Dynamic-Weighted-Graph-Construction%EF%BC%89"><span class="toc-number">5.2.1.</span> <span class="toc-text">动态加权图的构造（Dynamic Weighted Graph Construction）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%EF%BC%88Graph-based-Representation-Learning%EF%BC%89"><span class="toc-number">5.2.2.</span> <span class="toc-text">基于图表示学习（Graph-based Representation Learning）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%EF%BC%88Sequential-Representation-Learning%EF%BC%89"><span class="toc-number">5.2.3.</span> <span class="toc-text">序列表示学习（Sequential Representation Learning）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%E9%80%89%E6%8B%A9%E7%AD%96%E7%95%A5%EF%BC%88Action-Selection-Strategy%EF%BC%89"><span class="toc-number">5.3.</span> <span class="toc-text">行为选择策略（Action Selection Strategy）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deep-Q-Learning-Network"><span class="toc-number">5.4.</span> <span class="toc-text">Deep Q-Learning Network</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Dueling-Q-Network"><span class="toc-number">5.4.1.</span> <span class="toc-text">Dueling Q-Network</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Double-Q-Learning-with-Prioritized-Experience-Replay"><span class="toc-number">5.4.2.</span> <span class="toc-text">Double Q-Learning with Prioritized Experience Replay</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%EF%BC%88Model-Inference%EF%BC%89"><span class="toc-number">5.4.3.</span> <span class="toc-text">模型推理（Model Inference）</span></a></li></ol></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>Recent Posts
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-08</div>
+        <a href="/2022/04/08/Multiple%20Choice%20Questions%20based%20Multi-Interest%20Policy%20Learning%20for%20Conversational%20Recommendation/"><div class="recent-posts-item-content">Recommendation</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-19</div>
+        <a href="/2022/03/19/MIT-01-md/"><div class="recent-posts-item-content">CS224W-01-Intro</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/book-GRL-01/"><div class="recent-posts-item-content">图表示学习基础</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/Unified%20Conversational%20Recommendation%20Policy%20Learning%20via%20Graph-based%20Reinforcement%20Learning/"><div class="recent-posts-item-content">Unified Conversational Recommendation Policy Learning via Graph-based Reinforcement Learning</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          Code With Lrz
+        </a>
+      </div>
+    </div>
+
+    
+    
+    
+      <div class="BbeiAn-info">
+        <a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">黑ICP备2021006621号 </a>
+      </div>
+      
+        <div class="BbeiAn-info">
+          <span style="padding-left: 25px;background: url(/img/beian.png) no-repeat left center"></span>
+          <a target="_blank" rel="noopener" href="http://beian.miit.gov.cn "> 
+          </a>
+          <br />
+        </div>
+      
+    
+    
+</footer> 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+      
+
+  
+  
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+  
+ 
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>

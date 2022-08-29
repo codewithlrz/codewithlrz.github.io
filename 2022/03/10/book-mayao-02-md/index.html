@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Hexo">
+  <link 
+    rel="icon" 
+    href="/img/logo.png">
+  <title>图论基础</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="图论基础">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2022/03/10/book-mayao-02-md/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/img/head.png">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2022-03-10">
+      <meta 
+        property="og:article:modified_time" 
+        content="2022-04-01">
+      <meta 
+        property="og:article:author" 
+        content="学习笔记">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="GNN">
+        
+          <meta 
+            property="og:article:tag" 
+            content="笔记">
+        
+          <meta 
+            property="og:article:tag" 
+            content="教材">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+      
+      
+      
+      
+        
+        
+        
+        <script>
+          function prismThemeChange() {
+            if(document.getElementById('theme-color').dataset.mode === 'dark') {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-tomorrow.min.css', '[data-prism]', 'prism-tomorrow');
+              } else {
+                loadCSS('/js/lib/prism/prism-tomorrow.min.css', 'prism', 'prism-tomorrow');
+              }
+            } else {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism.min.css', '[data-prism]', 'prism');
+              } else {
+                loadCSS('/js/lib/prism/prism.min.css', 'prism', 'prism');
+              }
+            }
+          }
+          prismThemeChange()
+        </script>
+      
+      
+        
+        <link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+      
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+        prismThemeChange();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+    
+    <link rel="prefetch" href="//cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" as="script">
+  
+  
+    
+    <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/img/logo.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Code With Lrz</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          主页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          书籍
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      图论基础
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-03-10T09:31:34.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2022-03-10</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/categories/%E9%A9%AC%E8%80%80%E6%B1%A4%E7%BB%A7%E8%89%AF-%E7%AC%94%E8%AE%B0/" 
+          class="post-meta-link">
+          马耀汤继良-笔记
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>3k words</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/GNN/" 
+            class="post-meta-link">
+            GNN
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/%E7%AC%94%E8%AE%B0/" 
+            class="post-meta-link">
+            笔记
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/%E6%95%99%E6%9D%90/" 
+            class="post-meta-link">
+            教材
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="图的表示"><a href="#图的表示" class="headerlink" title="图的表示"></a>图的表示</h2><h3 id="图（Graph）"><a href="#图（Graph）" class="headerlink" title="图（Graph）"></a>图（Graph）</h3><p>$\textcolor{blue} {\textbf { 定义： } }$一个图可以表示为$G = { {V,\varepsilon }}$，其中$V$ = {$v_1$,$\cdots$,$v_N$}是大小为$N = | V |$ 的节点集合，$\varepsilon$={ $e_1$,$\cdots$,$e_M$}是大小为$M$的边的集合。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211124200643.png" alt="图1" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211124200643.png" class="lozad post-image"></p>
+<p>如上图（图1），为一个有五个节点和六条边的图。其中{ $v_1$,$\cdots$,$v_5$}为五个节点，{ $e_1$,$\cdots$,$e_6$}为六条边。</p>
+<p>在图中，如果有一条边$e<em>i$连接两个节点$v</em>{e<em>i}^1$和$v</em>{e<em>i}^2$，那么这条边可以表示为（$v</em>{e<em>i}^1$,$v</em>{e<em>i}^2$），在有向图中表示边从起点$v</em>{e<em>i}^1$指向终点$v</em>{e<em>i}^2$。相反在无向图中由于没有顺序之分，则$e_i$ = （$v</em>{e<em>i}^1$,$v</em>{e<em>i}^2$）= （$v</em>{e<em>i}^2$,$v</em>{e_i}^1$）。举个例子，如图一中的边$e_6$连接节点$v_1$与节点$v_5$，那么由于图1为无向图，则$e_6$也可以表示为（$v_1$,$v_5$）或（$v_5$,$v_1$）。</p>
+<h3 id="邻接矩阵（Adjacency-Matrix）"><a href="#邻接矩阵（Adjacency-Matrix）" class="headerlink" title="邻接矩阵（Adjacency Matrix）"></a>邻接矩阵（Adjacency Matrix）</h3><p>为了方便查看节点之间的连接关系，图$G = { {V,\varepsilon }}$可以等价的表示为邻接矩阵的形式，更加直观的描述节点之间的关系。</p>
+<p>$\textcolor{blue} {\textbf { 定义： } }$给定一个图$G = { {V,\varepsilon }}$,对应的邻接矩阵可以表示为$A∈{ { 0,1 } ^ { N×N } }$。邻接矩阵$A$的第$i$行第$j$列元素$A<em>{i,j}$表示节点$v_i$和$v_j$的连接关系。具体来讲，如果$v_i$与$v_j$相邻，则$A</em>{i,j} = 1$，否则$A_{i,j} = 0$。</p>
+<p>在无向图中，由于不受节点顺序影响，则$A<em>{ i,j } = A</em>{ j,i }$，所以无向图的邻接矩阵一定是$\textbf { 关于主对角线对称 }$的。以图1为例，该图的邻接矩阵可表示为：</p>
+<script type="math/tex; mode=display">
+A = 
+\begin {pmatrix}
+0 & 1 & 0 & 1 & 1 \\
+1 & 0 & 1 & 0 & 0 \\
+0 & 1 & 0 & 0 & 1 \\
+1 & 0 & 0 & 0 & 1 \\
+1 & 0 & 1 & 1 & 0 \\
+\end {pmatrix}</script><p>可以看到，主对角线值均为0，且都关于其对称。</p>
+<h2 id="图的性质"><a href="#图的性质" class="headerlink" title="图的性质"></a>图的性质</h2><h3 id="度（Degree）"><a href="#度（Degree）" class="headerlink" title="度（Degree）"></a>度（Degree）</h3><p>$\textcolor{blue} {\textbf { 定义： } }$在图$G = { {V,E }}$中，节点$v_i ∈ V$的度定义为图$G$中与节点$v_i$相关联的边的数目。</p>
+<script type="math/tex; mode=display">
+d(v_i) = \sum_{ v_j ∈ V}1\varepsilon( \{ v_i,v_j \} )</script><p>其中，$1\varepsilon(\cdot)$为指示函数，简单来说就是满足条件就取1，不满足就取0。对于图来讲可表示为：</p>
+<script type="math/tex; mode=display">
+1\varepsilon( \{ v_i,v_j \} ) = 
+\begin {cases}
+1, \quad (v_i,v_j)∈\varepsilon \\
+0, \quad (v_i,v_j)\notin\varepsilon
+\end {cases}</script><p>即当存在$(v_i,v_j)$这条边时，$d(v_i)$就加1，反之如果不存在，就加0。其实最直观的看法就是找从这个节点出发引出几条边。但这种方法会有一些麻烦，所以如果能够画出图的邻接矩阵的话，可以更简单的计算结果，利用邻接矩阵可以将节点的度表示为：</p>
+<script type="math/tex; mode=display">
+d(v_i) = \sum_{ j = 1 }^N A_{ i,j }</script><p>简单来说就是计算该节点所在行所有值的和。任以图一为例，节点$v_5$与$v_1,v_3,v_4$相连，则节点$v_5$的度为3。如果利用邻接矩阵计算，$v_5$占矩阵第五行，直接将改行所有元素相加，即可得到其度为3。</p>
+<h3 id="邻域（Neighborhood）"><a href="#邻域（Neighborhood）" class="headerlink" title="邻域（Neighborhood）"></a>邻域（Neighborhood）</h3><p>$\textcolor{blue} {\textbf { 定义： } }$在图$G={ V,\varepsilon }$中，节点$v_i$的邻域$N(v_i)$是所有和它相邻的节点的集合。</p>
+<p>依然以图1中$v_5$节点为例，其邻域为$N(v_5) = { v_1,v_3,v_4 }$，可以发现对于任意节点$v_i$,其$\textbf{ 邻域中元素个数等于该节点的度 }$，即$d(v_i) = |N(v_i)|$。</p>
+<p>$\textcolor{green} {\textbf { 定理： } }$一个图$G={ V,\varepsilon }$中所有的节点的度之和是图中边数量的两倍：</p>
+<script type="math/tex; mode=display">
+\sum_{ v_i ∈ V}d(v_i) = 2\ \cdot \ | \varepsilon |</script><p>这个定理很容易想通，举一个例子，如下图（图2），$v_1与v_2$的度都为1，度之和为2。但两个节点公用一条边$e_1$，则是2倍的关系。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211126145659.png" alt="图2" style="zoom: 67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211126145659.png" class="lozad post-image"></p>
+<p>同样的，如果将图写为邻接矩阵的话，每一个非零元素则代表两个节点存在连接，第$i$行中非零元素的个数就是节点$v_i$的度，那么矩阵中所有非零元素的个数就是所有节点的度之和，那么可以有如下推论。</p>
+<p>$\textcolor{green} {\textbf { 推论： } }$无向图邻接矩阵的非零元素的个数是边的数量的两倍。</p>
+<h3 id="连通度（Connectivity）"><a href="#连通度（Connectivity）" class="headerlink" title="连通度（Connectivity）"></a>连通度（Connectivity）</h3><p> $\textcolor{blue} {\textbf { 定义： } }$途径（Walk）图的途径是节点和边的交替序列，从一个节点开始，以一个节点结束，其中每条边与紧邻的节点相关联。</p>
+<p> $\textcolor{blue} {\textbf { 定义： } }$迹（Trail）是边各不同的途径。</p>
+<p> $\textcolor{blue} {\textbf { 定义： } }$路（Path）是节点各不相同的途径，也称路径</p>
+<p>简而言之，只要不跳着走，那从一个节点到另一个节点就是一个途径，在途径这个大类中，如果序列中没有重复边就是迹，没有重复节点就是路。举个例子，图1中想从$v_1$走到$v_2$，假设绕远走，那么可以选择$(v_1,e_4,v_4,e_5,v_5,e_6,v_1,e_1,v_2)$这条途径，那么这条途径也是一条迹但不是路，因为这条途径中没有重复的边，但存在重复的节点$v_1$。如果选$(v_1,e_1,v_2)$这条途径，那么这即可以成为是迹，也可以称为是路径。</p>
+<p>$\textcolor{green} {\textbf { 定理： } }$对于图$G = { { \varepsilon,V } }$及其邻接矩阵$A$，用$A^n$表示该邻接矩阵的n次幂。那么$A^n$的第$i$行第$j$列的元素等于长度为$n$的$v_i - v_j$的途径的个数。</p>
+<p>这条定理看似很复杂，但功能很简单，举例如图1，假设从$v<em>1-v_4$，如果有长度为6的途径的走法，问一共有几种。那么答案就是$A^6</em>{ 1,4}$。</p>
+<p>书中的证明方法用的是数学归纳法，那么我们可以用线性代数的方式以及图论的方式来解释一下书中的证明过程。首先假设当$n = k$时，$A^k_{i,j}$等于长度为$k$的$v_i-v_j$的途径的数量。那么我们只需要证明：</p>
+<script type="math/tex; mode=display">
+A^{k+1}_{i,j} = \sum^N_{h=1} \ A^k_{i,h}\  \cdot \ A_{h,j}</script><p>对于式中的h代表的是节点，那么上面这个公式就是一个基础的线性代数的计算公式，那么如何用图论来解释呢？</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211130133342.png" alt="图3" style="zoom:67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211130133342.png" class="lozad post-image"></p>
+<p>如上图（图3），假定要从$v_1$分6步走$v_4$，按照公式，第六步的方式要与前五步的走法相关，那么我们空出第6步，先只看前5步：</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211130134318.png" alt="图4" style="zoom:50%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211130134318.png" class="lozad post-image"></p>
+<p>如上图（图4），左侧部分为前5步从$v<em>1$走到各个点的方式，也就是对应的$A^k</em>{i,h}$，在这里就是$A^5<em>{1,h} (h = 1 \cdots4)$。那么最后一步就是从这四个点到$v_4$的走法，分别对应的就是$A</em>{h,4}$,将每一个节点的结果都加和，就是最终的结果，这个证明就同时结合了线代和图论的知识。</p>
+<p> $\textcolor{blue} {\textbf { 定义： } }$子图（Subgraph），图$G={ V,\varepsilon }$的子图$G’={ V’,\varepsilon’ }$由节点集合的子集$V’ \subset V$和边集的子集$\varepsilon ’ \subset \varepsilon$组成，此外，集合$V’$必须包含集合$\varepsilon’$涉及的所有节点。</p>
+<p>举个例子，如图3中节点子集${ v_2,v_3,v_4 }$和边子集${ e_2,e_3,e_4 }$就构成原图的一个子图。</p>
+<p> $\textcolor{blue} {\textbf { 定义： } }$连通分量（Connected Component），给定一个图$G = { V,\varepsilon }$，如果一个子图$G’={ V’,\varepsilon’ }$中任意一对节点之间都至少存在一条路，且$V’$中的节点不与任何$V/V’$中的节点相连，那么$G’$就是一个连通分量。</p>
+<p>如下图（图5），就是一个含有两个连通分量的图，因为其左右两边没有连接。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211130150832.png" alt="图5" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211130150832.png" class="lozad post-image"></p>
+<p>$\textcolor{blue} {\textbf { 定义： } }$连通图（Connected Graph），如果一个图$G = { V,\varepsilon }$只有一个连通分量，那么$G$是一个连通图。</p>
+<p>如图1为连通图，图5就不是连通图。</p>
+<p>$\textcolor{blue} {\textbf { 定义： } }$最短路（Shortest Path），两节点中距离最小的路（注意这里是路，即不允许有重复节点），任意两节点间的最短路可以有多条。图中节点$v<em>s - v_t$间的最短路可表示为$P</em>{st}$。</p>
+<p>$\textcolor{blue} {\textbf { 定义： } }$直径（Diameter），图中所有节点间最短路长度的最大值就是该图的直径。</p>
+<h3 id="中心性"><a href="#中心性" class="headerlink" title="中心性"></a>中心性</h3><h4 id="度中心性（Degree-Centrality）"><a href="#度中心性（Degree-Centrality）" class="headerlink" title="度中心性（Degree Centrality）"></a>度中心性（Degree Centrality）</h4><p>如果很多节点都连接到某一个节点，那么这个节点就被认为是重要的。简单来说，相当于如果很多人都说你厉害，那么可以认为你很厉害。表示为：</p>
+<script type="math/tex; mode=display">
+c_d(v_i) = d(v_i) = \sum^N_{j=1}A_{i,j}</script><p>如图1中，节点$v_1,v_5$的度中心性都是3，节点$v_2,v_3,v_4$的度中心性为2。</p>
+<h4 id="特征向量中心性（Eigenvector-Centrality）"><a href="#特征向量中心性（Eigenvector-Centrality）" class="headerlink" title="特征向量中心性（Eigenvector Centrality）"></a>特征向量中心性（Eigenvector Centrality）</h4><p>与度中心性想法不同，度中心性认为每一个相邻节点的贡献是相同的，但特征向量则认为每一个节点的重要性是不同的。就好像，5个菜鸟说你厉害，那你也不一定厉害。但如果是5个大佬都说你厉害，那你肯定是很厉害。可以表示为：</p>
+<script type="math/tex; mode=display">
+c_e(v_i)= \cfrac{1}{\lambda}\sum^N_{j=1}A_{i,j} \ \cdot \ c_e(v_j)</script><p>这里特征向量与特征值需要用到一些线代的知识，其实就是要找到最大的特征值并且找到其对应的特征向量。以图1及其邻接矩阵为例，在计算方面，借助python中的networkx库进行计算，下面代码可供参考：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+<span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+<span class="token keyword">import</span> networkx <span class="token keyword">as</span> nx
+<span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
+edges <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span><span class="token punctuation">)</span>
+edges<span class="token punctuation">[</span><span class="token string">'sources'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span>
+edges<span class="token punctuation">[</span><span class="token string">'targets'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span>
+edges<span class="token punctuation">[</span><span class="token string">'weights'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span>
+G <span class="token operator">=</span> nx<span class="token punctuation">.</span>from_pandas_edgelist<span class="token punctuation">(</span>edges<span class="token punctuation">,</span> source<span class="token operator">=</span><span class="token string">'sources'</span><span class="token punctuation">,</span> target<span class="token operator">=</span><span class="token string">'targets'</span><span class="token punctuation">,</span> edge_attr<span class="token operator">=</span><span class="token string">'weights'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'特征向量中心性: '</span><span class="token punctuation">,</span> nx<span class="token punctuation">.</span>eigenvector_centrality<span class="token punctuation">(</span>G<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># 特征向量中心性</span>
+nx<span class="token punctuation">.</span>draw<span class="token punctuation">(</span>G<span class="token punctuation">,</span> with_labels<span class="token operator">=</span>edges<span class="token punctuation">[</span><span class="token string">'sources'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>tolist<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>计算后会发现，虽然$v_2,v_3,v_4$的度都为2，但在特征向量中心性的计算结果中$v_4$要高于另外两个节点，因为它与两个更高的邻居$v_1,v_5$直接相连。</p>
+<h4 id="katz中心性（Katz-Centrality）"><a href="#katz中心性（Katz-Centrality）" class="headerlink" title="katz中心性（Katz Centrality）"></a>katz中心性（Katz Centrality）</h4><p>但当出现在有向无环图时，其中节点 eigenvector centrality变成0，因此Katz提出了一个改进方法，即每个节点初始就有一个centrality值，表示为：</p>
+<script type="math/tex; mode=display">
+c_e(v_i)= \alpha\sum^N_{j=1}A_{i,j} \ \cdot \ c_k(v_j) + \beta</script><p>其中，$\alpha$尽量取在$(0,\cfrac{1}{\lambda_{max}})$节点越重要$\beta$的值越大，可以理解为，不仅别人说你厉害，你自己本身越厉害，值也就越高。</p>
+<h4 id="介数中心性（Betweenness-Centrality）"><a href="#介数中心性（Betweenness-Centrality）" class="headerlink" title="介数中心性（Betweenness Centrality）"></a>介数中心性（Betweenness Centrality）</h4><p>当多个节点间的最短路都通过某一节点，则认为这个节点很重要。其实和交通枢纽很类似，可以想成，如果很多人都通过你和别人联系上，那你就很重要。可表示为：</p>
+<script type="math/tex; mode=display">
+c_b(v_i) = \sum_{v_s \neq v_i \neq v_t} \cfrac{\sigma_{st}(v_i)} {\sigma_{st}}</script><p>其中$\sigma<em>{st}$表示从节点$v_s$到节点$v_t$的最短路的数目，$\sigma</em>{st}(v<em>i)$表示这些路中经过节点$v_i$的路的数目。如图1，节点$v_1$的介数中心性为$\cfrac{3} {2}$，计算过程如下为，首先排除节点$v_1$，然后计算其余的节点间最短路中通过节点$v_1$的个数。通过观察，可以发现节点$v_2$通过节点$v_1$到达节点$v_4$，且节点$v_2$到达节点$v_4$只有一条最短路，则此时$\cfrac{\sigma</em>{2,4}(v<em>1)} {\sigma</em>{2,4}} = 1$,同时节点$v_2$也通过节点$v_1$到达节点$v_5$，但节点$v_2$到达节点$v_5$有两条最短路</p>
+<p>则此时$\cfrac{\sigma<em>{2,5}(v_1)} {\sigma</em>{2,5}} = \cfrac{1} {2}$，然后就没有除节点$v_1$的其他节点的最短路了，那么节点$v_1$的介数中心性为$1+\cfrac{1} {2} = \cfrac{3} {2}$。但是不同的图这个介数中心性的值没有比较的意义，因此要对它进行一个归一化（normalization）。公式为：</p>
+<script type="math/tex; mode=display">
+c_{nb} = \cfrac{2 × \sum_{v_s \neq v_i \neq v_t} \cfrac{\sigma_{st}(v_i)} {\sigma_{st}}} {(N-1)(N-2)}</script><p>那么可以计算节点$v_1$的归一化介数中心性为$\cfrac{1} {4}$。</p>
+
+  </div>
+  <div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/2022/03/12/gnn4nlp-survey/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">Prev</div>
+          
+            <div class="nav-title">gnn4nlp-survey </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2022/03/10/CRS-CPRonGraph/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">Next</div>
+          
+            <div class="nav-title">Interactive Path Reasoning on Graph for Conversational Recommendation </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+  <div 
+    class="card card-content comment-card" 
+    style="margin-top: 16px;">
+    <div class="comment-card-title">评论</div>
+    
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'ViB7mKqmb9rnWMl4cYC4Mkvh-gzGzoHsz',
+        appKey: 'BvKzqYIzw5yjHQ6uwMtKwXQS',
+        placeholder: 'say one&#39;s piece',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: false,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+  </div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.</span> <span class="toc-text">图的表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%EF%BC%88Graph%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">图（Graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5%EF%BC%88Adjacency-Matrix%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">邻接矩阵（Adjacency Matrix）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="toc-number">2.</span> <span class="toc-text">图的性质</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%A6%EF%BC%88Degree%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">度（Degree）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E5%9F%9F%EF%BC%88Neighborhood%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">邻域（Neighborhood）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E9%80%9A%E5%BA%A6%EF%BC%88Connectivity%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">连通度（Connectivity）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E5%BF%83%E6%80%A7"><span class="toc-number">2.4.</span> <span class="toc-text">中心性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%A6%E4%B8%AD%E5%BF%83%E6%80%A7%EF%BC%88Degree-Centrality%EF%BC%89"><span class="toc-number">2.4.1.</span> <span class="toc-text">度中心性（Degree Centrality）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F%E4%B8%AD%E5%BF%83%E6%80%A7%EF%BC%88Eigenvector-Centrality%EF%BC%89"><span class="toc-number">2.4.2.</span> <span class="toc-text">特征向量中心性（Eigenvector Centrality）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#katz%E4%B8%AD%E5%BF%83%E6%80%A7%EF%BC%88Katz-Centrality%EF%BC%89"><span class="toc-number">2.4.3.</span> <span class="toc-text">katz中心性（Katz Centrality）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E6%95%B0%E4%B8%AD%E5%BF%83%E6%80%A7%EF%BC%88Betweenness-Centrality%EF%BC%89"><span class="toc-number">2.4.4.</span> <span class="toc-text">介数中心性（Betweenness Centrality）</span></a></li></ol></li></ol></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/img/head.png" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">学习笔记</p>
+<p class="author-description">Student of NEAU</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>8</span>
+    <span>Posts</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>4</span>
+    <span>Categories</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>8</span>
+    <span>Tags</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://space.bilibili.com/407520053">
+          <i class="iconfont icon-bilibili society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://weibo.com/u/5995911076">
+          <i class="iconfont icon-sina society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a href="/img/wechat.png">
+          <i class="iconfont icon-wechat society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://github.com/codewithlrz">
+          <i class="iconfont icon-github society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.</span> <span class="toc-text">图的表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%EF%BC%88Graph%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">图（Graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5%EF%BC%88Adjacency-Matrix%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">邻接矩阵（Adjacency Matrix）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="toc-number">2.</span> <span class="toc-text">图的性质</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%A6%EF%BC%88Degree%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">度（Degree）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E5%9F%9F%EF%BC%88Neighborhood%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">邻域（Neighborhood）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E9%80%9A%E5%BA%A6%EF%BC%88Connectivity%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">连通度（Connectivity）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E5%BF%83%E6%80%A7"><span class="toc-number">2.4.</span> <span class="toc-text">中心性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%A6%E4%B8%AD%E5%BF%83%E6%80%A7%EF%BC%88Degree-Centrality%EF%BC%89"><span class="toc-number">2.4.1.</span> <span class="toc-text">度中心性（Degree Centrality）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F%E4%B8%AD%E5%BF%83%E6%80%A7%EF%BC%88Eigenvector-Centrality%EF%BC%89"><span class="toc-number">2.4.2.</span> <span class="toc-text">特征向量中心性（Eigenvector Centrality）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#katz%E4%B8%AD%E5%BF%83%E6%80%A7%EF%BC%88Katz-Centrality%EF%BC%89"><span class="toc-number">2.4.3.</span> <span class="toc-text">katz中心性（Katz Centrality）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E6%95%B0%E4%B8%AD%E5%BF%83%E6%80%A7%EF%BC%88Betweenness-Centrality%EF%BC%89"><span class="toc-number">2.4.4.</span> <span class="toc-text">介数中心性（Betweenness Centrality）</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>Categories
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/MIT-CS224W-%E5%9B%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+        <div class="categories-list-item">
+          MIT-CS224W-图机器学习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/">
+        <div class="categories-list-item">
+          论文解读
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+        <div class="categories-list-item">
+          图表示学习笔记
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E9%A9%AC%E8%80%80%E6%B1%A4%E7%BB%A7%E8%89%AF-%E7%AC%94%E8%AE%B0/">
+        <div class="categories-list-item">
+          马耀汤继良-笔记
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>hot tags
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/GNN/" 
+        title="GNN">
+        <div class="tags-list-item">GNN</div>
+      </a>
+    
+      <a 
+        href="/tags/MIT/" 
+        title="MIT">
+        <div class="tags-list-item">MIT</div>
+      </a>
+    
+      <a 
+        href="/tags/2019/" 
+        title="2019">
+        <div class="tags-list-item">2019</div>
+      </a>
+    
+      <a 
+        href="/tags/%E8%AE%BA%E6%96%87/" 
+        title="论文">
+        <div class="tags-list-item">论文</div>
+      </a>
+    
+      <a 
+        href="/tags/%E7%AC%94%E8%AE%B0/" 
+        title="笔记">
+        <div class="tags-list-item">笔记</div>
+      </a>
+    
+      <a 
+        href="/tags/%E6%95%99%E6%9D%90/" 
+        title="教材">
+        <div class="tags-list-item">教材</div>
+      </a>
+    
+      <a 
+        href="/tags/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0/" 
+        title="图表示学习">
+        <div class="tags-list-item">图表示学习</div>
+      </a>
+    
+      <a 
+        href="/tags/CRS/" 
+        title="CRS">
+        <div class="tags-list-item">CRS</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.</span> <span class="toc-text">图的表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%EF%BC%88Graph%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">图（Graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5%EF%BC%88Adjacency-Matrix%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">邻接矩阵（Adjacency Matrix）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="toc-number">2.</span> <span class="toc-text">图的性质</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%A6%EF%BC%88Degree%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">度（Degree）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E5%9F%9F%EF%BC%88Neighborhood%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">邻域（Neighborhood）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E9%80%9A%E5%BA%A6%EF%BC%88Connectivity%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">连通度（Connectivity）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E5%BF%83%E6%80%A7"><span class="toc-number">2.4.</span> <span class="toc-text">中心性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%A6%E4%B8%AD%E5%BF%83%E6%80%A7%EF%BC%88Degree-Centrality%EF%BC%89"><span class="toc-number">2.4.1.</span> <span class="toc-text">度中心性（Degree Centrality）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F%E4%B8%AD%E5%BF%83%E6%80%A7%EF%BC%88Eigenvector-Centrality%EF%BC%89"><span class="toc-number">2.4.2.</span> <span class="toc-text">特征向量中心性（Eigenvector Centrality）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#katz%E4%B8%AD%E5%BF%83%E6%80%A7%EF%BC%88Katz-Centrality%EF%BC%89"><span class="toc-number">2.4.3.</span> <span class="toc-text">katz中心性（Katz Centrality）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E6%95%B0%E4%B8%AD%E5%BF%83%E6%80%A7%EF%BC%88Betweenness-Centrality%EF%BC%89"><span class="toc-number">2.4.4.</span> <span class="toc-text">介数中心性（Betweenness Centrality）</span></a></li></ol></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>Recent Posts
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-08</div>
+        <a href="/2022/04/08/Multiple%20Choice%20Questions%20based%20Multi-Interest%20Policy%20Learning%20for%20Conversational%20Recommendation/"><div class="recent-posts-item-content">Recommendation</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-19</div>
+        <a href="/2022/03/19/MIT-01-md/"><div class="recent-posts-item-content">CS224W-01-Intro</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/book-GRL-01/"><div class="recent-posts-item-content">图表示学习基础</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/Unified%20Conversational%20Recommendation%20Policy%20Learning%20via%20Graph-based%20Reinforcement%20Learning/"><div class="recent-posts-item-content">Unified Conversational Recommendation Policy Learning via Graph-based Reinforcement Learning</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          Code With Lrz
+        </a>
+      </div>
+    </div>
+
+    
+    
+    
+      <div class="BbeiAn-info">
+        <a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">黑ICP备2021006621号 </a>
+      </div>
+      
+        <div class="BbeiAn-info">
+          <span style="padding-left: 25px;background: url(/img/beian.png) no-repeat left center"></span>
+          <a target="_blank" rel="noopener" href="http://beian.miit.gov.cn "> 
+          </a>
+          <br />
+        </div>
+      
+    
+    
+</footer> 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+      
+
+  
+  
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+  
+ 
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>

@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Hexo">
+  <link 
+    rel="icon" 
+    href="/img/logo.png">
+  <title>gnn4nlp-survey</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="gnn4nlp-survey">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2022/03/12/gnn4nlp-survey/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/img/head.png">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2022-03-12">
+      <meta 
+        property="og:article:modified_time" 
+        content="2022-04-07">
+      <meta 
+        property="og:article:author" 
+        content="学习笔记">
+      
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+      
+      
+      
+      
+        
+        
+        
+        <script>
+          function prismThemeChange() {
+            if(document.getElementById('theme-color').dataset.mode === 'dark') {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-tomorrow.min.css', '[data-prism]', 'prism-tomorrow');
+              } else {
+                loadCSS('/js/lib/prism/prism-tomorrow.min.css', 'prism', 'prism-tomorrow');
+              }
+            } else {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism.min.css', '[data-prism]', 'prism');
+              } else {
+                loadCSS('/js/lib/prism/prism.min.css', 'prism', 'prism');
+              }
+            }
+          }
+          prismThemeChange()
+        </script>
+      
+      
+        
+        <link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+      
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+        prismThemeChange();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+    
+    <link rel="prefetch" href="//cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" as="script">
+  
+  
+    
+    <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/img/logo.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Code With Lrz</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          主页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          书籍
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      gnn4nlp-survey
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-03-12T03:02:36.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2022-03-12</span>
+    </time>
+    
+    
+      <span class="dot"></span>
+      <span>8.4k words</span>
+    
+  </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="摘要"><a class="markdownIt-Anchor" href="#摘要"></a> 摘要</h2>
+<p>深度学习已经成为NLP中处理各种任务的重要方法，尽管文本输入通常可以表示为一个token的序列，但大量的NLP问题可以用图结构更好的表示。在本项调查中，作者呈现了一个关于 GNN for NLP 的全面概述。对于 GNN for NLP，作者提出一个新的分类系统，从如下三个核心系统的组织了现有研究，即<strong>图构造、图表示学习、基于图的编解码器模型</strong>。文中进一步介绍了大量正在应用 GNNs 驱动 NLP 的应用，并总结了相应的基准数据集、评估指标和开源代码。最后，论文讨论了在NLP中充分利用GNNs的挑战以及未来的研究方向。</p>
+<h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
+<p>深度学习已经成为当今应对自然语言处理(NLP)中各种任务的主要方法，特别是在大规模文本语料库上操作时。传统来讲，文本序列会被认为是一袋 tokens，例如 NLP 任务中的 <a target="_blank" rel="noopener" href="https://blog.csdn.net/zyq11223/article/details/90263629">BoW（词袋）</a> 和 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/31197209">TF-IDF算法</a>。随着 Word Embeddings 技术的成功（<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010555997/article/details/76598666">Mikolov et al., 2013</a>，以及<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhaoyin214/article/details/103366589">Pennington et al., 2014</a>）在NLP任务中，句子通常被表示为一个tokens序列。因此，流行的深度学习技术，如递归神经网络（<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/650093">Schuster and Paliwal, 1997</a>）和卷积神经网络（<a target="_blank" rel="noopener" href="https://blog.csdn.net/zziahgf/article/details/79619059">Krizhevsky et al., 2012</a>）已广泛应用于文本序列的建模。</p>
+<p>然而，有大量的NLP问题可以用图结构最好地表达。例如，文本序列中的句子结构信息（即句法解析树，如依赖树和选区解析树）可以通过合并特定于任务的知识来增强原始序列数据。类似地，序列数据中的语义信息（如语义解析图，如抽象意义表示图和信息提取图）也可以用来增强原始序列数据。因此，这些图结构数据可以为了学习更多信息的表示，编码实体 tokens 间的复杂关系。</p>
+<p>不幸的是，深度学习技术对于欧式数据（Euclidean data，如图像），或是序列数据（如文本）都是破坏性的。由于由于图数据的复杂性，如不规则的结构和节点邻居大小的变化，它们对于图结构的数据是不能直接适用的。因此这一隔阂推动了GNN的发展（<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41727666/article/details/84640549">Kipf and Welling, 2016</a>，<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44576543/article/details/103600073">Defferrard et al., 2016</a>，以及<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114210047">Hamilton et al., 2017a</a>）。</p>
+<p>这种在图深度学习和NLP交叉上的研究浪潮影响了各种NLP任务。人们对应用和开发不同的GNNs变体的兴趣激增，并在许多NLP任务中取得了相当大的成功，从分类任务，如句子分类（<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45086320/article/details/107742392">Henaff et al., 2015</a>，<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_48288539/article/details/118800545"> Huang and Carley, 2019</a>） ，语义角色标记（<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41297561/article/details/108540507">Luo and Zhao (2020)</a>；<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42447107/article/details/120634472">Gui et al. (2019)</a>），关系提取（<a target="_blank" rel="noopener" href="https://blog.csdn.net/Wywxring98/article/details/109331282">Qu et al., 2020</a>；<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40485502/article/details/104294410">Sahu et al., 2019</a>），来生成诸如机器翻译等任务（<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/100384779?from_voters_page=true">Qu et al., 2020</a>；<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40485502/article/details/104294410">Beck et al., 2018</a>），问题生成（<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39827677/article/details/118856339">Pan et al., 2020</a>；<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2010.11374v1.pdf">Sachan et al., 2020</a>）以及摘要生成（<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/63309345">Fernandes et al., 2019</a>；<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/28049741">Yasunaga et al., 2017</a>）。尽管现有的研究取得了成功，但NLP的图深度学习仍然面临着许多挑战，即：</p>
+<ol>
+<li><strong>将原始文本序列数据自动转化为图结构的数据</strong>。大多数NLP任务使用文本序列作为原始输入，从文本序列中自动构建图数据以利用底层结构信息是利用图神经网络处理NLP问题的关键步骤。</li>
+<li><strong>恰当的图表示学习技术</strong>。需要使用专门设计的GNN来学习不同图结构数据的独特特征，如无向、有向、多关系和异质图。</li>
+<li><strong>有效地建模复杂数据</strong>。因为许多NLP任务涉及学习<strong>基于图的输入</strong>和<strong>高度结构化的输出数据</strong>之间的映射，如序列、树，以及具有多种类型节点和边的图数据。</li>
+</ol>
+<p>在本文中，作者将首次提出一个用于自然语言处理的图神经网络的全面概述，这项调查对机器学习和NLP社区都是及时的，它涵盖了相关和感兴趣的主题，包括NLP图的自动构建，图表示学习，基于GNN的编码器-解码器模型，以及各种NLP任务中的GNN的应用。</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220202142102.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220202142102.png" class="lozad post-image">
+<p>作者强调其主要贡献如下：</p>
+<ol>
+<li>提出新的 GNN4NLP 的分类方法，系统地根据三个核心组织了现有的图构建、图表示学习和基于图的编码-解码器模型的研究。</li>
+<li>提供了针对各种NLP任务的最先进的基于GNN的方法的最全面的概述，作者基于领域知识和语义空间，对各种图的构造方法，针对各类图结构数据的图表示学习方法，基于GNN的编码-解码模型给定输入和输出数据类型的不同组合进行了详细的描述和必要的比较。</li>
+<li>介绍了大量的运用GNNs的NLP应用，包括它们如何通过三个关键组件（即图形构建、图形表示学习和嵌入初始化）处理这些NLP任务，以及提供相应的基准数据集、评估度量和开源代码。</li>
+<li>概述了在NLP中充分利用GNN所面临的各种突出挑战，并为富有成效和未探索的研究方向提供了讨论和建议。</li>
+</ol>
+<h2 id="基于图的自然语言处理算法"><a class="markdownIt-Anchor" href="#基于图的自然语言处理算法"></a> 基于图的自然语言处理算法</h2>
+<p>在本节中，作者将首先从图的角度回顾NLP问题，然后简要介绍一些具有代表性的传统的基于图的方法来解决NLP问题的问题</p>
+<h3 id="nlp从图的视角"><a class="markdownIt-Anchor" href="#nlp从图的视角"></a> NLP：从图的视角</h3>
+<p>一般来说，有三种不同的方式来表达自然语言。最简单的方法是将自然语言表示为一袋tokens。这种自然语言的观点完全忽略了在文本中出现的token的特定位置，而只考虑了一个token在文本中出现的次数。如果一个人随机打乱一个给定的文本，从这个角度来看，文本的意义根本不会改变。采用这种观点的最具代表性的NLP技术是主题建模（<a target="_blank" rel="noopener" href="https://blog.csdn.net/aws3217150/article/details/53840029">Blei et al., 2003</a>），它旨在将每个输入文本建模为主题的混合，其中每个主题可以进一步建模为单词的混合。</p>
+<p>一种更自然的方法是将自然语言表示为一个tokens序列。这就是人类通常说和书写自然语言的方式。与上面的bag的视角相比，这种自然语言的视角能够捕获更丰富的文本信息，比如两个tokens是否连续，或是一个单词对在一个局部上下文中同时出现。采用这一观点的最具代表性的NLP技术包括线性链CRF（<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40485502/article/details/104100310">Lafferty et al., 2001</a>），它实现了预测中的顺序依赖性。还有word2vec（<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010555997/article/details/76598666">Mikolov et al., 2013</a>），它通过预测一个目标单词的上下文单词来学习单词嵌入。</p>
+<p>第三种方法是将自然语言表示为一个图。图在NLP中普遍存在，虽然将文本视为序列数据可能是最明显的，但在NLP社区中，将文本表示为各种图已经有很长的历史了。文本或世界知识的常见图表示包括依赖图、选区图、AMR图、IE图、词汇网络和知识图。此外，还可以构造一个包含文档、段落、句子、文字等多个元素层次结构的文本图。与上述两个视角相比，这种自然语言的视角能够捕捉到文本元素之间更丰富的关系。正如将在下一节中介绍的，许多传统的基于图的方法（如随机游走、标签传播）已经成功地应用于具有挑战性的NLP问题，包括词义消歧、名称消歧、指代消歧、情绪分析和文本聚类。</p>
+<h3 id="基于图的自然语言处理方法"><a class="markdownIt-Anchor" href="#基于图的自然语言处理方法"></a> 基于图的自然语言处理方法</h3>
+<p>在上一小节中，作者已经讨论了许多NLP问题可以自然地转化为基于图的问题。在本小节中，作者将介绍各种已成功应用于这些方法的基于图的经典算法。具体地说，作者将首先简要说明一些具有代表性的基于图的算法及其在NLP领域的应用。然后进一步讨论了它们与GNN的联系。</p>
+<h4 id="随机行走算法"><a class="markdownIt-Anchor" href="#随机行走算法"></a> 随机行走算法</h4>
+<p>**方法：**随机游走是一类基于图的算法，它可以在图中产生随机路径。为了进行随机行走，可以从图中的任何节点开始，并根据特定的转移概率反复选择访问一个随机的相邻节点。所有随机行走的访问节点然后形成一个随机路径。随机游走收敛后，可以获得一个平稳分布在所有的节点，可以用来选择最突出的节点图高结构的重要性排名概率分数或测量两个图的关系通过计算两个随机游走分布之间的相似性。</p>
+<p>**应用：**随机游走算法已被应用于各种NLP应用中，包括文本语义相似性的度量（<a target="_blank" rel="noopener" href="https://www.researchgate.net/publication/221342595_Random_Walks_for_Text_Semantic_Similarity">Ramage et al., 2009</a>）以及语义网络上的语义距离（<a target="_blank" rel="noopener" href="https://www.researchgate.net/profile/Thad-Hughes/publication/221013095_Lexical_Semantic_Relatedness_with_Random_Graph_Walks/links/545115aa0cf24884d886f78d/Lexical-Semantic-Relatedness-with-Random-Graph-Walks.pdf">Hughes and Ramage, 2007</a>），词义消歧（<a target="_blank" rel="noopener" href="https://www.docin.com/p-1684834682.html">Tarau et al., 2005</a>），名称消歧（<a target="_blank" rel="noopener" href="https://www.researchgate.net/profile/Einat-Minkov/publication/221300530_Contextual_search_and_name_disambiguation_in_email_using_graphs/links/0fcfd50b869253d087000000/Contextual-search-and-name-disambiguation-in-email-using-graphs.pdf">Minkov et al., 2006</a>），查询扩展（<a target="_blank" rel="noopener" href="https://www.researchgate.net/profile/Kevyn-Collins-Thompson/publication/221615020_Query_expansion_using_random_walk_models/links/00b4952b5f65f16aed000000/Query-expansion-using-random-walk-models.pdf">Collins-Thompson and Callan, 2005</a>），关键词提取（<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37306360/article/details/74931980">Mihalcea and Tarau, 2004</a>），以及跨语言的信息检索（<a target="_blank" rel="noopener" href="https://www.researchgate.net/profile/Christof-Monz/publication/221299253_Iterative_translation_disambiguation_for_cross-language_information_retrieval/links/0deec51d7e8934ed99000000/Iterative-translation-disambiguation-for-cross-language-information-retrieval.pdf">Monz and Dorr, 2005</a>）。例如，给定一个语义网络和一个单词对，<a target="_blank" rel="noopener" href="https://www.researchgate.net/profile/Thad-Hughes/publication/221013095_Lexical_Semantic_Relatedness_with_Random_Graph_Walks/links/545115aa0cf24884d886f78d/Lexical-Semantic-Relatedness-with-Random-Graph-Walks.pdf">Hughes and Ramage (2007)</a>等人使用随机游走算法计算了一个特定单词的平稳分布，并将两个单词之间的距离作为图上随机游走分布之间的相似度来测量，对给定单词对中的每个输入单词都有偏差。为解决电子邮件数据上的名称消歧任务，<a target="_blank" rel="noopener" href="https://www.researchgate.net/profile/Einat-Minkov/publication/221300530_Contextual_search_and_name_disambiguation_in_email_using_graphs/links/0fcfd50b869253d087000000/Contextual-search-and-name-disambiguation-in-email-using-graphs.pdf">Minkov et al. (2006)</a>从大量邮件中建立了一个特定于电子邮件的项目的图（例如发送方、接收方、主题），并提出了一种“lazy”主题敏感的随机游走算法，这就引入了随机游走在给定节点上停止的概率。给定一个电子邮件图和一个在输入电子邮件中出现的模糊名称，就会对给定电子邮件的文本进行随机游走，通过选择收敛后在平稳分布中得分最高的人节点，将名称解析为正确的引用。要解决关键字提取任务，<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37306360/article/details/74931980">Mihalcea and Tarau (2004)</a>提出了对单词的共同出现图执行随机游走，并根据单词在平稳分布中的概率分数对文本中单词的重要性进行排序。</p>
+<h4 id="图聚类算法"><a class="markdownIt-Anchor" href="#图聚类算法"></a> 图聚类算法</h4>
+<p>**方法：**常见的图聚类算法包括谱聚类、随机游走聚类和min-cut聚类。谱聚类算法利用图的拉普拉斯矩阵的频谱（特征值），在使用K-means等现有算法进行聚类前进行降维。随机漫步聚类算法通过在图上进行t步随机漫步来操作，因此，每个节点被表示为一个概率向量，表示图中所有其它节点的t步生成概率。基于图聚类的目的，小的t值是更可取的，因为想捕捉局部结构信息而不是全局结构信息。min-cut算法也可用于将图划分为多个簇。</p>
+<p>**应用：**图聚类算法已成功地应用于解决文本聚类任务。例如，<a target="_blank" rel="noopener" href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=40E661FFE3908A159A6CDF974EEB23BE?doi=10.1.1.98.5366&amp;rep=rep1&amp;type=pdf">Erkan (2006)</a>提出利用有向生成图(包含n个文档节点)上的t步随机游走得到的n-dim概率分布作为语料库中每个文档的向量表示。然后，图形聚类算法可以使用这些文档表示来生成文档集群。</p>
+<h4 id="图匹配算法"><a class="markdownIt-Anchor" href="#图匹配算法"></a> 图匹配算法</h4>
+<p>**方法：**图匹配算法的目的是计算两个图之间的相似度。Graph Edit Distance 是最常用的测量两个图的不相似性的方法。它将距离计算为将一个图转化为另一个图所需的变化（即添加、删除、替换）的数量。</p>
+<p>**应用：**图匹配算法在文本推断任务中有所应用，该任务旨在决定一个给定的句子是否可以从文本中推断出来。例如，<a target="_blank" rel="noopener" href="https://www.docin.com/p-1566327980.html">Haghighi et al. (2005)</a>假设当假设图与文本图之间的匹配成本较低时，从文本中提取一个假设，从而应用图匹配算法来解决该问题。</p>
+<h4 id="标签传播算法"><a class="markdownIt-Anchor" href="#标签传播算法"></a> 标签传播算法</h4>
+<p>**方法：**标签传播算法（LPAs）是一类基于图的半监督算法，它将标签从有标签的数据点传播到之前没有标签的数据点。LPA是通过在图上迭代传播和聚集标签来操作的。在每次迭代中，每个节点都会根据其邻居节点拥有的标签改变其标签。因此，标签信息会在图中扩散。</p>
+<p>**应用：**LPA已被广泛应用于网络科学文献中，用于发现复杂网络中的社区结构。在NLP的文献中，LPA已成功地应用于词义消除歧义（<a target="_blank" rel="noopener" href="https://www.docin.com/p-1617442263.html">Niu et al., 2005</a>）以及情感分析（<a target="_blank" rel="noopener" href="https://aclanthology.org/W06-3808.pdf">Goldberg and Zhu, 2006</a>）。这些应用通常集中在标记数据稀缺的半监督学习设置上，并利用LPA算法将标签从有限的带标记的例子传播到大量相似的未带标签的例子中，并假设相似的例子应该有相似的标签。</p>
+<h4 id="与gnn的局限性与联系"><a class="markdownIt-Anchor" href="#与gnn的局限性与联系"></a> 与GNN的局限性与联系</h4>
+<p>**局限性：**首先，他们的表达能力有限。它们主要关注于捕获图的结构信息，但不考虑节点和边缘特征，这对许多NLP应用程序也非常重要。其次，传统的基于图的算法还没有一个统一的学习框架。不同的基于图的算法具有非常不同的属性和设置，并且只适用于某些特定的用例。</p>
+<p>**联系：**传统基于图的算法的上述局限性要求建立一个统一的基于图的学习框架，该框架对图结构和节点/边属性的建模具有强大的表达能力。GNN作为一类特殊的神经网络获得了越来越多的关注，它可以为任意的图结构数据建模。大多数GNN的变体可以被视为一个基于消息传递的学习框架。与传统的基于消息传递的算法（如LPA）不同的是，GNN的操作方式是通过几个神经层对节点/边特征进行转换、传播和聚合，从而学习更好的图表示。作为一个通用的基于图的学习框架，GNNs可以应用于各种与图相关的任务，如节点分类、链接预测和图分类。</p>
+<h2 id="图神经网络"><a class="markdownIt-Anchor" href="#图神经网络"></a> 图神经网络</h2>
+<p>本章直接将详细阐述GNN的基础于方法。</p>
+<h3 id="基础"><a class="markdownIt-Anchor" href="#基础"></a> 基础</h3>
+<p>GNN就是要学习每个节点的embedding，然后将节点嵌入聚合成图嵌入。节点嵌入可表示为：</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405100008.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405100008.png" class="lozad post-image">
+<p>其中A是邻接矩阵，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>H</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></msup><mo>=</mo><mo stretchy="false">{</mo><msubsup><mi>h</mi><mn>1</mn><mrow><mo stretchy="false">(</mo><mi>l</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></msubsup><mo>…</mo><msubsup><mi>h</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></msubsup><mo stretchy="false">}</mo><mo>∈</mo><msup><mi>R</mi><mrow><mi>n</mi><mo>×</mo><mi>d</mi></mrow></msup></mrow><annotation encoding="application/x-tex">H^{(l-1)} = \{ h_1^{(l-1)} \dots h_n^{(l-1)}\} \in R^{n \times d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.311108em;vertical-align:-0.26630799999999993em;"></span><span class="mopen">{</span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0448em;"><span style="top:-2.433692em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span><span style="top:-3.2198em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.26630799999999993em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0448em;"><span style="top:-2.5834080000000004em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span><span style="top:-3.2198em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.11659199999999997em;"><span></span></span></span></span></span></span><span class="mclose">}</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8491079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mbin mtight">×</span><span class="mord mathdefault mtight">d</span></span></span></span></span></span></span></span></span></span></span></span>表示GNN第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">l-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>层的embedding，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>H</mi><mi>l</mi></msup></mrow><annotation encoding="application/x-tex">H^l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.849108em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span></span></span></span></span></span></span></span></span></span></span>就是更新后的节点嵌入，d是h维度，在上述公式中，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>f</mi><mrow><mi>f</mi><mi>i</mi><mi>l</mi><mi>t</mi><mi>e</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">f_{filter}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10764em;">f</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>是图滤波器。每个具体模型的不同就是图滤波器的选择以及参数不同。图滤波器不会改变图结构，只是改进了节点嵌入。图滤波器层也被堆叠出L层，产生最终的节点嵌入。</p>
+<p>由于图滤波器不能改变图结构，因此受到CNN启发，引入了池化操作来汇聚节点嵌入。其目的就是把一个图及其节点嵌入作为输入，然后生成一个更小的图以及新图的节点嵌入。可表示为：</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405105628.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405105628.png" class="lozad post-image">
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405105925.png" alt="img" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405105925.png" class="lozad post-image"></p>
+<h3 id="方法"><a class="markdownIt-Anchor" href="#方法"></a> 方法</h3>
+<h4 id="图滤波器"><a class="markdownIt-Anchor" href="#图滤波器"></a> 图滤波器</h4>
+<p>主要有四种图滤波器，spectral-based graph fifilters（谱图滤波器）, spatial-based graph fifilters（空间图滤波器）, attention-based graph fifilters（注意力图滤波器）and recurrent-based graph fifilters（循环图滤波器）。</p>
+<p>其中谱图滤波器是基于谱图理论，空间图滤波器则是利用图上的空间邻近节点嵌入，一些谱滤波器还可以转换成空间滤波器。注意力图滤波器是受到<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34465668">自我注意机制</a>启发给相邻节点一个权重。循环图滤波器则引入了门控机制，模型的参数跨不同的GNN层共享。</p>
+<p>**<font color='cornflowerblue'>spectral-based graph fifilters（谱图滤波器）：</font>**经过发展，最终表达式如下</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405152446.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405152446.png" class="lozad post-image">
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405152829.png" alt="img" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405152829.png" class="lozad post-image"></p>
+<p><font color='cornflowerblue'><strong>spatial-based graph fifilters（空间图滤波器）：</strong></font>类似于CNN的卷积操作，一方面基于节点的空间关系操作图卷积，即空间图滤波器将目标节点与邻居节点的进行卷积，推导出目标节点的更新表示。另一方面，基于空间的图滤波器也有信息传递的idea，其本质就是沿着边传递节点信息。这里介绍了两种方法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44015059/article/details/107427047">MPNN（Gilmer et al., 2017）</a>、<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114210047">GraphSage（Hamilton et al., 2017a）</a>。</p>
+<p>**<font color='green'>MPNN：</font>**这里定义了由<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>f</mi><mi>U</mi></msub></mrow><annotation encoding="application/x-tex">f_U</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">U</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>f</mi><mi>M</mi></msub></mrow><annotation encoding="application/x-tex">f_M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">M</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>组成的复合函数，将图卷积视为一个消息传递过程，如运行K步消息传递迭代，将信息传播到K-hop邻近节点。</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405160453.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405160453.png" class="lozad post-image">
+<p>其中，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>h</mi><mi>i</mi><mn>0</mn></msubsup><mo>=</mo><msub><mi mathvariant="normal">x</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">h_i^{0} = \rm{x}_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.072772em;vertical-align:-0.258664em;"></span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-2.441336em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.258664em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord mathrm">x</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>f</mi><mi>U</mi></msub></mrow><annotation encoding="application/x-tex">f_U</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">U</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>f</mi><mi>M</mi></msub></mrow><annotation encoding="application/x-tex">f_M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">M</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>分别是具有可学习参数的更新以及消息聚合函数，在推导出每个节点的隐藏表示之后，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>h</mi><mi>i</mi><mrow><mo stretchy="false">(</mo><mi>L</mi><mo stretchy="false">)</mo></mrow></msubsup></mrow><annotation encoding="application/x-tex">h_i^{(L)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.321664em;vertical-align:-0.27686399999999994em;"></span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0448em;"><span style="top:-2.4231360000000004em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span><span style="top:-3.2198em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight">L</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.27686399999999994em;"><span></span></span></span></span></span></span></span></span></span>(L是卷积层数)可以传递到输出层进行节点级别的预测任务，或者读出函数执行图级别的预测任务。</p>
+<p>**<font color='green'>Graphsage：</font>**由于一个节点的邻域可多可少，所以在一个包括千万多节点的图中计算一个节点的所有邻居是低效的，因此Graphsage采用采样的方式来获得每个节点固定数量的邻居。</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405162731.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405162731.png" class="lozad post-image">
+<p>其中，N(vi)是节点vi的相邻节点的一个随机样本。聚合函数可以是任何对节点排序的排列不变的函数，如均值、和或最大运算。</p>
+<p><font color='cornflowerblue'><strong>attention-based graph fifilters（注意力图滤波器）：</strong></font>原始版本的GNN边连接时固定的，在图学习过程中也不动态调整连接信息。所以受到Transformer中multi-head注意力机制的启发，提出了Graph Attention Network（GAT），其通过在GNN体系结构中引入多头注意机制，该机制能够在执行消息传递时动态地学习边缘上的权重（即注意分数）。更具体地说，对图中每个目标节点对相邻节点的嵌入进行聚合时，多头注意机制考虑目标节点与每个相邻节点之间的语义相似度，在进行邻域聚合时，对重要的相邻节点分配较高的注意分数。对于第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>层，GAT因此使用了以下注意机制的公式：</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405202303.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405202303.png" class="lozad post-image">
+<p>其中，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mover accent="true"><mi>u</mi><mo>⃗</mo></mover><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">\vec{u}^{(l)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">u</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.20772em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mover accent="true"><mi>W</mi><mo>⃗</mo></mover><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">\vec{W}^{(l)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9663299999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9663299999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span></span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2355em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span></span></span></span>分别为第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>层的权值向量和权值矩阵，||为向量串联运算。请注意，N(vi)是vi的1跳邻域，包括它本身。在获得每对节点vi和vj的注意力得分αij后，更新后的节点嵌入可以计算为输入节点特征的线性组合，然后是一些非线性σ，表示为：</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405203000.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405203000.png" class="lozad post-image">
+<p>后来又采用了多种独立的自我注意机制，将其输出连接起来，产生以下节点嵌入：</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405203114.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405203114.png" class="lozad post-image">
+<p>而最后的GAT层(即带有L层的GNN的第L层)使用平均而不是连接来组合多头注意力输出。</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405203233.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405203233.png" class="lozad post-image">
+<p><font color='cornflowerblue'><strong>recurrent-based graph fifilters（循环图滤波器）：</strong></font>基于循环的图滤波器的一个典型例子是门控图神经网络(GGNN)滤波器。从典型的GNN到GGNN，最大的修改是使用门控循环单元(GRU），GGNN-滤波器还考虑了边类型和边方向。基于循环的滤波器在GGNN中的传播过程可以总结如下：</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405212201.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220405212201.png" class="lozad post-image">
+<p>其中<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>d</mi><mi>n</mi><mo>×</mo><mn>2</mn><mi>d</mi><mi>n</mi></mrow></msup></mrow><annotation encoding="application/x-tex">A \in \mathbb{R}^{dn \times 2dn}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">A</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8491079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord mathbb">R</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight">n</span><span class="mbin mtight">×</span><span class="mord mtight">2</span><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span></span></span></span></span>是一个决定图中节点如何相互通信的矩阵，n是节点个数。<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>A</mi><mi>i</mi></msub><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>d</mi><mo>×</mo><mn>2</mn><mi>d</mi></mrow></msup></mrow><annotation encoding="application/x-tex">A_i \in \mathbb{R}^{d \times 2d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8491079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord mathbb">R</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mbin mtight">×</span><span class="mord mtight">2</span><span class="mord mathdefault mtight">d</span></span></span></span></span></span></span></span></span></span></span></span>是A中对应节点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>v</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">v_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>的两列模块。第一个公式初始节点特征xi被填充了额外的零，以使输入的大小等于隐藏的大小。</p>
+<h4 id="图池化"><a class="markdownIt-Anchor" href="#图池化"></a> 图池化</h4>
+<p>图池化的目的就是生成针对图的下游任务生成图级别的表示，如果是以节点为中心的任务那么生成节点embedding就够了，可是如果是以图为中心的任务，那么就需要对图进行表示。图池化层可分为两类<strong>平面图池化和分层图池化</strong>，平面图池化是一个步骤直接由节点嵌入生成图级别的表示。层次图池化包含几个池化层，每个池化层都有一个图滤波器的堆栈。</p>
+<p><font color='cornflowerblue'><strong>Flat Graph Pooling（平面图池化）：</strong></font>理想情况下，聚合函数对其输入的排列是不变的，同时也要保证其表达能力。图池化操作一般就是最大池化或者平均池化，另一种比较流行的方法是遵循全连接层的转换实现最大或平均池化的变体，可以表示为：</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220406114713.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220406114713.png" class="lozad post-image">
+<p>其中i是节点嵌入的第i个通道，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>H</mi><mrow><mo>:</mo><mo separator="true">,</mo><mi>i</mi></mrow></msub><mo>∈</mo><msup><mi>R</mi><mrow><mi>n</mi><mo>×</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">H_{:,i} \in R^{n \times 1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.08125em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mrel mtight">:</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mbin mtight">×</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span>是一个向量，W是一个表示FCmax池化层的可训练参数矩阵，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">R_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>是一个标量，最终的图嵌入<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>R</mi><mo>=</mo><mo stretchy="false">[</mo><msub><mi>r</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>r</mi><mn>2</mn></msub><mo>⋯</mo><mtext> </mtext><mo separator="true">,</mo><msub><mi>r</mi><mi>n</mi></msub><msup><mo stretchy="false">]</mo><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">R = [ r_1,r_2 \cdots ,r_n]^T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.0913309999999998em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">]</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span></span></span></span>。一个强大但不常见的池化操作是<strong>BiLSTM聚合函数</strong>。</p>
+<p><font color='cornflowerblue'><strong>Hierarchical Graph Pooling（层次图池化）：</strong></font>该方法逐步压缩图，以学习图级别的嵌入，大致可分为两类。一类是分层池化层通过将最重要的节点作为粗化图（coarsen graph）的节点进行子采样。另一种是将节点组合成supernodes，然后将supernode作为粗化图的节点。可以概括为：（1）为粗化图生成图结构；（2）为粗化图生成节点特征。</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220406140312.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220406140312.png" class="lozad post-image">
+<p>其中A是输入的邻接矩阵，A’是粗化后的邻接矩阵。</p>
+<h2 id="nlp中的图构造方法"><a class="markdownIt-Anchor" href="#nlp中的图构造方法"></a> NLP中的图构造方法</h2>
+<p>上文介绍的是输入是图的时候的GNN方法，但是NLP输入的基本不会是图，所以将介绍静态图构造和动态图构造。</p>
+<h3 id="静态图构造"><a class="markdownIt-Anchor" href="#静态图构造"></a> 静态图构造</h3>
+<p>静态图构造就是在对原始输入的文本序列进行预处理时构造图结构。静态图包含了隐藏在原始文本中的不同领域/外部知识，用丰富的结构化信息增强了原始文本。文中将构造静态图的方法分了11类，假设一个文档由n个paragraphs组成，即<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>o</mi><mi>c</mi><mo>=</mo><mo stretchy="false">{</mo><mi>p</mi><mi>a</mi><mi>r</mi><msub><mi>a</mi><mn>1</mn></msub><mo>⋯</mo><mi>p</mi><mi>a</mi><mi>r</mi><msub><mi>a</mi><mi>n</mi></msub><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">doc = \{para_1 \cdots para_n  \}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">c</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathdefault">p</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">p</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">}</span></span></span></span>，然后一个paragraph又由m个sentences组成，一个sentence又由<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>个words组成。</p>
+<h4 id="静态图构造方法"><a class="markdownIt-Anchor" href="#静态图构造方法"></a> 静态图构造方法</h4>
+<h5 id="dependency-graph-construction依赖关系图构造"><a class="markdownIt-Anchor" href="#dependency-graph-construction依赖关系图构造"></a> Dependency Graph Construction（依赖关系图构造）</h5>
+<ol>
+<li>依赖关系：给定特定段落中的句子，获得每个句子的依赖关系解析树（dependency parsing tree），这里可以通过使用NLP解析工具（例如Stanford CoreNLP）。依赖关系表示为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">(</mo><msub><mi>w</mi><mi>i</mi></msub><mo separator="true">,</mo><mi>r</mi><mi>e</mi><msub><mi>l</mi><mrow><mi>i</mi><mo separator="true">,</mo><mi>j</mi></mrow></msub><mo separator="true">,</mo><msub><mi>w</mi><mi>j</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(w_i,rel_{i,j},w_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，其中wi，wj是有一个边类型<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi><mi>e</mi><msub><mi>l</mi><mrow><mi>i</mi><mo separator="true">,</mo><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">rel_{i,j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>连接的两个word节点。然后定义一个关系集<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mrow><mi>d</mi><mi>e</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_{dep}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">p</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>。</li>
+<li>Sequential Relations（顺序关系）：顺序关系对原始段落中的相邻关系进行编码，即对于依赖图的构造，定义了顺序关系集<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mrow><mi>s</mi><mi>e</mi><mi>q</mi></mrow></msub><mo>⊆</mo><mi>V</mi><mo>×</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">R_{seq} \subseteq V \times V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">⊆</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span></span></span></span>，其中，V是基本元素（单词）集合。那么对于每个序列关系<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">(</mo><msub><mi>w</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>w</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mo stretchy="false">)</mo><mo>∈</mo><msub><mi>R</mi><mrow><mi>s</mi><mi>e</mi><mi>q</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(w_i,w_{i+1}) \in R_{seq}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>，就意味着<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">w_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>在给定的段落中与<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">w_{i+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span>是相邻的。</li>
+<li>依赖图：给定一个片段para，有它的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mrow><mi>d</mi><mi>e</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_{dep}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">p</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mrow><mi>s</mi><mi>e</mi><mi>q</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_{seq}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>，那么就可以构建图，假设<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>v</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>v</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">v_i,v_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>分别对应<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>w</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">w_i,w_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>，然后可根据<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mrow><mi>d</mi><mi>e</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_{dep}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">p</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>构建两个节点间边的类型，然后也要根据<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mrow><mi>s</mi><mi>e</mi><mi>q</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_{seq}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>构建两个节点之间是否有sequential类型的边。</li>
+</ol>
+<h5 id="constituency-graph-construction选区图构造"><a class="markdownIt-Anchor" href="#constituency-graph-construction选区图构造"></a> Constituency Graph Construction（选区图构造）</h5>
+<p>依赖图关注的是单词与单词之间的关系，而选区图则是短语级别的。</p>
+<ol>
+<li>选区关系：选取关系遵循短语结构以及语法的关系，一般来说，选取关系来源于主语（名词短语NP）-谓语（动词短语VP）关系。同时，选取解析树还能区分终端节点和非终端节点。</li>
+<li>选区图：与依赖关系图类似，该图有非终端节点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>V</mi><mrow><mi>n</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{nt}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.22222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>以及终端节点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>V</mi><mrow><mi>w</mi><mi>o</mi><mi>r</mi><mi>d</mi><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{words}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.22222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight">s</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，然后也给定选区边和顺序边。</li>
+</ol>
+<h5 id="amr-graph-constructionamr图构造"><a class="markdownIt-Anchor" href="#amr-graph-constructionamr图构造"></a> AMR Graph Construction（AMR图构造）</h5>
+<p>AMR图是有根的、标记的、有向的、无环图，被广泛用于表示非结构化和具体自然文本的抽象概念之间的高级语义关系。与句法特性不同，AMR是一种高级的语义抽象。更具体地说，语义相似的不同句子可能共享相同的AMR解析结果，与之前引入的依赖树和选区树类似，AMR图是从AMR解析树派生出来的。</p>
+<ol>
+<li>AMR关系，这里有两类节点，一种是名称节点，它是节点样例的具体值；另一种概念要么是英语单词比如说（“boy”），要么是PropBank框架（例如“want-01”），要么是特殊关键词。名称节点是唯一的标识，而概念节点则由不同的实例所共享，节点间的边关系记作<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">(</mo><msub><mi>n</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>r</mi><mrow><mi>i</mi><mo separator="true">,</mo><mi>j</mi></mrow></msub><mo separator="true">,</mo><msub><mi>n</mi><mi>j</mi></msub><mo stretchy="false">)</mo><mo>∈</mo><msub><mi>R</mi><mrow><mi>a</mi><mi>m</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(n_i,r_{i,j},n_j) \in R_{amr}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>.</li>
+<li>AMR图，与上一个类似，对于每一个<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">(</mo><msub><mi>n</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>r</mi><mrow><mi>i</mi><mo separator="true">,</mo><mi>j</mi></mrow></msub><mo separator="true">,</mo><msub><mi>n</mi><mi>j</mi></msub><mo stretchy="false">)</mo><mo>∈</mo><msub><mi>R</mi><mrow><mi>a</mi><mi>m</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(n_i,r_{i,j},n_j) \in R_{amr}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，先添加节点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>v</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">v_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>对应<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>n</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">n_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>v</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">v_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>对应<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>n</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">n_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>。然后添加一条边类型<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>r</mi><mrow><mi>i</mi><mo separator="true">,</mo><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">r_{i,j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>。</li>
+</ol>
+<h5 id="information-extraction-graph-construction信息提取图构造"><a class="markdownIt-Anchor" href="#information-extraction-graph-construction信息提取图构造"></a> Information Extraction Graph Construction（信息提取图构造）</h5>
+<p>信息提取图(IEGraph)旨在提取结构信息来表示自然句子之间的高级信息，如基于文本的文档。</p>
+<ol>
+<li>
+<p>共指消解（coreference resolution），目的是找到在文本序列中引用相同实体的表示（expressions），例如下图中，名称“Pual”、名词术语“He”和“ a renowned computer scientist”可以指同一个物体（人）。</p>
+ <img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220407110727.png" alt="img" style="zoom:60%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220407110727.png" class="lozad post-image">
+<p>许多NLP工具，如OpenIE提供了共同参考分辨率功能来实现这一目标。我们将共引用簇C表示为引用同一对象的一组短语。给定一段，可以得到从非结构化数据中提取的共引用集C={C1、C2、…，Cn}。</p>
+</li>
+<li>
+<p>IE关系，首先用信息提取系统提取三元组（如OpenIE），每个三元组（主语、谓语、宾语）为一个关系。它表示为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">(</mo><msub><mi>n</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>r</mi><mrow><mi>i</mi><mo separator="true">,</mo><mi>j</mi></mrow></msub><mo separator="true">,</mo><msub><mi>n</mi><mi>j</mi></msub><mo stretchy="false">)</mo><mo>∈</mo><msub><mi>R</mi><mrow><mi>i</mi><mi>e</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(n_i,r_{i,j},n_j) \in R_{ie}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，如果说两个三月组只有一个参数不一样，其他参数相同，那么只保留最长的那个。</p>
+</li>
+<li>
+<p>IE图构造，与上述构造方法大致相同，这里边是谓词类型的边。同时，对于每一个共指簇<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>C</mi><mi>i</mi></msub><mo>∈</mo><mi>C</mi></mrow><annotation encoding="application/x-tex">C_i \in C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span></span></span></span>，就可以把所有共指短语变成一个节点，这将大大减少节点数量，而且只保留一个节点来消除歧义。</p>
+</li>
+</ol>
+<h5 id="discourse-graph-construction语篇图构建"><a class="markdownIt-Anchor" href="#discourse-graph-construction语篇图构建"></a> Discourse Graph Construction（语篇图构建）</h5>
+<p>当候选文档太长时，许多NLP任务都会遭受长时间的依赖挑战。语篇图描述了两个句子是如何在逻辑上相互联系的，它被证明可以有效地应对这一挑战。</p>
+<ol>
+<li>语篇关系，语篇关系来源于语篇分析，目的是识别一组句子上的句子排序约束，给定两句句子<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi>e</mi><mi>n</mi><msub><mi>t</mi><mi>i</mi></msub><mo separator="true">,</mo><mi>s</mi><mi>e</mi><mi>n</mi><msub><mi>t</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">sent_i,sent_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9011879999999999em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>，可以定义语篇关系<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">(</mo><mi>s</mi><mi>e</mi><mi>n</mi><msub><mi>t</mi><mi>i</mi></msub><mo separator="true">,</mo><mi>s</mi><mi>e</mi><mi>n</mi><msub><mi>t</mi><mi>j</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(sent_i,sent_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，表示句子<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi>e</mi><mi>n</mi><msub><mi>t</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">sent_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9011879999999999em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>可以放在<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi>e</mi><mi>n</mi><msub><mi>t</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">sent_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76508em;vertical-align:-0.15em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>之后。所以，对于给定的一个文档<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>o</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">doc</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">c</span></span></span></span>，可以先将文档分割为句子集<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi><mo>=</mo><mo stretchy="false">{</mo><mi>s</mi><mi>e</mi><mi>n</mi><msub><mi>t</mi><mn>1</mn></msub><mo separator="true">,</mo><mi>s</mi><mi>e</mi><mi>n</mi><msub><mi>t</mi><mn>2</mn></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>s</mi><mi>e</mi><mi>n</mi><msub><mi>t</mi><mi>m</mi></msub><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">V = \{ sent_1,sent_2,\dots,sent_m\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">}</span></span></span></span>，然后应用语篇关系得到语篇关系集<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mrow><mi>s</mi><mi>e</mi><mi>p</mi></mrow></msub><mo>⊆</mo><mi>V</mi><mo>×</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">R_{sep} \subseteq V \times V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">p</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">⊆</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span></span></span></span>.</li>
+<li>语篇图，同理，只不过这里是将句子当作节点，然后根据关系添加<strong>有向边</strong>。</li>
+</ol>
+<h5 id="knowledge-graph-construction知识图构造"><a class="markdownIt-Anchor" href="#knowledge-graph-construction知识图构造"></a> Knowledge Graph Construction（知识图构造）</h5>
+<p>捕获实体和关系的知识图(KG)可以极大地促进许多NLP应用程序中的学习和推理。一般来说，kg根据它们的图构造方法可以分为两大类。1）将KG视为是非结构化数据（如文档）的小型的（compact）、可解释的中间表示，类似于IE图；2）合并现有知识库，以进一步提升下游任务性能。本文主要介绍第二种。</p>
+<p>形式上，也将三元组<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">(</mo><msub><mi>e</mi><mn>1</mn></msub><mo separator="true">,</mo><mi>r</mi><mi>e</mi><mi>l</mi><mo separator="true">,</mo><msub><mi>e</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(e_1,rel,e_2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>定义为知识库的基本元素。其中<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>e</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">e_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>是源实体，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>e</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">e_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>是目标实体，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">rel</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>是关系类型。同样也是在KG图中添加节点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>v</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>v</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">v_1,v_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>对应<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>e</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>e</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">e_1,e_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，然后添加类型为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi><mi>e</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">rel</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>的一条<strong>有向边</strong>。</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220407120140.png" alt="img" style="zoom:70%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220407120140.png" class="lozad post-image">
+<p>KG图总是被视为输入的一部分，虽然它可以作为一种数据增强的方式，但并不适合整张图进行输入。相比之下，如上图人们通常从给定的查询构建子图。</p>
+<p>在构造时，举一个具有代表性的方法，首先时在给定的查询中获取terms实例，然后通过一些匹配算法，将其与KG图中的概念连接起来，下一步就是获取KG节点中的一跳邻居，当然也可以利用一些模型如PageRank等先计算一些节点与邻居节点的相关性等，然后去一些无用边。</p>
+<h5 id="coreference-graph-construction共指图构造"><a class="markdownIt-Anchor" href="#coreference-graph-construction共指图构造"></a> Coreference Graph Construction（共指图构造）</h5>
+<p>在语言学中，如果一个给定的段落中的两个或多个术语引用同一对象，就会出现共同引用，这样有助于更好的理解语料库的复杂结构和逻辑，消除歧义。接下来将重点讨论由m个句子组成的段落对段的共引用图构造。虽然它类似于IE图的第一步，但共引用图将显式地通过图来建模共引用关系，而不是折叠成一个节点。</p>
+<ol>
+<li>共指关系，和IE图的一样，建立共指簇C。</li>
+<li>共指图建立在共指关系集<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mrow><mi>c</mi><mi>o</mi><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_{coref}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.10764em;">f</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>上，根据节点类型可分为两类，1）短语；2)单词。每一类都是根据节点连接一条无向边，区别是如果节点是短语的话，连接的是第一个单词。</li>
+</ol>
+<h5 id="similarity-graph-construction相似图构造"><a class="markdownIt-Anchor" href="#similarity-graph-construction相似图构造"></a> Similarity Graph Construction（相似图构造）</h5>
+<p>相似度图构造旨在量化节点之间的相似度，构建是在预处理的过程中进行的。</p>
+<ol>
+<li>相似度图，给定一个语料库C，图的节点可以被定义为不同的级别，比如实体，句子和文档等等。然后根据各种机制来计算节点特征，然后也可以通过余弦相似度等指标来计算节点之间的相似度，并用于表示节点对的边权值。</li>
+<li>稀疏机制，初始的相似度图很密集，很多权值非常小甚至会被认为是噪声，所以可以使用稀疏方法，要么保留K个最大的权值边，要么就是删掉小于特定阈值的边。</li>
+</ol>
+<h5 id="co-occurrence-graph-construction共现图构造"><a class="markdownIt-Anchor" href="#co-occurrence-graph-construction共现图构造"></a> Co-occurrence Graph Construction（共现图构造）</h5>
+<p>共现图旨在捕捉文本中单词之间的共现关系,共现关系是指在一个固定大小的上下文窗口中，两个单词同时出现的频率，它是捕捉语料库中单词之间语义关系的一个重要特征。</p>
+<ol>
+<li>共现关系，由给定的语料库C的共现矩阵定义，对于一个特定的段落para由m个句子组成，共现矩阵描述了单词是如何同时出现的。可以将矩阵共现表示为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>M</mi><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi mathvariant="normal">∣</mi><mi>V</mi><mi mathvariant="normal">∣</mi><mo>×</mo><mi mathvariant="normal">∣</mi><mi>V</mi><mi mathvariant="normal">∣</mi></mrow></msup></mrow><annotation encoding="application/x-tex">M \in \mathbb R ^{ |V| \times |V|}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∣</span><span class="mord mathdefault mtight" style="margin-right:0.22222em;">V</span><span class="mord mtight">∣</span><span class="mbin mtight">×</span><span class="mord mtight">∣</span><span class="mord mathdefault mtight" style="margin-right:0.22222em;">V</span><span class="mord mtight">∣</span></span></span></span></span></span></span></span></span></span></span></span>，其中<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">∣</mi><mi>V</mi><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">|V|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mord">∣</span></span></span></span>是C的词汇表大小。<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>M</mi><mrow><msub><mi>w</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>w</mi><mi>j</mi></msub></mrow></msub></mrow><annotation encoding="application/x-tex">M_{w_i,w_j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.03065em;vertical-align:-0.34731999999999996em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.02691em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.02691em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.34731999999999996em;"><span></span></span></span></span></span></span></span></span></span>描述了在单词<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>w</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">w_i,w_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>在语料库C中的固定窗口滑动时，共同出现的次数。获得共现矩阵之后可以有两种方法计算单词之间的权重，1）共现频率；2）PMI。</li>
+<li>共现图，已知节点和边，构造方法同上。</li>
+</ol>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220407214956.png" alt="img" style="zoom:67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220407214956.png" class="lozad post-image">
+<h5 id="topic-graph-construction主题图构造"><a class="markdownIt-Anchor" href="#topic-graph-construction主题图构造"></a> Topic Graph Construction（主题图构造）</h5>
+<p>主题图建立在多个文档之上，旨在建模不同主题之间的高级语义关系。</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220407215146.png" alt="img" style="zoom:67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220407215146.png" class="lozad post-image">
+<p><strong>App-driven Graph Construction（应用驱动图构造）</strong></p>
+<p>应用程序驱动的图指的是专门为特定的NLP任务而设计的图，在一些NLP任务中，通常使用特定于应用程序的方法通过结构化形成来表示非结构化数据。例如SQL语言可以用SQL解析树来表示，进而转换成SQL图。因此将在后面将讨论图构造方法如何应用于流行的NLP任务。</p>
+
+  </div>
+  <div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/2022/03/15/Unified%20Conversational%20Recommendation%20Policy%20Learning%20via%20Graph-based%20Reinforcement%20Learning/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">Prev</div>
+          
+            <div class="nav-title">Unified Conversational Recommendation Policy Learning via Graph-based Reinforcement Learning </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2022/03/10/book-mayao-02-md/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">Next</div>
+          
+            <div class="nav-title">图论基础 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+  <div 
+    class="card card-content comment-card" 
+    style="margin-top: 16px;">
+    <div class="comment-card-title">评论</div>
+    
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'ViB7mKqmb9rnWMl4cYC4Mkvh-gzGzoHsz',
+        appKey: 'BvKzqYIzw5yjHQ6uwMtKwXQS',
+        placeholder: 'say one&#39;s piece',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: false,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+  </div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text"> 摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%9A%84%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%AE%97%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text"> 基于图的自然语言处理算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nlp%E4%BB%8E%E5%9B%BE%E7%9A%84%E8%A7%86%E8%A7%92"><span class="toc-number">3.1.</span> <span class="toc-text"> NLP：从图的视角</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%9A%84%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text"> 基于图的自然语言处理方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E8%A1%8C%E8%B5%B0%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.1.</span> <span class="toc-text"> 随机行走算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.2.</span> <span class="toc-text"> 图聚类算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E5%8C%B9%E9%85%8D%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.3.</span> <span class="toc-text"> 图匹配算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.4.</span> <span class="toc-text"> 标签传播算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8Egnn%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7%E4%B8%8E%E8%81%94%E7%B3%BB"><span class="toc-number">3.2.5.</span> <span class="toc-text"> 与GNN的局限性与联系</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-number">4.</span> <span class="toc-text"> 图神经网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-number">4.1.</span> <span class="toc-text"> 基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text"> 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="toc-number">4.2.1.</span> <span class="toc-text"> 图滤波器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E6%B1%A0%E5%8C%96"><span class="toc-number">4.2.2.</span> <span class="toc-text"> 图池化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nlp%E4%B8%AD%E7%9A%84%E5%9B%BE%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text"> NLP中的图构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.</span> <span class="toc-text"> 静态图构造</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%9B%BE%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">5.1.1.</span> <span class="toc-text"> 静态图构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#dependency-graph-construction%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.1.</span> <span class="toc-text"> Dependency Graph Construction（依赖关系图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#constituency-graph-construction%E9%80%89%E5%8C%BA%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.2.</span> <span class="toc-text"> Constituency Graph Construction（选区图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#amr-graph-constructionamr%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.3.</span> <span class="toc-text"> AMR Graph Construction（AMR图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#information-extraction-graph-construction%E4%BF%A1%E6%81%AF%E6%8F%90%E5%8F%96%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.4.</span> <span class="toc-text"> Information Extraction Graph Construction（信息提取图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#discourse-graph-construction%E8%AF%AD%E7%AF%87%E5%9B%BE%E6%9E%84%E5%BB%BA"><span class="toc-number">5.1.1.5.</span> <span class="toc-text"> Discourse Graph Construction（语篇图构建）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#knowledge-graph-construction%E7%9F%A5%E8%AF%86%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.6.</span> <span class="toc-text"> Knowledge Graph Construction（知识图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#coreference-graph-construction%E5%85%B1%E6%8C%87%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.7.</span> <span class="toc-text"> Coreference Graph Construction（共指图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#similarity-graph-construction%E7%9B%B8%E4%BC%BC%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.8.</span> <span class="toc-text"> Similarity Graph Construction（相似图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#co-occurrence-graph-construction%E5%85%B1%E7%8E%B0%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.9.</span> <span class="toc-text"> Co-occurrence Graph Construction（共现图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#topic-graph-construction%E4%B8%BB%E9%A2%98%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.10.</span> <span class="toc-text"> Topic Graph Construction（主题图构造）</span></a></li></ol></li></ol></li></ol></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/img/head.png" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">学习笔记</p>
+<p class="author-description">Student of NEAU</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>8</span>
+    <span>Posts</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>4</span>
+    <span>Categories</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>8</span>
+    <span>Tags</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://space.bilibili.com/407520053">
+          <i class="iconfont icon-bilibili society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://weibo.com/u/5995911076">
+          <i class="iconfont icon-sina society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a href="/img/wechat.png">
+          <i class="iconfont icon-wechat society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://github.com/codewithlrz">
+          <i class="iconfont icon-github society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text"> 摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%9A%84%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%AE%97%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text"> 基于图的自然语言处理算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nlp%E4%BB%8E%E5%9B%BE%E7%9A%84%E8%A7%86%E8%A7%92"><span class="toc-number">3.1.</span> <span class="toc-text"> NLP：从图的视角</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%9A%84%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text"> 基于图的自然语言处理方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E8%A1%8C%E8%B5%B0%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.1.</span> <span class="toc-text"> 随机行走算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.2.</span> <span class="toc-text"> 图聚类算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E5%8C%B9%E9%85%8D%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.3.</span> <span class="toc-text"> 图匹配算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.4.</span> <span class="toc-text"> 标签传播算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8Egnn%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7%E4%B8%8E%E8%81%94%E7%B3%BB"><span class="toc-number">3.2.5.</span> <span class="toc-text"> 与GNN的局限性与联系</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-number">4.</span> <span class="toc-text"> 图神经网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-number">4.1.</span> <span class="toc-text"> 基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text"> 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="toc-number">4.2.1.</span> <span class="toc-text"> 图滤波器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E6%B1%A0%E5%8C%96"><span class="toc-number">4.2.2.</span> <span class="toc-text"> 图池化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nlp%E4%B8%AD%E7%9A%84%E5%9B%BE%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text"> NLP中的图构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.</span> <span class="toc-text"> 静态图构造</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%9B%BE%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">5.1.1.</span> <span class="toc-text"> 静态图构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#dependency-graph-construction%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.1.</span> <span class="toc-text"> Dependency Graph Construction（依赖关系图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#constituency-graph-construction%E9%80%89%E5%8C%BA%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.2.</span> <span class="toc-text"> Constituency Graph Construction（选区图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#amr-graph-constructionamr%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.3.</span> <span class="toc-text"> AMR Graph Construction（AMR图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#information-extraction-graph-construction%E4%BF%A1%E6%81%AF%E6%8F%90%E5%8F%96%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.4.</span> <span class="toc-text"> Information Extraction Graph Construction（信息提取图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#discourse-graph-construction%E8%AF%AD%E7%AF%87%E5%9B%BE%E6%9E%84%E5%BB%BA"><span class="toc-number">5.1.1.5.</span> <span class="toc-text"> Discourse Graph Construction（语篇图构建）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#knowledge-graph-construction%E7%9F%A5%E8%AF%86%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.6.</span> <span class="toc-text"> Knowledge Graph Construction（知识图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#coreference-graph-construction%E5%85%B1%E6%8C%87%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.7.</span> <span class="toc-text"> Coreference Graph Construction（共指图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#similarity-graph-construction%E7%9B%B8%E4%BC%BC%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.8.</span> <span class="toc-text"> Similarity Graph Construction（相似图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#co-occurrence-graph-construction%E5%85%B1%E7%8E%B0%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.9.</span> <span class="toc-text"> Co-occurrence Graph Construction（共现图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#topic-graph-construction%E4%B8%BB%E9%A2%98%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.10.</span> <span class="toc-text"> Topic Graph Construction（主题图构造）</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>Categories
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/MIT-CS224W-%E5%9B%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+        <div class="categories-list-item">
+          MIT-CS224W-图机器学习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/">
+        <div class="categories-list-item">
+          论文解读
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+        <div class="categories-list-item">
+          图表示学习笔记
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E9%A9%AC%E8%80%80%E6%B1%A4%E7%BB%A7%E8%89%AF-%E7%AC%94%E8%AE%B0/">
+        <div class="categories-list-item">
+          马耀汤继良-笔记
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>hot tags
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/GNN/" 
+        title="GNN">
+        <div class="tags-list-item">GNN</div>
+      </a>
+    
+      <a 
+        href="/tags/MIT/" 
+        title="MIT">
+        <div class="tags-list-item">MIT</div>
+      </a>
+    
+      <a 
+        href="/tags/2019/" 
+        title="2019">
+        <div class="tags-list-item">2019</div>
+      </a>
+    
+      <a 
+        href="/tags/%E8%AE%BA%E6%96%87/" 
+        title="论文">
+        <div class="tags-list-item">论文</div>
+      </a>
+    
+      <a 
+        href="/tags/%E7%AC%94%E8%AE%B0/" 
+        title="笔记">
+        <div class="tags-list-item">笔记</div>
+      </a>
+    
+      <a 
+        href="/tags/%E6%95%99%E6%9D%90/" 
+        title="教材">
+        <div class="tags-list-item">教材</div>
+      </a>
+    
+      <a 
+        href="/tags/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0/" 
+        title="图表示学习">
+        <div class="tags-list-item">图表示学习</div>
+      </a>
+    
+      <a 
+        href="/tags/CRS/" 
+        title="CRS">
+        <div class="tags-list-item">CRS</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text"> 摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%9A%84%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%AE%97%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text"> 基于图的自然语言处理算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nlp%E4%BB%8E%E5%9B%BE%E7%9A%84%E8%A7%86%E8%A7%92"><span class="toc-number">3.1.</span> <span class="toc-text"> NLP：从图的视角</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%9A%84%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text"> 基于图的自然语言处理方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E8%A1%8C%E8%B5%B0%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.1.</span> <span class="toc-text"> 随机行走算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.2.</span> <span class="toc-text"> 图聚类算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E5%8C%B9%E9%85%8D%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.3.</span> <span class="toc-text"> 图匹配算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.4.</span> <span class="toc-text"> 标签传播算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8Egnn%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7%E4%B8%8E%E8%81%94%E7%B3%BB"><span class="toc-number">3.2.5.</span> <span class="toc-text"> 与GNN的局限性与联系</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-number">4.</span> <span class="toc-text"> 图神经网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-number">4.1.</span> <span class="toc-text"> 基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text"> 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="toc-number">4.2.1.</span> <span class="toc-text"> 图滤波器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E6%B1%A0%E5%8C%96"><span class="toc-number">4.2.2.</span> <span class="toc-text"> 图池化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nlp%E4%B8%AD%E7%9A%84%E5%9B%BE%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text"> NLP中的图构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.</span> <span class="toc-text"> 静态图构造</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%9B%BE%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">5.1.1.</span> <span class="toc-text"> 静态图构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#dependency-graph-construction%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.1.</span> <span class="toc-text"> Dependency Graph Construction（依赖关系图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#constituency-graph-construction%E9%80%89%E5%8C%BA%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.2.</span> <span class="toc-text"> Constituency Graph Construction（选区图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#amr-graph-constructionamr%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.3.</span> <span class="toc-text"> AMR Graph Construction（AMR图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#information-extraction-graph-construction%E4%BF%A1%E6%81%AF%E6%8F%90%E5%8F%96%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.4.</span> <span class="toc-text"> Information Extraction Graph Construction（信息提取图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#discourse-graph-construction%E8%AF%AD%E7%AF%87%E5%9B%BE%E6%9E%84%E5%BB%BA"><span class="toc-number">5.1.1.5.</span> <span class="toc-text"> Discourse Graph Construction（语篇图构建）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#knowledge-graph-construction%E7%9F%A5%E8%AF%86%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.6.</span> <span class="toc-text"> Knowledge Graph Construction（知识图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#coreference-graph-construction%E5%85%B1%E6%8C%87%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.7.</span> <span class="toc-text"> Coreference Graph Construction（共指图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#similarity-graph-construction%E7%9B%B8%E4%BC%BC%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.8.</span> <span class="toc-text"> Similarity Graph Construction（相似图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#co-occurrence-graph-construction%E5%85%B1%E7%8E%B0%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.9.</span> <span class="toc-text"> Co-occurrence Graph Construction（共现图构造）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#topic-graph-construction%E4%B8%BB%E9%A2%98%E5%9B%BE%E6%9E%84%E9%80%A0"><span class="toc-number">5.1.1.10.</span> <span class="toc-text"> Topic Graph Construction（主题图构造）</span></a></li></ol></li></ol></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>Recent Posts
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-08</div>
+        <a href="/2022/04/08/Multiple%20Choice%20Questions%20based%20Multi-Interest%20Policy%20Learning%20for%20Conversational%20Recommendation/"><div class="recent-posts-item-content">Recommendation</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-19</div>
+        <a href="/2022/03/19/MIT-01-md/"><div class="recent-posts-item-content">CS224W-01-Intro</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/book-GRL-01/"><div class="recent-posts-item-content">图表示学习基础</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/Unified%20Conversational%20Recommendation%20Policy%20Learning%20via%20Graph-based%20Reinforcement%20Learning/"><div class="recent-posts-item-content">Unified Conversational Recommendation Policy Learning via Graph-based Reinforcement Learning</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          Code With Lrz
+        </a>
+      </div>
+    </div>
+
+    
+    
+    
+      <div class="BbeiAn-info">
+        <a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">黑ICP备2021006621号 </a>
+      </div>
+      
+        <div class="BbeiAn-info">
+          <span style="padding-left: 25px;background: url(/img/beian.png) no-repeat left center"></span>
+          <a target="_blank" rel="noopener" href="http://beian.miit.gov.cn "> 
+          </a>
+          <br />
+        </div>
+      
+    
+    
+</footer> 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+      
+
+  
+  
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+  
+ 
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>

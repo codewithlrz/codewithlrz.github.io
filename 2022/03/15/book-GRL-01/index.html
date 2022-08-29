@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Hexo">
+  <link 
+    rel="icon" 
+    href="/img/logo.png">
+  <title>图表示学习基础</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="图表示学习基础">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2022/03/15/book-GRL-01/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/img/head.png">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2022-03-15">
+      <meta 
+        property="og:article:modified_time" 
+        content="2022-04-01">
+      <meta 
+        property="og:article:author" 
+        content="学习笔记">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="GNN">
+        
+          <meta 
+            property="og:article:tag" 
+            content="笔记">
+        
+          <meta 
+            property="og:article:tag" 
+            content="图表示学习">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+      
+      
+      
+      
+        
+        
+        
+        <script>
+          function prismThemeChange() {
+            if(document.getElementById('theme-color').dataset.mode === 'dark') {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-tomorrow.min.css', '[data-prism]', 'prism-tomorrow');
+              } else {
+                loadCSS('/js/lib/prism/prism-tomorrow.min.css', 'prism', 'prism-tomorrow');
+              }
+            } else {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism.min.css', '[data-prism]', 'prism');
+              } else {
+                loadCSS('/js/lib/prism/prism.min.css', 'prism', 'prism');
+              }
+            }
+          }
+          prismThemeChange()
+        </script>
+      
+      
+        
+        <link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+      
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+        prismThemeChange();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+    
+    <link rel="prefetch" href="//cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" as="script">
+  
+  
+    
+    <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/img/logo.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Code With Lrz</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          主页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          书籍
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      图表示学习基础
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-03-15T07:05:27.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2022-03-15</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/categories/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" 
+          class="post-meta-link">
+          图表示学习笔记
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>1.5k words</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/GNN/" 
+            class="post-meta-link">
+            GNN
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/%E7%AC%94%E8%AE%B0/" 
+            class="post-meta-link">
+            笔记
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0/" 
+            class="post-meta-link">
+            图表示学习
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="引言（Introduction）"><a href="#引言（Introduction）" class="headerlink" title="引言（Introduction）"></a>引言（Introduction）</h2><h3 id="什么是图（What-Is-A-Graph）"><a href="#什么是图（What-Is-A-Graph）" class="headerlink" title="什么是图（What Is  A Graph）"></a>什么是图（What Is  A Graph）</h3><p>图的定义以及一些性质可参考<a target="_blank" rel="noopener" href="http://codewithlrz.cn/2021/11/24/book-mayao-02-md/">图论基础</a>。</p>
+<h4 id="多关系图（Multi-relational-Graphs）"><a href="#多关系图（Multi-relational-Graphs）" class="headerlink" title="多关系图（Multi-relational Graphs）"></a>多关系图（Multi-relational Graphs）</h4><p>一个图的类型可以根据其边的性质进行划分，如有向图，无向图，加权图等，那么图中含有不同类型的边的图，就可以是多关系图。</p>
+<p>举个例子，在吃药物的过程中，不同种的药物之间会有不同的反应，因此每一条边的类型都会有很大差异，如图1。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/src=http___5b0988e595225.cdn.sohucs.com_q_70,c_zoom,w_640_images_20171103_c721f2b1001945ffa9aaec39bfe8b5b2.jpeg&refer=http___5b0988e595225.cdn.sohucs.jpg" alt="图1" style="zoom: 67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/src=http___5b0988e595225.cdn.sohucs.com_q_70,c_zoom,w_640_images_20171103_c721f2b1001945ffa9aaec39bfe8b5b2.jpeg&refer=http___5b0988e595225.cdn.sohucs.jpg" class="lozad post-image"></p>
+<p>那么，就要扩展一种新的边表示方法，添加边的类型$\tau$，例如在简单图中表示一条边为$(u,v)$,其中$u,v$为图中的节点。那么表示多关系图的边就可以为$\boldsymbol{ (u,\tau,v) \in E}$。</p>
+<p>同时邻接矩阵也要进行改变，从原来的二维变为三维$\boldsymbol{ A \in \mathbb{R}^{ |V| \times |R| \times |V|}}$，其中$R$是一组关系的集合。</p>
+<p>在多关系图中也有两个很重要的子集，<strong>异质图</strong>（Heterogeneous graph）和<strong>多维图</strong>（Multiplex graph）</p>
+<h5 id="异质图（Heterogeneous-graph）"><a href="#异质图（Heterogeneous-graph）" class="headerlink" title="异质图（Heterogeneous graph）"></a>异质图（Heterogeneous graph）</h5><p>在异质图中，可以将节点划分为多种类型，每一个节点都对应着一种类型。</p>
+<p>表示为 构图中的每一条边都可能会被特定的节点所约束，换句话说，特定的边只会连接特定的节点。举一个例子，假设在一张医学类型的图上有三类节点，分别是蛋白质，药物和疾病。那么在其中代表“治疗”的边只会出现在药物和疾病两类节点之间，类似的代表“多药副作用”的边只会出现在两个药物节点之间。</p>
+<p>有一种特殊的异质图—多部图（Multipartite graphs），<strong>其边只能连接不同类型的节点</strong>。</p>
+<p>表示为$(u,\tau_i,v)\in E \rightarrow u \in V_j,v \in V_k \wedge j \neq k$。</p>
+<p>图2为普通异质图与多部图的表现形式。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211209202208.png" alt="图2" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211209202208.png" class="lozad post-image"></p>
+<h5 id="多重图（Multiplex-graphs）"><a href="#多重图（Multiplex-graphs）" class="headerlink" title="多重图（Multiplex graphs）"></a>多重图（Multiplex graphs）</h5><p>在多重图中，可以想象将节点分为$k$层，每一层节点都是一样的，只是每一层节点间的连接方式不同。同时，不同层内的<strong>相同节点</strong>可以通过层间边相连。其节点集合与边集合与边集合分别表示为：</p>
+<p>$V = V_1 \cup V_2 \cup \cdots \cup V_k$</p>
+<p>$E = E<em>1 \cup E_2 \cup \cdots \cup E_k \cup E</em>{ k+1}$，$E_{ k+1}$为层间边集合。</p>
+<p>举一个例子，如图3所示。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/%E5%A4%9A%E9%87%8D%E5%9B%BE.png" alt="图3" style="zoom: 80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/%E5%A4%9A%E9%87%8D%E5%9B%BE.png" class="lozad post-image"></p>
+<p>假设每一层中的每一个节点为一个城市，连接的边代表各种交通工具连接两个城市，层间边代表同一座城市可以进行换乘。现在如果在L1层中想从节点v1到达节点v9，由于L1中无相应路径，即可先到达节点v5，通过层间边到达L2层，从而到达v9。</p>
+<h4 id="特征信息（Feature-Information）"><a href="#特征信息（Feature-Information）" class="headerlink" title="特征信息（Feature Information）"></a>特征信息（Feature Information）</h4><p>在多数情况下都会有与图对应的特征信息，多数情况下都是<strong>节点级别</strong>的，所以用一个实数矩阵（real-valued matrix）$\textbf{ X} \in \mathbb{ R}^{ |V| \times m}$表示。</p>
+<h3 id="图机器学习（Machine-learning-on-graphs）"><a href="#图机器学习（Machine-learning-on-graphs）" class="headerlink" title="图机器学习（Machine learning on graphs）"></a>图机器学习（Machine learning on graphs）</h3><p> 图机器学习没有像传统机器学习对<strong>监督学习</strong>（给定分类标签）与<strong>无监督学习</strong>（聚类）有明确的界限划分，大多数情况更偏向于</p>
+<p><strong>半监督学习</strong>方式。</p>
+<h4 id="节点分类（Node-classification）"><a href="#节点分类（Node-classification）" class="headerlink" title="节点分类（Node classification）"></a>节点分类（Node classification）</h4><p>在通常情况下，由于只有少部分节点存在标签信息，但是在训练的过程中仍然会<strong>使用无标签的数据</strong>，这与监督学习的只使用有标签数据不同，因此节点分类任务通常被归为是半监督学习。同时，节点不满足<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/独立同分布/6715110?fr=aladdin">独立同分布(i.i.d.)</a>。</p>
+<p>当前对于节点分类主要时利用节点之间的连接，可利用其<strong>同质性</strong>与<strong>结构等价性</strong>。</p>
+<p>同质性：认为相邻节点属性相似，即节点与邻居节点有共享属性趋势。</p>
+<p>结构等价性：认为具有相似布局结构的节点将具有相似标签。</p>
+<p>异质性：认为节点优先连接与自身不同类型节点（如社交网络中的性别属性）。</p>
+<h4 id="关系预测（Relation-prediction）"><a href="#关系预测（Relation-prediction）" class="headerlink" title="关系预测（Relation prediction）"></a>关系预测（Relation prediction）</h4><p>关系预测在不同领域中有有不同的名字，链接预测（Link Prediction）、图谱补全（Graph Completion）、和关系推断（Relational Inference）。与节点分类相似，节点分类是预测节点，关系预测是预测边，即在<strong>边的层次研究</strong>。方式也是半监督学习，给定一组节点$V$以及部分边的集合$E_{ train} \subset E$，利用这些信息推断缺失边。</p>
+<h4 id="聚类和社区发现（Clustering-and-community-detection）"><a href="#聚类和社区发现（Clustering-and-community-detection）" class="headerlink" title="聚类和社区发现（Clustering and community detection）"></a>聚类和社区发现（Clustering and community detection）</h4><p>希望将图表现出一种社区结构，节点能够更有可能与同一社区的节点形成边。</p>
+<p>如下图所示，根据网络中不同节点之间连接的紧密程度，我们可以将网络视为是由不同的“簇”所组成，其中“簇”内的节点之间连接更加的紧密，不同“簇”之间的的节点之间的链接比较稀疏。我们将这种“簇”称为是网络中的社区结构。odes</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211219205804.png" alt="img" style="zoom:67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211219205804.png" class="lozad post-image"></p>
+<p>社区发现的定义：通过输入一张图$G = (V,E)$推断出潜在的社区结构。可以看到是在<strong>子图层次进行研究</strong>。</p>
+<h4 id="图的分类、回归与聚类（Graph-classifification-regression-and-clustering）"><a href="#图的分类、回归与聚类（Graph-classifification-regression-and-clustering）" class="headerlink" title="图的分类、回归与聚类（Graph classifification, regression, and clustering）"></a>图的分类、回归与聚类（Graph classifification, regression, and clustering）</h4><p>当研究完节点、边、子图后，最后的是<strong>整张图级别</strong>的研究。</p>
+<p>在图分类或图回归任务中，其数据集由多张不同的图构成，利用图机器学习算法对每张图进行独立预测（不是每张图的组成部分）。</p>
+<p>在图聚类任务中，目标是学习一个无监督的测量图与图之间的相似性策略。</p>
+<h2 id="背景与传统方法（Background-and-Traditional-Approaches）"><a href="#背景与传统方法（Background-and-Traditional-Approaches）" class="headerlink" title="背景与传统方法（Background and Traditional Approaches）"></a>背景与传统方法（Background and Traditional Approaches）</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Jaster_wisdom/article/details/81539623">(21条消息) Bag-of-words 词袋模型基本原理<em>Jaster_wisdom的专栏-CSDN博客</em>词袋模型的原理</a></p>
+
+  </div>
+  <div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/2022/03/19/MIT-01-md/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">Prev</div>
+          
+            <div class="nav-title">CS224W-01-Intro </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2022/03/15/Unified%20Conversational%20Recommendation%20Policy%20Learning%20via%20Graph-based%20Reinforcement%20Learning/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">Next</div>
+          
+            <div class="nav-title">Unified Conversational Recommendation Policy Learning via Graph-based Reinforcement Learning </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+  <div 
+    class="card card-content comment-card" 
+    style="margin-top: 16px;">
+    <div class="comment-card-title">评论</div>
+    
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'ViB7mKqmb9rnWMl4cYC4Mkvh-gzGzoHsz',
+        appKey: 'BvKzqYIzw5yjHQ6uwMtKwXQS',
+        placeholder: 'say one&#39;s piece',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: false,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+  </div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80%EF%BC%88Introduction%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">引言（Introduction）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%BE%EF%BC%88What-Is-A-Graph%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">什么是图（What Is  A Graph）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E5%85%B3%E7%B3%BB%E5%9B%BE%EF%BC%88Multi-relational-Graphs%EF%BC%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">多关系图（Multi-relational Graphs）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%82%E8%B4%A8%E5%9B%BE%EF%BC%88Heterogeneous-graph%EF%BC%89"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">异质图（Heterogeneous graph）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E9%87%8D%E5%9B%BE%EF%BC%88Multiplex-graphs%EF%BC%89"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">多重图（Multiplex graphs）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E4%BF%A1%E6%81%AF%EF%BC%88Feature-Information%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">特征信息（Feature Information）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88Machine-learning-on-graphs%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">图机器学习（Machine learning on graphs）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E5%88%86%E7%B1%BB%EF%BC%88Node-classification%EF%BC%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">节点分类（Node classification）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E9%A2%84%E6%B5%8B%EF%BC%88Relation-prediction%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">关系预测（Relation prediction）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%9A%E7%B1%BB%E5%92%8C%E7%A4%BE%E5%8C%BA%E5%8F%91%E7%8E%B0%EF%BC%88Clustering-and-community-detection%EF%BC%89"><span class="toc-number">1.2.3.</span> <span class="toc-text">聚类和社区发现（Clustering and community detection）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E5%88%86%E7%B1%BB%E3%80%81%E5%9B%9E%E5%BD%92%E4%B8%8E%E8%81%9A%E7%B1%BB%EF%BC%88Graph-classifification-regression-and-clustering%EF%BC%89"><span class="toc-number">1.2.4.</span> <span class="toc-text">图的分类、回归与聚类（Graph classifification, regression, and clustering）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E4%B8%8E%E4%BC%A0%E7%BB%9F%E6%96%B9%E6%B3%95%EF%BC%88Background-and-Traditional-Approaches%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">背景与传统方法（Background and Traditional Approaches）</span></a></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/img/head.png" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">学习笔记</p>
+<p class="author-description">Student of NEAU</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>8</span>
+    <span>Posts</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>4</span>
+    <span>Categories</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>8</span>
+    <span>Tags</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://space.bilibili.com/407520053">
+          <i class="iconfont icon-bilibili society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://weibo.com/u/5995911076">
+          <i class="iconfont icon-sina society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a href="/img/wechat.png">
+          <i class="iconfont icon-wechat society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://github.com/codewithlrz">
+          <i class="iconfont icon-github society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80%EF%BC%88Introduction%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">引言（Introduction）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%BE%EF%BC%88What-Is-A-Graph%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">什么是图（What Is  A Graph）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E5%85%B3%E7%B3%BB%E5%9B%BE%EF%BC%88Multi-relational-Graphs%EF%BC%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">多关系图（Multi-relational Graphs）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%82%E8%B4%A8%E5%9B%BE%EF%BC%88Heterogeneous-graph%EF%BC%89"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">异质图（Heterogeneous graph）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E9%87%8D%E5%9B%BE%EF%BC%88Multiplex-graphs%EF%BC%89"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">多重图（Multiplex graphs）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E4%BF%A1%E6%81%AF%EF%BC%88Feature-Information%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">特征信息（Feature Information）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88Machine-learning-on-graphs%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">图机器学习（Machine learning on graphs）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E5%88%86%E7%B1%BB%EF%BC%88Node-classification%EF%BC%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">节点分类（Node classification）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E9%A2%84%E6%B5%8B%EF%BC%88Relation-prediction%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">关系预测（Relation prediction）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%9A%E7%B1%BB%E5%92%8C%E7%A4%BE%E5%8C%BA%E5%8F%91%E7%8E%B0%EF%BC%88Clustering-and-community-detection%EF%BC%89"><span class="toc-number">1.2.3.</span> <span class="toc-text">聚类和社区发现（Clustering and community detection）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E5%88%86%E7%B1%BB%E3%80%81%E5%9B%9E%E5%BD%92%E4%B8%8E%E8%81%9A%E7%B1%BB%EF%BC%88Graph-classifification-regression-and-clustering%EF%BC%89"><span class="toc-number">1.2.4.</span> <span class="toc-text">图的分类、回归与聚类（Graph classifification, regression, and clustering）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E4%B8%8E%E4%BC%A0%E7%BB%9F%E6%96%B9%E6%B3%95%EF%BC%88Background-and-Traditional-Approaches%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">背景与传统方法（Background and Traditional Approaches）</span></a></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>Categories
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/MIT-CS224W-%E5%9B%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+        <div class="categories-list-item">
+          MIT-CS224W-图机器学习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/">
+        <div class="categories-list-item">
+          论文解读
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+        <div class="categories-list-item">
+          图表示学习笔记
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E9%A9%AC%E8%80%80%E6%B1%A4%E7%BB%A7%E8%89%AF-%E7%AC%94%E8%AE%B0/">
+        <div class="categories-list-item">
+          马耀汤继良-笔记
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>hot tags
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/GNN/" 
+        title="GNN">
+        <div class="tags-list-item">GNN</div>
+      </a>
+    
+      <a 
+        href="/tags/MIT/" 
+        title="MIT">
+        <div class="tags-list-item">MIT</div>
+      </a>
+    
+      <a 
+        href="/tags/2019/" 
+        title="2019">
+        <div class="tags-list-item">2019</div>
+      </a>
+    
+      <a 
+        href="/tags/%E8%AE%BA%E6%96%87/" 
+        title="论文">
+        <div class="tags-list-item">论文</div>
+      </a>
+    
+      <a 
+        href="/tags/%E7%AC%94%E8%AE%B0/" 
+        title="笔记">
+        <div class="tags-list-item">笔记</div>
+      </a>
+    
+      <a 
+        href="/tags/%E6%95%99%E6%9D%90/" 
+        title="教材">
+        <div class="tags-list-item">教材</div>
+      </a>
+    
+      <a 
+        href="/tags/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0/" 
+        title="图表示学习">
+        <div class="tags-list-item">图表示学习</div>
+      </a>
+    
+      <a 
+        href="/tags/CRS/" 
+        title="CRS">
+        <div class="tags-list-item">CRS</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80%EF%BC%88Introduction%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">引言（Introduction）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%BE%EF%BC%88What-Is-A-Graph%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">什么是图（What Is  A Graph）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E5%85%B3%E7%B3%BB%E5%9B%BE%EF%BC%88Multi-relational-Graphs%EF%BC%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">多关系图（Multi-relational Graphs）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%82%E8%B4%A8%E5%9B%BE%EF%BC%88Heterogeneous-graph%EF%BC%89"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">异质图（Heterogeneous graph）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E9%87%8D%E5%9B%BE%EF%BC%88Multiplex-graphs%EF%BC%89"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">多重图（Multiplex graphs）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E4%BF%A1%E6%81%AF%EF%BC%88Feature-Information%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">特征信息（Feature Information）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88Machine-learning-on-graphs%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">图机器学习（Machine learning on graphs）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E5%88%86%E7%B1%BB%EF%BC%88Node-classification%EF%BC%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">节点分类（Node classification）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E9%A2%84%E6%B5%8B%EF%BC%88Relation-prediction%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">关系预测（Relation prediction）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%9A%E7%B1%BB%E5%92%8C%E7%A4%BE%E5%8C%BA%E5%8F%91%E7%8E%B0%EF%BC%88Clustering-and-community-detection%EF%BC%89"><span class="toc-number">1.2.3.</span> <span class="toc-text">聚类和社区发现（Clustering and community detection）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E5%88%86%E7%B1%BB%E3%80%81%E5%9B%9E%E5%BD%92%E4%B8%8E%E8%81%9A%E7%B1%BB%EF%BC%88Graph-classifification-regression-and-clustering%EF%BC%89"><span class="toc-number">1.2.4.</span> <span class="toc-text">图的分类、回归与聚类（Graph classifification, regression, and clustering）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E4%B8%8E%E4%BC%A0%E7%BB%9F%E6%96%B9%E6%B3%95%EF%BC%88Background-and-Traditional-Approaches%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">背景与传统方法（Background and Traditional Approaches）</span></a></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>Recent Posts
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-08</div>
+        <a href="/2022/04/08/Multiple%20Choice%20Questions%20based%20Multi-Interest%20Policy%20Learning%20for%20Conversational%20Recommendation/"><div class="recent-posts-item-content">Recommendation</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-19</div>
+        <a href="/2022/03/19/MIT-01-md/"><div class="recent-posts-item-content">CS224W-01-Intro</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/book-GRL-01/"><div class="recent-posts-item-content">图表示学习基础</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/Unified%20Conversational%20Recommendation%20Policy%20Learning%20via%20Graph-based%20Reinforcement%20Learning/"><div class="recent-posts-item-content">Unified Conversational Recommendation Policy Learning via Graph-based Reinforcement Learning</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          Code With Lrz
+        </a>
+      </div>
+    </div>
+
+    
+    
+    
+      <div class="BbeiAn-info">
+        <a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">黑ICP备2021006621号 </a>
+      </div>
+      
+        <div class="BbeiAn-info">
+          <span style="padding-left: 25px;background: url(/img/beian.png) no-repeat left center"></span>
+          <a target="_blank" rel="noopener" href="http://beian.miit.gov.cn "> 
+          </a>
+          <br />
+        </div>
+      
+    
+    
+</footer> 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+      
+
+  
+  
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+  
+ 
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>

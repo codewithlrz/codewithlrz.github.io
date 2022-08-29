@@ -18,17 +18,17 @@
   <link 
     rel="icon" 
     href="/img/logo.png">
-  <title>Archive</title>
+  <title>Recommendation</title>
   
     
       <meta 
         property="og:title" 
-        content="Archive">
+        content="Recommendation">
     
     
       <meta 
         property="og:url" 
-        content="http://example.com/archives/2021/index.html">
+        content="http://example.com/2022/04/08/Multiple%20Choice%20Questions%20based%20Multi-Interest%20Policy%20Learning%20for%20Conversational%20Recommendation/index.html">
     
     
       <meta 
@@ -36,6 +36,22 @@
         content="/img/head.png">
     
     
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2022-04-08">
+      <meta 
+        property="og:article:modified_time" 
+        content="2022-04-12">
+      <meta 
+        property="og:article:author" 
+        content="学习笔记">
+      
+        
+      
     
   
   <script>
@@ -180,6 +196,8 @@
   
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
   
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
 <meta name="generator" content="Hexo 5.4.0"></head>
 
   <body>
@@ -279,65 +297,113 @@
         <div class="container">
           <div class="columns">
             <main class="main-column">
-<div class="card card-content">
-  <h1 class="widget-title">Archive</h1>
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      Recommendation
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-04-08T03:01:34.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2022-04-08</span>
+    </time>
+    
+    
+      <span class="dot"></span>
+      <span>708 words</span>
+    
+  </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="摘要"><a class="markdownIt-Anchor" href="#摘要"></a> 摘要</h2>
+<p>会话推荐系统(CRS)能够基于交互式对话获得细粒度的动态用户偏好。但是之前的CRS假设用户有一个明确的目标项目，但都已经求助于CRS了，说明用户可能并不清楚自己需要什么，同时用户也可能对一个属性类型有多个接受项，因此，我们首先提出了一种更现实的会话推荐学习设置，即多兴趣多轮会话推荐(MIMCR)，其中用户可能对多个属性实例组合有兴趣，并接受具有部分重叠的吸引力组合的多个项。为了更有效地获得用户偏好，代理在特定的属性实例上生成多项选择题，而不是二进制的是/否问题。此外，我们提出了一种联合集策略来选择候选项目，而不是现有的交集集策略，以克服在对话过程中的过度过滤项目。最后，我们设计了一个多兴趣策略学习(MIPL)模块，它利用用户捕获的多个兴趣来决定下一个行动，或询问属性实例或推荐项目。</p>
+<h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
+<p>本文重点关注于多轮会话推荐(MCR)设置，这是迄今为止最现实的CRS设置。该系统关注于在每个回合中询问属性还是推荐项目，并通过用户反馈灵活调整动作，以更少的回合做出成功的推荐。</p>
+<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220408140343.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220408140343.png" class="lozad post-image">
+<p>如上图，（a）的方式太过于二分，例如询问了sports，如果回答yes就不会再询问该属性下的其他类别。（b）的方式则会出现过度过滤掉现象，因为每个属性间都会存在关联项，拒绝一个就会拒绝多个。</p>
+<h2 id="相关工作"><a class="markdownIt-Anchor" href="#相关工作"></a> 相关工作</h2>
+<p>当前的MCR工作都忽略了一个更现实的场景，在这个场景中，用户可以接受多个具有部分重叠属性的项。因此，我们提出了一个名为MIMCR的新方案来填补这一空白。此外，我们开发了一个新的框架，即MCMIPL来应对现有的挑战。</p>
+<h2 id="定义与准备工作"><a class="markdownIt-Anchor" href="#定义与准备工作"></a> 定义与准备工作</h2>
+<p>在这项工作中，我们假设用户在使用CRS时对项目的偏好是不完整的。具体来说，用户对于某些属性类型有明确的单一首选项，而对于其他属性类型，他的首选项可能是多样的或模糊的。在CRS的指导下，他可以接受相同类型的多个属性实例，这导致用户可能对不同属性实例组合下的多个项产生兴趣。因此，我们提出了一种新的方案，即多兴趣多回合对话推荐（MIMCR）。</p>
+
+  </div>
+  <div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2022/03/19/MIT-01-md/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">Next</div>
+          
+            <div class="nav-title">CS224W-01-Intro </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
 </div>
-<div class="archive-timeline">
-  
-  
+
+  <div 
+    class="card card-content comment-card" 
+    style="margin-top: 16px;">
+    <div class="comment-card-title">评论</div>
     
-      <div class="archive-timeline-tag"><span>2021</span></div>
-      
-    
-    <div class="archive-timeline-item">
-      <div class="archive-timeline-post">
-        <div class="card card-content">
-          <div class="archive-timeline-post-date">2021-12-09</div>
-          <div class="archive-timeline-post-content">
-            <a 
-              href="/2021/12/09/book-GRL-01/"
-              class="archive-timeline-post-item">
-              图表示学习基础
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div id="vcomments"></div>
   
-    
-    <div class="archive-timeline-item">
-      <div class="archive-timeline-post">
-        <div class="card card-content">
-          <div class="archive-timeline-post-date">2021-11-24</div>
-          <div class="archive-timeline-post-content">
-            <a 
-              href="/2021/11/24/book-mayao-02-md/"
-              class="archive-timeline-post-item">
-              图论基础
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    
-    <div class="archive-timeline-item">
-      <div class="archive-timeline-post">
-        <div class="card card-content">
-          <div class="archive-timeline-post-date">2021-10-19</div>
-          <div class="archive-timeline-post-content">
-            <a 
-              href="/2021/10/19/MIT-01-md/"
-              class="archive-timeline-post-item">
-              CS224W-01-Intro
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'ViB7mKqmb9rnWMl4cYC4Mkvh-gzGzoHsz',
+        appKey: 'BvKzqYIzw5yjHQ6uwMtKwXQS',
+        placeholder: 'say one&#39;s piece',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: false,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+  </div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
 </div>
-</main>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text"> 摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text"> 相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">4.</span> <span class="toc-text"> 定义与准备工作</span></a></li></ol>
+</div></main>
             <aside class="left-column">
               
               <div class="card card-author">
@@ -349,13 +415,13 @@
     height="88"
     alt="author avatar">
 
-<p class="author-name">吃货泽饱饱</p>
+<p class="author-name">学习笔记</p>
 <p class="author-description">Student of NEAU</p>
 <div class="author-message">
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>4</span>
+    <span>8</span>
     <span>Posts</span>
   </a>
   <a 
@@ -404,6 +470,18 @@
                <div class="sticky-tablet">
   
   
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text"> 摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text"> 相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">4.</span> <span class="toc-text"> 定义与准备工作</span></a></li></ol>
+      </div>
+    </article>
+  
   
   <article class="card card-content categories-widget">
     <div class="categories-card">
@@ -425,7 +503,7 @@
       <a href="/categories/%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/">
         <div class="categories-list-item">
           论文解读
-          <span class="categories-list-item-badge">1</span>
+          <span class="categories-list-item-badge">3</span>
         </div>
       </a>
     
@@ -464,33 +542,9 @@
       </a>
     
       <a 
-        href="/tags/%E7%AC%94%E8%AE%B0/" 
-        title="笔记">
-        <div class="tags-list-item">笔记</div>
-      </a>
-    
-      <a 
-        href="/tags/CRS/" 
-        title="CRS">
-        <div class="tags-list-item">CRS</div>
-      </a>
-    
-      <a 
-        href="/tags/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0/" 
-        title="图表示学习">
-        <div class="tags-list-item">图表示学习</div>
-      </a>
-    
-      <a 
-        href="/tags/%E6%95%99%E6%9D%90/" 
-        title="教材">
-        <div class="tags-list-item">教材</div>
-      </a>
-    
-      <a 
-        href="/tags/%E8%AE%BA%E6%96%87/" 
-        title="论文">
-        <div class="tags-list-item">论文</div>
+        href="/tags/MIT/" 
+        title="MIT">
+        <div class="tags-list-item">MIT</div>
       </a>
     
       <a 
@@ -500,9 +554,33 @@
       </a>
     
       <a 
-        href="/tags/MIT/" 
-        title="MIT">
-        <div class="tags-list-item">MIT</div>
+        href="/tags/%E8%AE%BA%E6%96%87/" 
+        title="论文">
+        <div class="tags-list-item">论文</div>
+      </a>
+    
+      <a 
+        href="/tags/%E7%AC%94%E8%AE%B0/" 
+        title="笔记">
+        <div class="tags-list-item">笔记</div>
+      </a>
+    
+      <a 
+        href="/tags/%E6%95%99%E6%9D%90/" 
+        title="教材">
+        <div class="tags-list-item">教材</div>
+      </a>
+    
+      <a 
+        href="/tags/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0/" 
+        title="图表示学习">
+        <div class="tags-list-item">图表示学习</div>
+      </a>
+    
+      <a 
+        href="/tags/CRS/" 
+        title="CRS">
+        <div class="tags-list-item">CRS</div>
       </a>
     
   </div>
@@ -510,62 +588,21 @@
   </article>
   
   
-    <article class="card card-content widescreen-archive archive-widget">
-      <div class="archive-card">
-  <div class="archive-card-header">
-    <i 
-      class="iconfont icon-wodebaobiao" 
-      style="padding-right: 2px;">
-    </i>Archive
-  </div>
-  <div class="archive-card-list">
-    
-    
-    
-      
-        
-        
-        
-      
-    
-      
-        
-          <a 
-            href="/archives/2022" 
-            class="archive-card-list-item">
-            2022
-            <span class="archive-card-list-item-badge">1</span>
-          </a>
-        
-        
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-    
-      <a 
-        href="/archives/2021" 
-        class="archive-card-list-item">
-        2021
-        <span class="archive-card-list-item-badge">3</span>
-      </a>
-    
-  </div>
-</div>
-    </article>
-  
 </div>
             </aside>
             <aside class="right-column">
               <div class="sticky-widescreen">
   
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>TOC
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text"> 摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text"> 相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">4.</span> <span class="toc-text"> 定义与准备工作</span></a></li></ol>
+    </article>
   
   
   <article class="card card-content">
@@ -579,80 +616,29 @@
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-01-10</div>
-        <a href="/2022/01/10/paper-CRS-servey/"><div class="recent-posts-item-content">Advances and Challenges in Conversational Recommender Systems--A Survey</div></a>
+        <div class="recent-posts-item-title">2022-04-08</div>
+        <a href="/2022/04/08/Multiple%20Choice%20Questions%20based%20Multi-Interest%20Policy%20Learning%20for%20Conversational%20Recommendation/"><div class="recent-posts-item-content">Recommendation</div></a>
       </div>
     
       <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-12-09</div>
-        <a href="/2021/12/09/book-GRL-01/"><div class="recent-posts-item-content">图表示学习基础</div></a>
+        <div class="recent-posts-item-title">2022-03-19</div>
+        <a href="/2022/03/19/MIT-01-md/"><div class="recent-posts-item-content">CS224W-01-Intro</div></a>
       </div>
     
       <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-11-24</div>
-        <a href="/2021/11/24/book-mayao-02-md/"><div class="recent-posts-item-content">图论基础</div></a>
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/book-GRL-01/"><div class="recent-posts-item-content">图表示学习基础</div></a>
       </div>
     
       <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-10-19</div>
-        <a href="/2021/10/19/MIT-01-md/"><div class="recent-posts-item-content">CS224W-01-Intro</div></a>
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/Unified%20Conversational%20Recommendation%20Policy%20Learning%20via%20Graph-based%20Reinforcement%20Learning/"><div class="recent-posts-item-content">Unified Conversational Recommendation Policy Learning via Graph-based Reinforcement Learning</div></a>
       </div>
     
   </div>
 </div>
   </article>
   
-  
-    <article class="card card-content">
-      <div class="archive-card">
-  <div class="archive-card-header">
-    <i 
-      class="iconfont icon-wodebaobiao" 
-      style="padding-right: 2px;">
-    </i>Archive
-  </div>
-  <div class="archive-card-list">
-    
-    
-    
-      
-        
-        
-        
-      
-    
-      
-        
-          <a 
-            href="/archives/2022" 
-            class="archive-card-list-item">
-            2022
-            <span class="archive-card-list-item-badge">1</span>
-          </a>
-        
-        
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-    
-      <a 
-        href="/archives/2021" 
-        class="archive-card-list-item">
-        2021
-        <span class="archive-card-list-item-badge">3</span>
-      </a>
-    
-  </div>
-</div>
-    </article>
   
 </div>
             </aside>
@@ -738,8 +724,45 @@
      
      
       
+
+  
+  
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+  
  
      
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
      
      
     <script src="/js/main.js"></script> 

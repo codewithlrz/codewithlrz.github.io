@@ -18,17 +18,17 @@
   <link 
     rel="icon" 
     href="/img/logo.png">
-  <title>CS224W-01-Intro</title>
+  <title>Interactive Path Reasoning on Graph for Conversational Recommendation</title>
   
     
       <meta 
         property="og:title" 
-        content="CS224W-01-Intro">
+        content="Interactive Path Reasoning on Graph for Conversational Recommendation">
     
     
       <meta 
         property="og:url" 
-        content="http://example.com/2021/10/19/MIT-01-md/index.html">
+        content="http://example.com/2022/03/10/CRS-CPRonGraph/index.html">
     
     
       <meta 
@@ -42,26 +42,22 @@
         content="article">
       <meta 
         property="og:article:published_time" 
-        content="2021-10-19">
+        content="2022-03-10">
       <meta 
         property="og:article:modified_time" 
-        content="2021-12-29">
+        content="2022-04-01">
       <meta 
         property="og:article:author" 
-        content="吃货泽饱饱">
+        content="学习笔记">
       
         
           <meta 
             property="og:article:tag" 
-            content="GNN">
+            content="论文">
         
           <meta 
             property="og:article:tag" 
-            content="MIT">
-        
-          <meta 
-            property="og:article:tag" 
-            content="2019">
+            content="CRS">
         
       
     
@@ -312,30 +308,30 @@
 <article class="card card-content">
   <header>
     <h1 class="post-title">
-      CS224W-01-Intro
+      Interactive Path Reasoning on Graph for Conversational Recommendation
     </h1>
   </header>
   <div class="post-meta post-show-meta">
-    <time datetime="2021-10-19T08:47:49.000Z">
+    <time datetime="2022-03-10T08:03:28.000Z">
       <i 
         class="iconfont icon-calendar" 
         style="margin-right: 2px;">
       </i>
-      <span>2021-10-19</span>
+      <span>2022-03-10</span>
     </time>
     
       <span class="dot"></span>
       
         <a 
-          href="/categories/MIT-CS224W-%E5%9B%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" 
+          href="/categories/%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/" 
           class="post-meta-link">
-          MIT-CS224W-图机器学习
+          论文解读
         </a>
       
     
     
       <span class="dot"></span>
-      <span>1k words</span>
+      <span>2k words</span>
     
   </div>
   
@@ -350,27 +346,18 @@
         
           
           <a 
-            href="/tags/GNN/" 
+            href="/tags/%E8%AE%BA%E6%96%87/" 
             class="post-meta-link">
-            GNN
+            论文
           </a>
         
           
             <span class="dot"></span>
           
           <a 
-            href="/tags/MIT/" 
+            href="/tags/CRS/" 
             class="post-meta-link">
-            MIT
-          </a>
-        
-          
-            <span class="dot"></span>
-          
-          <a 
-            href="/tags/2019/" 
-            class="post-meta-link">
-            2019
+            CRS
           </a>
         
       </div>
@@ -380,44 +367,42 @@
   <div 
     id="section" 
     class="post-content">
-    <h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
-<p>​	图机器学习是我博士期间研究方向，这篇博客会从头到尾详细描述我对于该领域的学习过程。理论部分我会通过学习视频课程和看教材来完成，<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1RZ4y1c7Co?spm_id_from=333.999.0.0"><font color='blue'>MIT-CS224W-图机器学习</font></a>这个分类是我用所看的视频课程的名字命名的，该课程是斯坦福的Jure老师在2021年冬季的课程，该课程也是最好的图机器学习启蒙课程，因此，我会对Jure老师的每一集课程都做一期复现与详解，以帮助自己和读者更好的理解这门课程。本文所有的图片以及公式将大量引用自Jure老师的<a target="_blank" rel="noopener" href="https://www.aliyundrive.com/s/RtYJkH7mvgK"><font color='blue'>PPT</font></a>，在此对老师表示感谢，话不多说，开始第一次课程。</p>
-<h2 id="why-graphs"><a class="markdownIt-Anchor" href="#why-graphs"></a> Why Graphs</h2>
-<p>​	<strong>图是描述与分析包含 <font color='red'>关联</font>（relations）或  <font color='red'>相互作用</font>（interactions）的实体的通用语言。</strong></p>
-<h3 id="网络network与图graph"><a class="markdownIt-Anchor" href="#网络network与图graph"></a> 网络（Network）与图（Graph）</h3>
-<p>​	在日常生活中，我们身边许多的数据形式都是图结构。如下图所示，从左到右依次为自然图（natural graph）、基础设施图（infrastructure）、社交网络（social network）、知识图谱（knowledge graph）等诸多领域。</p>
-<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211019160026.png" alt="img" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211019160026.png" class="lozad post-image"></p>
-<p>​	不难看出，当前有两种大的数据类型可以表示为图，首先是<font color='red'>网络</font>（network），其次就是<font color='red'>图</font>（graph）</p>
-<p>​	<strong>Networks（Natural Graphs）</strong>：自然表示为图</p>
-<p>​		<font color='cornflowerblue'><strong>社交网络：</strong></font>社会是70亿人口的集合，那么每个人之间的联系就可以构成一个社交网络。</p>
-<p>​		<font color='cornflowerblue'><strong>通讯和交易：</strong></font>例如电子设备，电话通讯，金融交易等等。</p>
-<p>​		<font color='cornflowerblue'><strong>生物医学：</strong></font>例如身体中基因或蛋白质之间的相互作用。</p>
-<p>​		<font color='cornflowerblue'><strong>脑神经元链接：</strong></font>我们的思维就是由数以亿计的脑神经元链接并相互作用产生的。</p>
-<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021101557.png" alt="img" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021101557.png" class="lozad post-image"></p>
-<p>​	<strong>Graphs：作为一种表示形式</strong></p>
-<p>​		<font color='orange'><strong>信息或知识图谱：</strong></font>这些节点都是有组织有关联的。</p>
-<p>​		<font color='orange'><strong>软件：</strong></font>软件也可以表示为图。</p>
-<p>​		<font color='orange'><strong>相似性网络（similarity networks）：</strong></font>可以多次将数据点（datapoints）与相似的数据点相连构成相似性网络。</p>
-<p>​		<font color='orange'><strong>具有关联结构：</strong></font>例如分子间结构，场景图，3D模拟等等。</p>
-<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021102309.png" alt="img" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211021102309.png" class="lozad post-image"></p>
-<h3 id="图表示学习graph-representation-learning"><a class="markdownIt-Anchor" href="#图表示学习graph-representation-learning"></a> 图表示学习（Graph Representation Learning）</h3>
-<p>​	当我们了解图后，我们就要思考**如何利用这些关联结构来进行预测呢？**开始人们依旧想使用传统机器学习的方式，但发现图机器学习与传统机器学习的区别，如下图。</p>
-<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216154340.png" alt="img" style="zoom: 80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216154340.png" class="lozad post-image">
-<p>​	可以看到图结构与传统的固定的图像矩阵或者文本序列不同，它是一种任意大小任意形状的拓扑结构。因此对于每一个节点都<strong>没有参照点</strong>并且<strong>可以具备不同或多种特征</strong>。因此要设计一种新的网络，当输入一张图（网络）后，即可通过设计的神经网络输出预测的节点类型，关联关系甚至是生成一张图或子图。如下图。</p>
-<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216162154.png" alt="img" style="zoom: 67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216162154.png" class="lozad post-image">
-<p>​	传统的机器学习更倾向于对原始数据先进行特征处理，以便机器学习模型进行使用。而在图深度学习过程中，如下图，则删掉传统的特征工程。通过<strong>表示学习</strong>（representation learning）方法自动地对图数据的特征进行提取、学习。然后应用至下流预测任务（downstream prediction task）中去。</p>
-<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216172547.png" alt="img" style="zoom: 70%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216172547.png" class="lozad post-image">
-<p>​	表示学习最主要的方式就是<strong>图嵌入</strong>（embeding），这个在后面会深入讲解，在这里可以简单的了解为将图中的节点通过一个<strong>映射函数</strong>转换成一个d维向量。其中图中相似的节点嵌入的位置更接近，如下图。</p>
-<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216174307.png" alt="img" style="zoom: 67%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211216174307.png" class="lozad post-image">
-<h2 id="applications-of-graph-ml"><a class="markdownIt-Anchor" href="#applications-of-graph-ml"></a> Applications of Graph ML</h2>
-<p>​	对于一张图，可以有多种不同层次的预测，如下图所示，对于每一个组成部分甚至是整张图，都可以作预测。</p>
-<img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211228213423.png" alt="img" style="zoom: 55%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20211228213423.png" class="lozad post-image">
-<p>​	<font color='cornflowerblue'><strong>节点分类：</strong></font>预测一个节点的属性。</p>
-<p>​	<font color='cornflowerblue'><strong>链接预测：</strong></font>预测两个节点之间是否缺少链接。</p>
-<p>​	<font color='cornflowerblue'><strong>聚类：</strong></font>检测节点是否形成了一个社区</p>
-<p>​	<font color='cornflowerblue'><strong>图分类：</strong></font>分类不同的图形。</p>
-<p>​	<font color='cornflowerblue'><strong>图生成、图进化</strong></font></p>
-
+    <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>传统推荐系统评估用户偏好是利用用户的历史交互，因此受获取的细粒度以及动态的用户偏好所限制。CRS 利用直接询问用户在项目上偏好的属性，然而现有的这些CRS方法并不能充分利用其优势，他们只用一些非常隐式的方法来使用用户的属性反馈。本文中作者提出一种会话路径推理（CPR）的框架，将会话推荐建模为一个图上的交互路径推理问题。它可以遵循用户的反馈，用一种显式的方式利用用户首选的属性，遍历属性节点。通过利用图结构，CPR能够删除许多不相关的侯选属性，从而有更好的机会命中用户的偏好属性。</p>
+<p>作者通过实验得出，属性越多他们方法的优势越大。</p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>传统方法虽然被证明是成功的，但在推荐过程中被动获取用户反馈的内在局限性。这种信息不对称使得很难获得动态和细粒度的用户偏好，使得系统无法提供准确、可解释的推荐服务。本文认为 CRS 由两个组件分别是一个会话系统和一个推荐系统。由于其使用自然语言与用户交互，并且还可以主动询问用户是否喜欢项目的属性，因此其信息是动态且可解释的。然而，现有的工作只是通过将属性映射到一个潜在的空间来隐式地利用属性反馈，文章认为这并没有充分利用属性反馈的优势，所以作者所提出的 CPR 框架就是希望结果是更准确，且可解释。</p>
+<p>受到图推荐的启发，作者将会话推荐建模为用户-项目-属性图中交互寻路的过程，如下图。</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220112154137.png" alt="图一" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220112154137.png" class="lozad post-image"></p>
+<p>CPR将对话表现为图表中的行走。它从用户顶点开始，在图中移动，其目标是到达用户喜欢的作为目标的一个或多个项目顶点。但要注意的是<strong>图中每一步都是按照用户在对话中的指示走</strong>。如果用户确认了对被询问属性有偏好，则系统将传输到该属性的顶点。但是，如果用户拒绝该属性，或拒绝推荐，系统将保持在同一个顶点，并向用户咨询其他属性。会话将重复多次这样的循环，直到推荐的项目被用户接受为止。</p>
+<p>作者认为所提出的CPR框架作为一种进行对话推荐的新角度，在概念上为CRS的发展带来了一些优点：</p>
+<ol>
+<li>它是透明可解释的，它将会话推荐建模为图上的一个交互式路径推理问题，每一步都由用户确认，生成的路径是推荐的正确原因。</li>
+<li>通过引入图的结构，它促进了对大量丰富的信息的利用。同时通过限制候选节点的询问作为当前节点的相邻属性，候选空间就会大大减少。</li>
+<li>在图上行走的路径为对话系统提供了一种自然的对话追踪，同时也能够直接征求用户反馈，以尽快删除无用分支。</li>
+</ol>
+<p>作者认为，他们的研究贡献有如下两个：</p>
+<ol>
+<li>提出CPR框架将会话推荐作为异构图上的路径推理问题，为构建CRS提供了一个新的角度。</li>
+<li>简单化了一个实例SCPR，属性空间越大，模型能达到的改良越多。</li>
+</ol>
+<h2 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h2><p>推荐系统的成功取决于准确和及时地提供用户感兴趣的相关项目。最初，推荐系统主要建立在协同过滤假设（collaborative filtering hypothesis）之上，以推断用户配置文件的分布式表示，有代表性的模型包括<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/145120275">矩阵分解</a>（matrix factorization）和<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/50426292">分解机</a>（factorization machines）。然而，从本质上讲，这些方法存在两个内在的问题。第一个问题是由于用户的兴趣并不是长期静止的，因此不能长期用静态假设用户的动态偏好。第二个问题是较弱的可解释性，因为用户偏好表示只是一个连续的向量。</p>
+<p>近年来随着图推荐方法的研究，有一些人开始探索隐式属性，比如来自全局协作信号，有些专注于合并潜在的网络嵌入来产生更好的用户/项目表示。还有一批人利用了图的可解释性，将推荐建模为图上的路径推理问题，这样就能找到推荐原因。然而还是存在了问题：</p>
+<ol>
+<li>仍然是静态模型，不能获取动态偏好。</li>
+<li>建模的复杂程度很高，剪枝也就成了一个关键步骤。</li>
+</ol>
+<p>随着 CRS 的引入，通过动态获取用户的显式反馈，成为了解决动态偏好和若可解释性的方案。</p>
+<p>作者认为如何动态地提出属性问题并对属性答案给出推荐是当前阶段会话推荐的关键。因此，作者考虑系统的用户偏好属性和基于这些属性提出建议。如第1节中所讨论的，这一行的主要工作不显式地使用属性。我们认为，更明确地利用该属性将更好地推进会话推荐的优势。</p>
+<h2 id="多轮会话推荐场景"><a href="#多轮会话推荐场景" class="headerlink" title="多轮会话推荐场景"></a>多轮会话推荐场景</h2><p>本文遵循多轮会话推荐(MCR)场景，因为它是迄今为止研究中最现实的场景，一轮就是一次推荐实验。这与所采用的单轮会话推荐形成对比，即系统多次询问属性，然后只提出一次建议，之后无论推荐是否成功，会话都会结束。当CRS有更多自由去做那些让策略空间更复杂的动作时，多轮设置会比单论设置更具备挑战。</p>
+<p>每一个项目 $v$ 都会有其一组属性 $P_v$ ，只要这个属性能描述这个物品，那就可以是这个项目的属性，因此其属性是广泛的。在对话过程中，CRS通过询问用户是否喜欢特定的属性来获得用户的细粒度偏好。基于这样的对话，CRS旨在在最短的对话回合中提供准确的推荐。</p>
+<p> 那么具体流程，就是首先系统先指定一些属性给用户初始化属性 $p<em>0$,然后自由的从候选属性集 $p</em> { cand } $中询问或是在候选项 $V <em> { cand }$ 中给出推荐。如果用户接受了属性或是物品，那么进行更新，首先将同意的属性加入到用户的偏好属性集合 $ p_u $ 中，并且将该属性从 $p</em>{cand}$中删除，最后将包含该属性的项目集$V<em>p$加入到候选项目集合$V</em>{cand}$中；如果用户拒绝，那么在候选项目集合中删除$V_p$。更新所有集合后，系统会根据需求重复上述过程，直到达到最大轮数 T 或是用户满意。具体算法如下：</p>
+<p><img src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220122110000.png" alt="img" style="zoom:80%;" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://codewithlrz.oss-cn-beijing.aliyuncs.com/img/20220122110000.png" class="lozad post-image"></p>
+<p>上述的MCR场景做出了两个假设</p>
+<ol>
+<li>假定用户毫无保留的将自己的偏好都交代了，因此只考虑首选项的项目集就足够了，这是一个合理的简化。</li>
+<li></li>
+</ol>
+<h2 id="提出方法"><a href="#提出方法" class="headerlink" title="提出方法"></a>提出方法</h2><p>作者首先提出了会话路径推理(CPR)，这是一个基于图的会话推荐的通用解决方案框架。然后，引入一个简单而有效的实例化SCPR来演示它是如何工作的。</p>
+<h3 id="CPR框架"><a href="#CPR框架" class="headerlink" title="CPR框架"></a>CPR框架</h3>
   </div>
   <div>
     
@@ -427,7 +412,7 @@
   
     <div class="nav-item-prev">
       <a 
-        href="/2021/11/24/book-mayao-02-md/" 
+        href="/2022/03/10/book-mayao-02-md/" 
         class="nav-link">
         <i class="iconfont icon-left nav-prev-icon"></i>
         <div>
@@ -439,6 +424,20 @@
       </a>
     </div>
   
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2022/01/10/paper-CRS-servey/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">Next</div>
+          
+            <div class="nav-title">Advances and Challenges in Conversational Recommender Systems--A Survey </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
   
 </div>
 
@@ -487,7 +486,7 @@
     style="padding-right: 2px;">
   </i>TOC
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#why-graphs"><span class="toc-number">2.</span> <span class="toc-text"> Why Graphs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9Cnetwork%E4%B8%8E%E5%9B%BEgraph"><span class="toc-number">2.1.</span> <span class="toc-text"> 网络（Network）与图（Graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0graph-representation-learning"><span class="toc-number">2.2.</span> <span class="toc-text"> 图表示学习（Graph Representation Learning）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#applications-of-graph-ml"><span class="toc-number">3.</span> <span class="toc-text"> Applications of Graph ML</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%BD%AE%E4%BC%9A%E8%AF%9D%E6%8E%A8%E8%8D%90%E5%9C%BA%E6%99%AF"><span class="toc-number">4.</span> <span class="toc-text">多轮会话推荐场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">提出方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPR%E6%A1%86%E6%9E%B6"><span class="toc-number">5.1.</span> <span class="toc-text">CPR框架</span></a></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -500,13 +499,13 @@
     height="88"
     alt="author avatar">
 
-<p class="author-name">吃货泽饱饱</p>
+<p class="author-name">学习笔记</p>
 <p class="author-description">Student of NEAU</p>
 <div class="author-message">
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>4</span>
+    <span>8</span>
     <span>Posts</span>
   </a>
   <a 
@@ -563,7 +562,7 @@
     style="padding-right: 2px;">
   </i>TOC
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#why-graphs"><span class="toc-number">2.</span> <span class="toc-text"> Why Graphs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9Cnetwork%E4%B8%8E%E5%9B%BEgraph"><span class="toc-number">2.1.</span> <span class="toc-text"> 网络（Network）与图（Graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0graph-representation-learning"><span class="toc-number">2.2.</span> <span class="toc-text"> 图表示学习（Graph Representation Learning）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#applications-of-graph-ml"><span class="toc-number">3.</span> <span class="toc-text"> Applications of Graph ML</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%BD%AE%E4%BC%9A%E8%AF%9D%E6%8E%A8%E8%8D%90%E5%9C%BA%E6%99%AF"><span class="toc-number">4.</span> <span class="toc-text">多轮会话推荐场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">提出方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPR%E6%A1%86%E6%9E%B6"><span class="toc-number">5.1.</span> <span class="toc-text">CPR框架</span></a></li></ol></li></ol>
       </div>
     </article>
   
@@ -588,7 +587,7 @@
       <a href="/categories/%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/">
         <div class="categories-list-item">
           论文解读
-          <span class="categories-list-item-badge">1</span>
+          <span class="categories-list-item-badge">3</span>
         </div>
       </a>
     
@@ -621,6 +620,18 @@
   <div class="tags-list">
     
       <a 
+        href="/tags/CRS/" 
+        title="CRS">
+        <div class="tags-list-item">CRS</div>
+      </a>
+    
+      <a 
+        href="/tags/%E8%AE%BA%E6%96%87/" 
+        title="论文">
+        <div class="tags-list-item">论文</div>
+      </a>
+    
+      <a 
         href="/tags/GNN/" 
         title="GNN">
         <div class="tags-list-item">GNN</div>
@@ -633,12 +644,6 @@
       </a>
     
       <a 
-        href="/tags/CRS/" 
-        title="CRS">
-        <div class="tags-list-item">CRS</div>
-      </a>
-    
-      <a 
         href="/tags/%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0/" 
         title="图表示学习">
         <div class="tags-list-item">图表示学习</div>
@@ -648,12 +653,6 @@
         href="/tags/%E6%95%99%E6%9D%90/" 
         title="教材">
         <div class="tags-list-item">教材</div>
-      </a>
-    
-      <a 
-        href="/tags/%E8%AE%BA%E6%96%87/" 
-        title="论文">
-        <div class="tags-list-item">论文</div>
       </a>
     
       <a 
@@ -686,7 +685,7 @@
     style="padding-right: 2px;">
   </i>TOC
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#why-graphs"><span class="toc-number">2.</span> <span class="toc-text"> Why Graphs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9Cnetwork%E4%B8%8E%E5%9B%BEgraph"><span class="toc-number">2.1.</span> <span class="toc-text"> 网络（Network）与图（Graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0graph-representation-learning"><span class="toc-number">2.2.</span> <span class="toc-text"> 图表示学习（Graph Representation Learning）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#applications-of-graph-ml"><span class="toc-number">3.</span> <span class="toc-text"> Applications of Graph ML</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%BD%AE%E4%BC%9A%E8%AF%9D%E6%8E%A8%E8%8D%90%E5%9C%BA%E6%99%AF"><span class="toc-number">4.</span> <span class="toc-text">多轮会话推荐场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">提出方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPR%E6%A1%86%E6%9E%B6"><span class="toc-number">5.1.</span> <span class="toc-text">CPR框架</span></a></li></ol></li></ol>
     </article>
   
   
@@ -701,23 +700,23 @@
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-01-10</div>
-        <a href="/2022/01/10/paper-CRS-servey/"><div class="recent-posts-item-content">Advances and Challenges in Conversational Recommender Systems--A Survey</div></a>
+        <div class="recent-posts-item-title">2022-04-08</div>
+        <a href="/2022/04/08/Multiple%20Choice%20Questions%20based%20Multi-Interest%20Policy%20Learning%20for%20Conversational%20Recommendation/"><div class="recent-posts-item-content">Recommendation</div></a>
       </div>
     
       <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-12-09</div>
-        <a href="/2021/12/09/book-GRL-01/"><div class="recent-posts-item-content">图表示学习基础</div></a>
+        <div class="recent-posts-item-title">2022-03-19</div>
+        <a href="/2022/03/19/MIT-01-md/"><div class="recent-posts-item-content">CS224W-01-Intro</div></a>
       </div>
     
       <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-11-24</div>
-        <a href="/2021/11/24/book-mayao-02-md/"><div class="recent-posts-item-content">图论基础</div></a>
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/book-GRL-01/"><div class="recent-posts-item-content">图表示学习基础</div></a>
       </div>
     
       <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-10-19</div>
-        <a href="/2021/10/19/MIT-01-md/"><div class="recent-posts-item-content">CS224W-01-Intro</div></a>
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/Unified%20Conversational%20Recommendation%20Policy%20Learning%20via%20Graph-based%20Reinforcement%20Learning/"><div class="recent-posts-item-content">Unified Conversational Recommendation Policy Learning via Graph-based Reinforcement Learning</div></a>
       </div>
     
   </div>
